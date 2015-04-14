@@ -1,0 +1,246 @@
+%% nada
+\documentclass[9pt,technote]{IEEEtran}
+
+\usepackage[nomarkers]{endfloat}
+
+\usepackage[cmex10]{amsmath}
+\interdisplaylinepenalty=2500
+
+\ifCLASSOPTIONcompsoc
+\usepackage[caption=false,font=normalsize,labelfon
+t=sf,textfont=sf]{subfig}
+\else
+\usepackage[caption=false,font=footnotesize]{subfig}
+\fi
+
+\begin{document}
+
+\author{\IEEEauthorblockN{Michael Shell}
+\IEEEauthorblockA{School of Electrical and\\
+Computer Engineering\\
+Georgia Institute of Technology\\
+Atlanta, Georgia 30332--0250\\
+Email: mshell@ece.gatech.edu}
+\and
+\IEEEauthorblockN{Homer Simpson}
+\IEEEauthorblockA{Twentieth Century Fox\\
+Springfield, USA\\
+Email: homer@thesimpsons.com}
+\and
+\IEEEauthorblockN{James Kirk\\
+and Montgomery Scott}
+\IEEEauthorblockA{Starfleet Academy\\
+San Francisco, California 96678-2391\\
+Telephone: (800) 555--1212\\
+Fax: (888) 555--1212}}
+
+
+\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1}, Homer Simpson\IEEEauthorrefmark{2}, James K
+irk\IEEEauthorrefmark{3}, Montgomery Scott\IEEEauthorrefmark{3} and Eldon Tyrell\IEEEauthorrefmark{4}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+Georgia Institute of Technology, Atlanta, Georgia 30
+332--0250\\
+Email: mshell@ece.gatech.edu}
+\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+Email: homer@thesimpsons.com}
+\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+Telephone: (800) 555--1212, Fax: (888) 555--1212}
+\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc.,
+123 Replicant Street, Los Angeles, California 90210
+--4321}}
+
+
+\markboth{Journal of Quantum Telecommunications, ~Vol
+. ~1, No. ~1, ~January ~2025}{Shell \MakeLowercase{\textit{et al.}}: A Novel Tin Can Link}
+
+Hola
+
+
+\IEEEpubid{0000--0000/00\$00.00 ~\copyright ~2014 IEEE}
+
+
+\begin{abstract}
+We propose ...
+\end{abstract}
+
+\begin{IEEEkeywords}
+Broad band networks, quality of service, WDM.
+\end{IEEEkeywords}
+
+
+\IEEEtitleabstractindextext{%
+\begin{abstract}
+We propose ...
+\end{abstract}
+\begin{IEEEkeywords}
+Broad band networks, quality of service, WDM.
+\end{IEEEkeywords}}
+
+
+\begin{equation}
+\label{eqn_example}
+x = \sum\limits_{i=0}^{z} 2^{i}Q
+\end{equation}
+% ... as can be seen in (\ref{eqn_example}).
+
+
+
+\setlength{\arraycolsep}{0.0em}
+\begin{eqnarray}
+Z&{}={}&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\nonumber\\
+&&+a + b\\
+&&+{}a + b\\
+&&{}+a + b\\
+&&{+}\:a + b
+\end{eqnarray}
+\setlength{\arraycolsep}{5pt}
+
+
+
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+\caption{A Simple Example Table}
+\label{table_example}
+\centering
+\begin{tabular}{c||c}
+\hline
+\bfseries First & \bfseries Next\\
+\hline\hline
+1.0 & 2.0\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\newcounter{MYtempeqncnt}
+
+\begin{figure*}[!t]
+% ensure that we have normalsize text
+\normalsize
+% Store the current equation number.
+\setcounter{MYtempeqncnt}{\value{equation}}
+% Set the equation number to one less than the one
+% desired for the first equation here.
+% The value here will have to changed if equations
+% are added or removed prior to the place these
+% equations are referenced in the main text.
+\setcounter{equation}{5}
+\begin{equation}
+\label{eqn_dbl_x}
+x = 5 + 7 + 9 + 11 + 13 + 15 + 17 + 19 + 21+ 23 + 25
++ 27 + 29 + 31
+\end{equation}
+\begin{equation}
+\label{eqn_dbl_y}
+y = 4 + 6 + 8 + 10 + 12 + 14 + 16 + 18 + 20+ 22 + 24
++ 26 + 28 + 30
+\end{equation}
+% Restore the current equation number.
+\setcounter{equation}{\value{MYtempeqncnt}}
+% IEEE uses as a separator
+\hrulefill
+% The spacer can be tweaked to stop underfull vboxes.
+\vspace*{4pt}
+\end{figure*}
+
+% % The previous equation was number five.
+% % Account for the double column equations here.
+% \addtocounter{equation}{2}
+% As can be seen in (\ref{eqn_dbl_x}) and
+% (\ref{eqn_dbl_y}) at the top of the page ...
+
+
+\begin{description}[\IEEEsetlabelwidth{$\alpha\omega\pi\theta\mu$}\IEEEusemathlabelsep]
+\item[$\gamma\delta\beta$] Is the index of..
+\item[$\alpha\omega\pi\theta\mu$] Gives the..
+\end{description}
+
+
+
+\begin{enumerate}[\IEEEsetlabelwidth{2)}]
+\item blah
+\item blah
+% 2 items total
+\end{enumerate}
+
+
+
+\newtheorem{theorem}{Theorem}
+\begin{theorem}[Einstein-Podolsky-Rosenberg]
+Nada
+\end{theorem}
+\begin{IEEEproof}
+Nada
+\end{IEEEproof}
+
+
+\begin{IEEEeqnarray}{rCl}
+Z&=&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\IEEEnonumber\\
+&&+\:a + b%
+\end{IEEEeqnarray}
+
+\begin{IEEEeqnarray}{Rl}
+Z=&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\IEEEnonumber\\
+&+\:a + b%
+\end{IEEEeqnarray}
+
+
+\begin{IEEEeqnarray}{rCl}
+A_1&=&7\IEEEyesnumber\IEEEyessubnumber\\
+A_2&=&b+1\IEEEyessubnumber\\
+\noalign{\noindent and\vspace{\jot}}A_3&=&d+2\IEEEyessubnumber%
+\end{IEEEeqnarray}
+
+
+\begin{IEEEeqnarray}[\setlength{\nulldelimiterspace}{0pt}]{rl,s}&x,&for $x \geq 0$\IEEEyesnumber\IEEEyessubnumber\\*
+[-0.625\normalbaselineskip]
+\smash{|x|=\left\{\IEEEstrut[3\jot][3\jot]\right.}&&
+\nonumber\\*[-0.625\normalbaselineskip]
+&-x,&for $x < 0$\IEEEyessubnumber
+\end{IEEEeqnarray}
+
+\begin{equation}
+I = \left(\begin{IEEEeqnarraybox*}[][c]{,c/c/c,}
+1&0&0\\
+0&1&0\\
+0&0&1%
+\end{IEEEeqnarraybox*}\right)
+\end{equation}
+
+
+\begin{table}[!t]
+\centering
+\caption{Network Delay as a Function of Load}
+\label{table_delay}
+\begin{IEEEeqnarraybox}[\IEEEeqnarraystrutmode\IEEEeqnarraystrutsizeadd{2pt}{0pt}]{x/r/Vx/r/v/r/x}
+\IEEEeqnarraydblrulerowcut\\
+&&&&\IEEEeqnarraymulticol{3}{t}{Average Delay}&\\
+&\hfill\raisebox{-3pt}[0pt][0pt]{$\beta$}\hfill&&\IEEEeqnarraymulticol{5}{h}{}%
+\IEEEeqnarraystrutsize{0pt}{0pt}\\
+&&&&\hfill\lambda_{\mbox{min}}\hfill&&\hfill\lambda_{\mbox{max\vphantom{i}}}\hfill&\IEEEeqnarraystrutsizeadd{0pt}{2pt}\\
+\IEEEeqnarraydblrulerowcut\\
+&1&&&0.057&& 0.172&\\
+&10&&& 0.124&& 0.536&\\
+&100&&& 0.830&& 0.905\rlap{\textsuperscript{*}}&\\
+\IEEEeqnarraydblrulerowcut\\
+&\IEEEeqnarraymulticol{7}{s}{\scriptsize\textsuperscript{*}limited usability}%
+\end{IEEEeqnarraybox}
+\end{table}
+
+
+
+\section{Proof of the First Zonklar Equation}
+\appendix[Proof of the Zonklar Equations]
+
+
+\section*{Acknowledgment}
+\addcontentsline{toc}{section}{Acknowledgment}
+
+
+\begin{IEEEbiography}[Hola]{MichaelShell}
+\end{IEEEbiography}
+
+
+\IEEEraisesectionheading{\section{Introduction}\label{sec:introduction}}
+
+\end{document}  %End of document.

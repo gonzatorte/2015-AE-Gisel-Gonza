@@ -1,0 +1,102 @@
+%% nada
+\documentclass[9pt,technote]{IEEEtran}
+
+\usepackage[nomarkers]{endfloat}
+\usepackage[cmex10]{amsmath}
+
+\begin{document}
+
+
+Problema 1:
+	1. Codificación:
+		1. Codificaciones no factibles.
+
+	2. Población inicial.
+
+	3. Funcion de fitness.
+
+	4. Seleccción:
+		Remplazo.
+
+	5. Cruzamiento.
+
+	6. Mutación.
+
+	7. Remplazo.
+
+
+\begin{IEEEbiography}[Hola]{MichaelShell}
+\end{IEEEbiography}
+
+\end{document}  %End of document.
+
+
+
+Cosas:
+	Guardar soluciones no factibles como alelo no dominante en un organismo diploide.
+
+	Para truchar la candiad de generaciones propongo codificar varias islas en 1 sola población (organismo n-ploide?)
+
+	Densidad de grafos (cantidad de vecinos)
+
+	Proyecto de semáforos?
+		toDo:
+
+
+Representación:
+	Podemos tomar 2 rep
+		1. La mochila:
+			La que dijo Gise, un arreglo donde cada valor 
+		2. La de contadores de tipo:
+			Representación de 
+		
+		Vamos a intentar combinar ambas representaciones, a aplicarse en distintos estadios de la evolución (tardia vs temprana). Esto plantea problemas en la funcion de fitness a aplicar entre ambas representaciones, pero podemos elegir una función de fitness compatibles (de hecho es la misma conceptualmente al problema) si desearamos hacerlo.
+
+		Vamos a diferenciar las etapas:
+			Por la variación de la desviación media. (no lo creemos beno pues es multimodal)
+			Por la diferencia de fitness entre soluciones consecutivas. (Parece mas adecuada)
+
+Fitness
+	Podemos elegir dos funciones de fitness posibles:
+		Xi es la cantidad de aperitivos tipo i
+		Ci es el costo del aperitivo tipo i (peso)
+		O es el costo objetivo
+
+		Intentamos en más minimizar la distancia del valor objetivo.
+			v = |Sum(Ci*Xi) - O|
+		Como los algoritmos evolutivos intentan maximizar, debemos transformar la funcion anterior para transformar el problema en uno de maximización.
+
+			Discutimos dos posibles transformaciones:
+				Aquella que suege de una cota de peor caso:
+					F = CostoPeorCaso - v
+					CostoPeorCaso = sum(Teniendo el maximo de la rep de contador de tipo)
+
+			Otra que surge de la suma del costo:
+				F = 1/(v + 1)
+
+		Tomaremos la segunda por ser compatible con ambas representaciones.
+
+
+Selecciones:
+	Solo los más aptos se pueden reproducir.
+	Ajustamos esta funcion de fitness para que tenga valores positivos y podamos aplicar seleccion proporcional de manera correcta.
+		proporción de selección
+		pj = Fj/Sum(Fi)
+
+
+Cruzamiento:
+	Debemos elegir cuantos padres elegimos para cruzar.
+	Como no existe dependencia espacial entre los distintos locus de los genes podemos usar cruzamiento.
+	Vamos a exegir, sin que deje de aplicarse lo anterior, que los genes se ubiquen ordenadamente en función de su costo, intentando optimizar la siguiente politica greedy dada por la heuristica siguiente: 
+		Heuristicas Extra:
+			La de la solución de la mochila fraccionaria.
+
+Mutación:
+	mutación uniforme sobre los valores posibles de alelo de cada gen.
+	Mi = techo(N/Ci)
+	Bi = (Bi + rand(0,Mi)) % Mi
+
+Remplazo:
+	*Estado Estatico VS Gap generacional VS Generacional.
+	*mu + lambda VS mu , lambda:
+		O sea, los padres compiten con los hijos o no.
