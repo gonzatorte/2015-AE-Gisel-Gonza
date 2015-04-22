@@ -15,6 +15,7 @@
 //=============================================================================
 package pkg_backpack;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,16 +55,28 @@ public final class Backpack
      * specified, a default of "HELLOW WORLD" is used instead.
      * @param args The target String (as an array of words).
      */
-    static Fitness me= new Fitness();
+    static Fitness me;
     public static void main(String[] args)
     {
+        me=new Fitness(args[0]);
         List<Integer> l = evolve();
-        for(Integer i:l){
-            System.out.print(i);
+        try{
+            FileWriter fichero = new FileWriter("Resultado.out");
+            PrintWriter pw= new PrintWriter(fichero);
+            for(Integer i:l){
+                pw.print(i);
+            }
+            pw.println();
+            pw.println((int)me.getFitness(l, null));
+            pw.print(Fitness.p);
+            fichero.close();
+        
         }
-        System.out.println();
-        System.out.println((int)me.getFitness(l, null));
-        System.out.print(Fitness.p);        
+        catch(Exception e){
+            
+        }
+        
+                
         
     }
 

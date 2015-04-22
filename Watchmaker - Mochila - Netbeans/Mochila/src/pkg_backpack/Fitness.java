@@ -41,14 +41,14 @@ public class Fitness implements FitnessEvaluator<List<Integer>>
    public static Integer n;
    public static Integer p;
    public static Integer w;
-    public Fitness()
+    public Fitness(String textIn)
     {
         
         // Open the file
         FileInputStream fstream=null;
         try {
             
-            fstream = new FileInputStream("test.in");
+            fstream = new FileInputStream(textIn);
         
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
            
