@@ -153,11 +153,11 @@ skeleton newGA
 			// cout << "Testing 2 " << maximo_var << endl;
 			_var[i]=rand_int(0,maximo_var);
 		}
-		cout << "Individuo" << endl;
-		for (int i=0;i<_pbm.dimension();i++){
-			cout << _var[i];
-		}
-		cout << endl;
+		// cout << "Individuo" << endl;
+		// for (int i=0;i<_pbm.dimension();i++){
+		// 	cout << _var[i];
+		// }
+		// cout << endl;
 	}
 
 	double Solution::_fitness_fun(Rarray<int> & genoma, float * costos, float obj)
@@ -173,7 +173,12 @@ skeleton newGA
 		}
 		// cout << "B Testing: " << endl;
 
-		double distancia_objetivo = abs(costo_total - obj);
+		double distancia_objetivo = costo_total - obj;
+		if (distancia_objetivo < 0)
+			distancia_objetivo = -distancia_objetivo;
+		// cout << costo_total << endl;
+		// cout << obj << endl;
+		// cout << distancia_objetivo << endl;
 		double fitness = 1 / (distancia_objetivo + 1);
 		// double fitness = costo_peor - distancia_objetivo;
 		// return fitness;
@@ -182,12 +187,14 @@ skeleton newGA
 
 	double Solution::fitness ()
 	{
-		float costos [] = {15.2};
-		Rarray<int> genoma = Rarray<int>(1);
-		genoma[0] = 1;
-		cout << "B Testing: " << endl;
-		cout << _fitness_fun(genoma, costos, 15.2) << endl;
-		cout << "E Testing: " << endl;
+		// float costos [] = {15.2,18.1,5.1};
+		// Rarray<int> genoma = Rarray<int>(3);
+		// genoma[0] = 0;
+		// genoma[1] = 0;
+		// genoma[2] = 3;
+		// cout << "B Testing: " << endl;
+		// cout << _fitness_fun(genoma, costos, 15.2) << endl;
+		// cout << "E Testing: " << endl;
 		return _fitness_fun(_var, pbm().costo_aperitivos(), pbm().costo_objetivo());
 	}
 
@@ -331,13 +338,12 @@ skeleton newGA
 
 	void Crossover::cross(Solution& sol1,Solution& sol2) const // dadas dos soluciones de la poblacion, las cruza
 	{
-		//Usamos cruzamiento de dos puntos (2PX)
+		//Usamos cruzamiento de 1 punto (SPX)
 		int i=0;
 		Rarray<int> aux(sol1.pbm().dimension());
 		aux=sol2.array_var();
 
 		int limit=rand_int(0,sol1.pbm().dimension()-1);
-		int limit2=rand_int(0,limit-1);
 
 		for (i=0;i<limit;i++)
 			sol2.var(i)=sol1.var(i);
