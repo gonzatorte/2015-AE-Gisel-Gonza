@@ -1,0 +1,13 @@
+*.o
+*.class
+*.exe
+*.log
+# *.in
+*.ttt
+*.aux
+*.lof
+*.lot
+*.fff
+*.class
+brute_force
+generator

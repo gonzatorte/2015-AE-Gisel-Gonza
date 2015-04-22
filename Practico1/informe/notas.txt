@@ -174,5 +174,5 @@ ToDo Implementación:
 			*Graficar fitness vs .
 			*Pensar en la distancia del espacio de busqueda.
 			*Agregar los compilados y temporales al .gitignore
-				.o .exe .log .in .ttt .aux .lof .lot .fff
+				.o .exe .log .in .ttt .aux .lof .lot .fff .class
 				brute_force generator
