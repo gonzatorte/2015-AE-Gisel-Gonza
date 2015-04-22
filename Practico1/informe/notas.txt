@@ -147,6 +147,7 @@ Puntos a tocar en el informe:
 ToDo Implementación:
 	Malva (aperitivos):
 		*Ver como se configura la selección en malva (ruleta? o proporcional).
+			http://neo.lcc.uma.es/mallba/easy-mallba/html/appendixA.html
 		*Ver video presentacion malva a ver que son los parametros de selección.
 			Creo que es torneo = 1, en ese caso ruleta es 2.
 		*Sorting
@@ -159,7 +160,6 @@ ToDo Implementación:
 			*Escribir a un archivo. (Gisel).
 			*Hacer casos de pruebas mas triviales y guardarlos en instancias de .in (cuanto debe dar que se escriba en la última linea del .in ).
 			*Instalate netbeans en windows para no estar tan lenta.
-			*Ponerle otros nombres a las clases (mas similares a los del teórico)
 
 		Gonza:
 			*Script de ejecución.
@@ -170,9 +170,7 @@ ToDo Implementación:
 			*Falta Sorting y deco y enco en lectura/escritura.
 			*Hacer un algoritmo de fuerza bruta para hallar mejor solución en casos pequeños.
 				Para tratar de responder si existe solucion y si hay mas de una.
-			*Bajar javadocs de watchmaker.
-			*Graficar fitness vs .
+			*Graficar fitness vs tiempo de ejecucion vs poblacion inicial.
 			*Pensar en la distancia del espacio de busqueda.
-			*Agregar los compilados y temporales al .gitignore
-				.o .exe .log .in .ttt .aux .lof .lot .fff .class
-				brute_force generator
+				*Para generar una buena pob inicial.
+			*Mover el proyecto de lugar (o hacer un enlace simbolico).

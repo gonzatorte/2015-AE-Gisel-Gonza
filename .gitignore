@@ -8,8 +8,13 @@
 *.lof
 *.lot
 *.fff
+*.dvi
+*.ps
 *.class
+*~
 brute_force
 generator
 /Watchmaker - Mochila - Netbeans/Mochila/dist/
 /Watchmaker - Mochila - Netbeans/Mochila/build/
+/Watchmaker - Mochila - Netbeans/Mochila/nbproject/private/private.xml
+/Watchmaker - Mochila - Netbeans/Mochila/nbproject/private/private.properties
