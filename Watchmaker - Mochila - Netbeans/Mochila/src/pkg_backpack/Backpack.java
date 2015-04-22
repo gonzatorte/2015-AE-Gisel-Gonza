@@ -52,7 +52,7 @@ public final class Backpack {
                 new Random());
 
         engine.addEvolutionObserver(new EvolutionLogger());
-        return engine.evolve(100, // 100 individuals in the population.
+        return engine.evolve(6, // 100 individuals in the population.
                 1, // 5% elitism.
                 new GenerationCount(300));
     }

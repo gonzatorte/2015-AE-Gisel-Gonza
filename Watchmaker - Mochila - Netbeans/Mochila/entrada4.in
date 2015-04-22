@@ -1,0 +1,31 @@
+9
+1 12 3
+2 3 7
+3 7 4
+4 4 2
+5 3 1
+6 8 6
+7 4 8
+8 4 4
+9 4 4
+23
+
+
+solucion
+101101011
+39
+23
+
+
+solucion dada en el algoritmo
+101111011     //solucion no factible suma(wi)>W
+39
+24
+
+111111000    //perdida de info de genes
+37
+23
+
+
+
+
