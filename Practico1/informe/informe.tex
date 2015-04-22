@@ -21,30 +21,19 @@ Preludio:
 
 Cosas:
 	Guardar soluciones no factibles como alelo no dominante en un organismo diploide.
-
 	Para truchar la candiad de generaciones propongo codificar varias islas en 1 sola población (organismo n-ploide?)
-
 	Densidad de grafos (cantidad de vecinos)
-
-	Proyecto de semáforos?
-		toDo:
 
 
 Problema 1: Mochila con repeticiones sin pesos
 	1. Codificación:
 		1. Codificaciones no factibles.
-
 	2. Población inicial.
-
 	3. Funcion de fitness.
-
 	4. Seleccción:
 		Remplazo.
-
 	5. Cruzamiento.
-
 	6. Mutación.
-
 	7. Remplazo.
 
 
@@ -153,3 +142,46 @@ Problema 2: Mochila sin repetidos con pesos
 		Cuando fitness se den muchas iteraciones. No conocemos el óptimo del problema a priori, nos basta con tener una buena solución.
 
 
+Puntos a tocar en el informe:
+	¿Qué biblioteca fue utilizada?
+		Malva para el de aperitivos, nos pareció bastante desprolijo, aunque quizás 
+	¿Qué representación fue utilizada para las soluciones candidatas?
+	¿Qué estrategia fue utilizada para inicializar la población?
+	¿Qué operadores evolutivos fueron utilizados?
+	¿Cómo fue definida la función de fitness?
+	Para el ejercicio 1:
+		¿Cúal fue la solución encontrada?
+		¿Se encontró más de	una solución?
+	Para el ejercicio 2:
+		¿Qué estrategia fue utilizada para el manejo de soluciones no factibles?
+
+
+ToDo Implementación:
+	Malva (aperitivos):
+		*Ver como se configura la selección en malva (ruleta? o proporcional).
+		*Ver video presentacion malva a ver que son los parametros de selección.
+			Creo que es torneo = 1, en ese caso ruleta es 2.
+		*Sorting
+		*Hacer un algoritmo de fuerza bruta para hallar mejor solución en casos pequeños.
+			*Para tratar de responder si existe solucion y si hay mas de una.
+
+	*Whatchmacker:
+		Gisel:
+			*Pasaje por parámetro del archivo. (Gisel).
+			*Escribir a un archivo. (Gisel).
+			*Hacer casos de pruebas mas triviales y guardarlos en instancias de .in (cuanto debe dar que se escriba en la última linea del .in ).
+			*Instalate netbeans en windows para no estar tan lenta.
+			*Ponerle otros nombres a las clases (mas similares a los del teórico)
+
+		Gonza:
+			*Script de ejecución.
+			*Como asegurar que siempre tenga alguna solución factible?
+			*Probar variando los parametros (cantidad de población, mutación, escalara la función de fitness, velocidad de convergencia).
+			*Explicar pq estamos usando elitismo (remplazo).
+			*Falta Sorting y deco y enco en lectura/escritura.
+			*Hacer un algoritmo de fuerza bruta para hallar mejor solución en casos pequeños.
+				Para tratar de responder si existe solucion y si hay mas de una.
+			*Bajar javadocs.
+			*Instalar groovy.
+
+	*Revisar foros.

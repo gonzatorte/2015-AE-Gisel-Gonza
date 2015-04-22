@@ -338,13 +338,12 @@ skeleton newGA
 
 	void Crossover::cross(Solution& sol1,Solution& sol2) const // dadas dos soluciones de la poblacion, las cruza
 	{
-		//Usamos cruzamiento de dos puntos (2PX)
+		//Usamos cruzamiento de 1 punto (SPX)
 		int i=0;
 		Rarray<int> aux(sol1.pbm().dimension());
 		aux=sol2.array_var();
 
 		int limit=rand_int(0,sol1.pbm().dimension()-1);
-		int limit2=rand_int(0,limit-1);
 
 		for (i=0;i<limit;i++)
 			sol2.var(i)=sol1.var(i);
