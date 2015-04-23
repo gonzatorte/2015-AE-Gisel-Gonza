@@ -1,25 +1,22 @@
-\documentclass[9pt,technote]{IEEEtran}
+\documentclass[9pt,conference]{IEEEtran}
 \usepackage[nomarkers]{endfloat}
 \usepackage[cmex10]{amsmath}
 \usepackage{filecontents}
 \usepackage{lipsum}
 
-\begin{filecontents*}{bibliografia_2.bib}
-@ARTICLE{893287,
-	author={},
-	journal={IEEE Std. 1516-2000}, 
-	title={{IEEE Standard for Modeling and Simulation {(M\&S)} High Level Architecture {(HLA)} - Framework and Rules}}, 
-	year={2000}, 
-	volume={}, 
-	pages={i -22}, 
-	doi={10.1109/IEEESTD.2000.92296}, 
+\begin{filecontents*}{informe.bib}
+@electronic{refmallba,
+  author        = {Michael Shell},
+  title         = {{IEEE}tran Homepage},
+  url           = {http://www.michaelshell.org/tex/ieeetran/},
+  year          = {2008}
 }
 \end{filecontents*}
 
 \begin{document}
 
 %-------- Metadata -------- 
-	% \maketitle
+	\title{Pr\'actico 1}
 	\markboth{Algoritmos Evolutivos 2015}{Shell \MakeLowercase{\textit{et al.}}: A Novel Tin Can Link}
 	\author{
 		\IEEEauthorblockN{Gonzalo Torterolo}
@@ -42,24 +39,33 @@
 
 
 % ------- Contenido -------
-	\lipsum[1]See \cite{893287} for more info 
+	\maketitle
 
-	\IEEEtitleabstractindextext{
-		\begin{abstract}
-		En el presente abordamos 
-		\end{abstract}
-		\begin{IEEEkeywords}
-		Broad band networks, quality of service, WDM.
-		\end{IEEEkeywords}
-	}
+	% \IEEEtitleabstractindextext{
+	\begin{abstract}
+	En el presente abordamos 
+	\end{abstract}
+	\begin{IEEEkeywords}
+	Broad band networks, quality of service, WDM.
+	\end{IEEEkeywords}
+	% }
+	% \IEEEpeerreviewmaketitle
+	% \IEEEraisesectionheading{\section{Introduccion}\label{sec:introduction}}
 
-	\IEEEraisesectionheading{\section{Introducción}\label{sec:introduction}}
+	\section{Introducci\'on}
+	See \cite{refmallba} for more info 	
+
+	\section{Conclusion}
+	The conclusion goes here.
+
+	\section*{Acknowledgment}
+	We acknowledge the acknowledged acknowledgees.
 
 
 % ------ Final ------
 
 	\bibliographystyle{IEEEtran}
-	\bibliography{bibliografia_2}
+	\bibliography{informe.bib}{}
 
 \end{document}
 
