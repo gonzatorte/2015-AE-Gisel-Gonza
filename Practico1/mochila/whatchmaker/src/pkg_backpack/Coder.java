@@ -1,8 +1,5 @@
 package pkg_backpack;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Coder {
     public static Fenotype decode(Genotype genotipo)
     {

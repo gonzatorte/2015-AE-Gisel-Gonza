@@ -7,7 +7,6 @@ import org.uncommons.maths.number.NumberGenerator;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 
-//class Mutation implements EvolutionaryOperator<List<Pair<Integer>>> {
 class Mutation implements EvolutionaryOperator<Genotype> {
 
     private final NumberGenerator<Probability> mutationProbability;
@@ -27,16 +26,12 @@ class Mutation implements EvolutionaryOperator<Genotype> {
     }
 
     @Override
-//    public List<List<Pair<Integer>>> apply(List<List<Pair<Integer>>> population, Random rng) {
     public List<Genotype> apply(List<Genotype> population, Random rng) {
 
-//        List<List<Pair<Integer>>> newPop = new ArrayList<>(population.size());
         List<Genotype> newPop = new ArrayList<>(population.size());
 
-//        for (List<Pair<Integer>> individual : population) {
         for (Genotype individual : population) {
 
-//            List<Pair<Integer>> newInd = mutateIndividual(individual, rng);
             Genotype newInd = mutateIndividual(new Genotype(individual), rng);
 
             newPop.add(newInd.equals(individual)
@@ -46,11 +41,9 @@ class Mutation implements EvolutionaryOperator<Genotype> {
         return newPop;
     }
 
-//    protected List<Pair<Integer>> mutateIndividual(List<Pair<Integer>> individual, Random rng) {
     protected Genotype mutateIndividual(Genotype individual, Random rng) {
 
         if (true) {
-//            List<Pair<Integer>> newInd = new ArrayList<>(individual);
             Genotype newInd = new Genotype(individual);
 
             for (int i = 0; i < this.dimension; i++) {

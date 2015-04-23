@@ -1,4 +1,3 @@
-
 package pkg_backpack;
 
 import java.util.ArrayList;
