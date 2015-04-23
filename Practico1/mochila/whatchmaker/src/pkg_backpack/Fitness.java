@@ -6,8 +6,8 @@ import org.uncommons.watchmaker.framework.FitnessEvaluator;
 
 public class Fitness implements FitnessEvaluator<Genotype> {
 
-    List<Integer> ganancias = new ArrayList<>();
-    List<Integer> pesos = new ArrayList<>();
+    List<Integer> ganancias = new ArrayList<Integer>();
+    List<Integer> pesos = new ArrayList<Integer>();
     Integer w;
     public Integer p;
 
@@ -21,14 +21,13 @@ public class Fitness implements FitnessEvaluator<Genotype> {
             }
         }
         if (peso <= w) {
-            return new Pair<>(ganancia, peso);
+            return new Pair<Integer>(ganancia, peso);
         } else {
             ganancia = (ganancia - ((2 * ganancia * (peso - w)) / peso));
-            return new Pair<>(ganancia, peso);
+            return new Pair<Integer>(ganancia, peso);
         }
     }
     
-    @Override
     public double getFitness(Genotype ind,
             List<? extends Genotype> population) {
         Pair<Integer> res =  Fitness.FitnessFun(Coder.decode(ind), Backpack.ganancias, Backpack.pesos, Backpack.w);
@@ -36,7 +35,6 @@ public class Fitness implements FitnessEvaluator<Genotype> {
         return res.first;
     }
 
-    @Override
     public boolean isNatural() {
         return true;
     }

@@ -25,10 +25,9 @@ class Mutation implements EvolutionaryOperator<Genotype> {
         return mutationProbability;
     }
 
-    @Override
     public List<Genotype> apply(List<Genotype> population, Random rng) {
 
-        List<Genotype> newPop = new ArrayList<>(population.size());
+        List<Genotype> newPop = new ArrayList<Genotype>(population.size());
 
         for (Genotype individual : population) {
 

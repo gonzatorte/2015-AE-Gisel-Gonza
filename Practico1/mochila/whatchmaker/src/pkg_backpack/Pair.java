@@ -15,7 +15,6 @@ public class Pair<FIRST> implements Comparable<Pair<FIRST>> {
         return new Pair<FIRST>(first, second);
     }
 
-    @Override
     public int compareTo(Pair<FIRST> o) {
         int cmp = compare(first, o.first);
         return cmp == 0 ? compare(second, o.second) : cmp;
@@ -27,7 +26,6 @@ public class Pair<FIRST> implements Comparable<Pair<FIRST>> {
                 : ((Comparable) o1).compareTo(o2);
     }
 
-    @Override
     public int hashCode() {
         return 31 * hashcode(first) + hashcode(second);
     }
@@ -37,7 +35,6 @@ public class Pair<FIRST> implements Comparable<Pair<FIRST>> {
         return o == null ? 0 : o.hashCode();
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Pair))
             return false;
@@ -52,7 +49,6 @@ public class Pair<FIRST> implements Comparable<Pair<FIRST>> {
         return o1 == null ? o2 == null : (o1 == o2 || o1.equals(o2));
     }
 
-    @Override
     public String toString() {
         return "(" + first + ", " + second + ')';
     }

@@ -20,8 +20,8 @@ public final class Backpack {
     private static final Probability CERO_CON_CERO_UNO = new Probability(0.1d);
 
     static Fitness me;
-    static List<Integer> ganancias = new ArrayList<>();
-    static List<Integer> pesos = new ArrayList<>();
+    static List<Integer> ganancias = new ArrayList<Integer>();
+    static List<Integer> pesos = new ArrayList<Integer>();
     static Integer w;
     static long seed;
 
@@ -75,13 +75,13 @@ public final class Backpack {
         Random rnd = new Random(seed);
         Factory factory = new Factory(pesos.size(), rnd);
         List<EvolutionaryOperator<Genotype>> operators = 
-                new ArrayList<>(2);
+                new ArrayList<EvolutionaryOperator<Genotype>>(2);
         operators.add(new Mutation(mutColor.getNumberGenerator(), pesos.size()));
         operators.add(new Cross());
         EvolutionaryOperator<Genotype> pipeline =
-                new EvolutionPipeline<>(operators);
+                new EvolutionPipeline<Genotype>(operators);
         EvolutionEngine<Genotype> engine =
-                new GenerationalEvolutionEngine<>(
+                new GenerationalEvolutionEngine<Genotype>(
                     factory,
                     pipeline,
                     me,
@@ -102,7 +102,6 @@ public final class Backpack {
      */
     private static class EvolutionLogger implements EvolutionObserver<Genotype> {
 
-        @Override
         public void populationUpdate(PopulationData<? extends Genotype> data) {
             System.out.println("Fitness: " + data.getBestCandidateFitness() + data.getGenerationNumber());
         }
