@@ -8,9 +8,11 @@ import org.uncommons.watchmaker.framework.factories.AbstractCandidateFactory;
 public class Factory extends AbstractCandidateFactory<Genotype>
 {
     int dimension;
-    public Factory(int dimension)
+    Random rnd;
+    public Factory(int dimension, Random rnd)
     {
         this.dimension = dimension;
+        this.rnd = rnd;
     }
 
     @Override
@@ -18,7 +20,7 @@ public class Factory extends AbstractCandidateFactory<Genotype>
     {
        List<Integer> candidato = new ArrayList<Integer>();
        for(int i=0;i<dimension;i++){
-           int valor=(new Random().nextInt(2));
+           int valor=(this.rnd.nextInt(2));
            candidato.add(valor);
        }
        return new Genotype(candidato);

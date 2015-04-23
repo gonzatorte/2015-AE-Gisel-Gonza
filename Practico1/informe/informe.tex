@@ -21,7 +21,7 @@
 	\author{
 		\IEEEauthorblockN{Gonzalo Torterolo}
 		\IEEEauthorblockA{
-			Facultad de ingeniería\\
+			Facultad de ingenier\'ia\\
 			UDELAR\\
 			Montevideo, Uruguay\\
 			Email: gonzalo.torterolo@fing.edu.uy
@@ -29,7 +29,7 @@
 		\and
 		\IEEEauthorblockN{Gisel Cincunegui}
 		\IEEEauthorblockA{
-			Facultad de ingeniería\\
+			Facultad de ingenier\'ia\\
 			UDELAR\\
 			Montevideo, Uruguay\\
 			Email: gisel.cincunegui@fing.edu.uy
@@ -42,74 +42,93 @@
 	\maketitle
 
 	\begin{abstract}
-	En el presente informe el objetivo es probar las ventajas y limitaciones de las actuales librerias que implementan algoritmos genéticos mediante la resolución de 2 problemas típicos de computación. Además se realizan pequeños analisis de las soluciones con el fin de verter conocimientos teóricos adquiridos en el curso.
+	En el presente informe el objetivo es probar las ventajas y limitaciones de las actuales librerias que implementan algoritmos gen\'eticos mediante la resoluci\'on de 2 problemas t\'ipicos de computaci\'on. Adem\'as se realizan pequeños analisis de las soluciones con el fin de verter conocimientos te\'oricos adquiridos en el curso.
 	\end{abstract}
 	\begin{IEEEkeywords}
-	Algoritmos Evolutivos, AE, Algoritmos Genéticos, AG, Malva, Mallba, Whatchmaker, Knapshak, Mochila
+	Algoritmos Evolutivos, AE, Algoritmos Gen\'eticos, AG, Malva, Mallba, Whatchmaker, Knapshak, Mochila
 	\end{IEEEkeywords}
 
 	\section{Introducci\'on}
 	See \cite{refmallba} for more info
 
-	En la consigna presentada (ver letra en \cite{refmallba}) se deben resolver dos variantes del problema de la mochila (explicadas en la consigna también) utilizando ideas de los algoritmos genéticos.
+	En la consigna presentada (ver letra en \cite{refmallba}) se deben resolver dos variantes del problema de la mochila (explicadas en la consigna tambi\'en) utilizando ideas de los algoritmos gen\'eticos.
 
-	Por otra parte, el análisis y modelado del problema así como las ventajas de utilizar este tipo de algorimos para el escenario queda relegado a una segunda instancia, pues ya estaban resueltos en las consignas. En todo momento primó la aplicación de los conceptos teóricos del curso antes que la obtención de resultados como rendimiento, modularidad, etc. No nos interesa, por lo tanto, seguir aquí un enfoque práctico para esta primer aproximación a los algoritmos evolutivos donde ambos problemas son típicos y ampliamente estudiados.
-
-	Se analizan las diferentes soluciones a las dos variantes del problema de la mochila aquí presentadas, concluyendo con una implementación para ambos casos.
-	Para comenzar a definir las soluciones a los problemas se debe determinar las siguientes carácterízticas de importancia para un AE típico.
-
-	1. Codificación.
-		1. Tratamiento de codificaciones no factibles.
-	2. Población inicial.
-		1. Evaluación de coste/beneficio de utilizar criterios inteligentes de inicialización.
-		2. Velocidad de convergencia a un óptimo.
-	3. Funcion de fitness.
-		1. Carácterízticas especiales requeridas (e.g.: no negatividad de la función para seleccíon proporcional)
-		2. Transformación para otros escenarios (e.g.: aplicación para maximización/minimización)
-		3. Ajustes para mejorar soluciones (escalado, parámetros de configuración).
-	4. Seleccción:
-		1. Elitismo o no.
-	5. Cruzamiento.
-	6. Mutación.
-	7. Remplazo.
+	Por otra parte, el an\'alisis y modelado del problema as\'i como las ventajas de utilizar este tipo de algorimos para el escenario queda relegado a una segunda instancia, pues ya estaban resueltos en las consignas. En todo momento prim\'o la aplicaci\'on de los conceptos te\'oricos del curso antes que la obtenci\'on de resultados como rendimiento, modularidad, etc. No nos interesa, por lo tanto, seguir aqu\'i un enfoque pr\'actico para esta primer aproximaci\'on a los algoritmos evolutivos donde ambos problemas son t\'ipicos y ampliamente estudiados.
 
 
-	Particularidades y observaciones de las implementación/Librerias:
-	Malva:
-		Malva utiliza otro concepto para la mutación, la probabilidad se aplica por individuo y no por gen.
-		Malva para el de aperitivos, parece bastante desprolijo, aunque quizás mucho más performante y escalable que cualquier otra, pero como ya se dijo, estas carácterízticas no interesan en este momento.
+	\subsection{Aplicaci\'on de AG}
 
-	Whatchmaker:
-		Permite elitismo y esta cantidad es extra a la de la población especificada.
+	Se analizan las diferentes soluciones a las dos variantes del problema de la mochila aqu\'i presentadas, concluyendo con una implementaci\'on para ambos casos.
+	Para comenzar a definir las soluciones a los problemas se debe determinar las siguientes car\'acter\'izticas de importancia para un AE t\'ipico.
+
+	\begin{enumerate}
+		\item Codificaci\'on.
+		\begin{itemize}
+				\item Tratamiento de codificaciones no factibles.
+		\end{itemize}
+		\item Poblaci\'on inicial.
+		\begin{itemize}
+				\item  Evaluaci\'on de coste/beneficio de utilizar criterios inteligentes de inicializaci\'on.
+				\item  Velocidad de convergencia a un \'optimo.
+		\end{itemize}
+		\item Funcion de fitness.
+		\begin{itemize}
+				\item  Car\'acter\'izticas especiales requeridas (e.g.: no negatividad de la funci\'on para selecc\'ion proporcional)
+				\item  Transformaci\'on para otros escenarios (e.g.: aplicaci\'on para maximizaci\'on/minimizaci\'on)
+				\item  Ajustes para mejorar soluciones (escalado, par\'ametros de configuraci\'on).
+		\end{itemize}
+		\item Seleccci\'on:
+		\begin{itemize}
+				\item  Elitismo o no.
+		\end{itemize}
+		\item Cruzamiento.
+		\item Mutaci\'on.
+		\item Remplazo.
+	\end{enumerate}
 
 
-	Problemas de los aperitivos:
 
-	Para este primer problema interesa obtener el óptimo de un problema. La aplicación de AE no nos parecío muy adecuada.
+	\subsection{Particularidades y observaciones de las implementaci\'on/Librerias}
+	\begin{itemize}
+		\item Malva
+		\begin{itemize}
+			\item Malva utiliza otro concepto para la mutaci\'on, la probabilidad se aplica por individuo y no por gen.
+			\item Malva para el de aperitivos, parece bastante desprolijo, aunque quiz\'as mucho m\'as performante y escalable que cualquier otra, pero como ya se dijo, estas car\'acter\'izticas no interesan en este momento.
+		\end{itemize}
+
+		\item Whatchmaker
+		\begin{itemize}	
+			\item Permite elitismo y esta cantidad es extra a la de la poblaci\'on especificada.
+		\end{itemize}
+	\end{itemize}
 
 
-	Problemas de la mochila:
+	\subsection{Problemas de los aperitivos}
+	
+	Para este primer problema interesa obtener el \'optimo de un problema. La aplicaci\'on de AE no nos parec\'io muy adecuada.
 
-	Para este primer problema interesa obtener el óptimo de un problema. La aplicación de AE no nos parecío muy adecuada.
+	\subsection{Problemas de la mochila}
+
+	Para este primer problema interesa obtener el \'optimo de un problema. La aplicaci\'on de AE no nos parec\'io muy adecuada.
 
 
 
 % Puntos a tocar en el informe:
-% 	¿Qué biblioteca fue utilizada?
-% 	¿Qué representación fue utilizada para las soluciones candidatas?
-% 	¿Qué estrategia fue utilizada para inicializar la población?
-% 	¿Qué operadores evolutivos fueron utilizados?
-% 	¿Cómo fue definida la función de fitness?
+% 	¿Qu\'e biblioteca fue utilizada?
+% 	¿Qu\'e representaci\'on fue utilizada para las soluciones candidatas?
+% 	¿Qu\'e estrategia fue utilizada para inicializar la poblaci\'on?
+% 	¿Qu\'e operadores evolutivos fueron utilizados?
+% 	¿C\'omo fue definida la funci\'on de fitness?
 % 	Para el ejercicio 1:
-% 		¿Cúal fue la solución encontrada?
-% 		¿Se encontró más de	una solución?
+% 		¿C\'ual fue la soluci\'on encontrada?
+% 		¿Se encontr\'o m\'as de	una soluci\'on?
 % 	Para el ejercicio 2:
-% 		¿Qué estrategia fue utilizada para el manejo de soluciones no factibles?
+% 		¿Qu\'e estrategia fue utilizada para el manejo de soluciones no factibles?
 
 
 
 	\section{Conclusi\'on}
-	Al final de este laboratorio hemos podido decicir aquella librería que se adapta mejor a nuestras necesidades y que nos gustaría usar para resolver el proyecto final. Además, en el proceso de realización de este primer práctico, logramos interiorizarnos en aspectos prácticos y la aplicación de algoritmos genéticos y la síntesis de informes con Latex y otras herramientas.
+	Al final de este laboratorio hemos podido decicir aquella librer\'ia que se adapta mejor a nuestras necesidades y que nos gustar\'ia usar para resolver el proyecto final. Adem\'as, en el proceso de realizaci\'on de este primer pr\'actico, logramos interiorizarnos en aspectos pr\'acticos y la aplicaci\'on de algoritmos gen\'eticos y la s\'intesis de informes con Latex y otras herramientas.
 
 
 % ------ Final ------

@@ -23,11 +23,19 @@ public final class Backpack {
     static List<Integer> ganancias = new ArrayList<>();
     static List<Integer> pesos = new ArrayList<>();
     static Integer w;
+    static long seed;
 
     public static void main(String[] args) throws IOException {
         String input_filename = args[0];
         String output_filename = args[1];
-
+        
+        if (args.length > 2){
+            seed = Long.parseLong(args[2]);
+        } else {
+            seed = System.currentTimeMillis();
+        }
+        System.out.println(seed);
+        
         read_file(input_filename);
         
         Genotype l = evolve();
@@ -64,8 +72,8 @@ public final class Backpack {
     
     public static Genotype evolve() {
         me = new Fitness();
-
-        Factory factory = new Factory(pesos.size());
+        Random rnd = new Random(seed);
+        Factory factory = new Factory(pesos.size(), rnd);
         List<EvolutionaryOperator<Genotype>> operators = 
                 new ArrayList<>(2);
         operators.add(new Mutation(mutColor.getNumberGenerator(), pesos.size()));
@@ -78,7 +86,7 @@ public final class Backpack {
                     pipeline,
                     me,
                     new RouletteWheelSelection(),
-                    new Random()
+                    rnd
                 );
 
         engine.addEvolutionObserver(new EvolutionLogger());
