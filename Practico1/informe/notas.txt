@@ -159,7 +159,6 @@ ToDo Implementación:
 		Pensar en usar correción en vez de penalización.
 		Implementar correción en el crossover.
 		Pasar escritura y lectura de archivo al main. (Queda mejor por el deco/enco)
-		Mover el proy.
 
 		Gisel:
 			*Escribir a un archivo. (Gisel).

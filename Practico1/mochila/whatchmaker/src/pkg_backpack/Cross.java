@@ -7,7 +7,7 @@ import org.uncommons.maths.number.NumberGenerator;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.operators.AbstractCrossover;
 
-public class Cross<T> extends AbstractCrossover<List<Pair<T>>>
+public class Cross extends AbstractCrossover<Genotype>
 {
     public Cross()
     {
@@ -35,13 +35,13 @@ public class Cross<T> extends AbstractCrossover<List<Pair<T>>>
         super(crossoverPointsVariable, crossoverProbabilityVariable);
     }
 
-    protected List<List<Pair<T>>> mate(List<Pair<T>> parent1,
-                                 List<Pair<T>> parent2,
+    protected List<Genotype> mate(Genotype parent1,
+                                 Genotype parent2,
                                  int numberOfCrossoverPoints,
                                  Random rng)
     {
-        List<Pair<T>> offspring1 = new ArrayList<Pair<T>>(parent1); // Use a random-access list for performance.
-        List<Pair<T>> offspring2 = new ArrayList<Pair<T>>(parent2);
+        Genotype offspring1 = new Genotype(parent1); // Use a random-access list for performance.
+        Genotype offspring2 = new Genotype(parent2);
         // Apply as many cross-overs as required.
         for (int i = 0; i < numberOfCrossoverPoints; i++)
         {
@@ -54,13 +54,13 @@ public class Cross<T> extends AbstractCrossover<List<Pair<T>>>
                 int crossoverIndex = (1 + rng.nextInt(max - 1));
                 for (int j = 0; j < crossoverIndex; j++)
                 {
-//                    T temp = offspring1.get(j);
-//                    offspring1.set(j, offspring2.get(j));
-//                    offspring2.set(j, temp);
+                    Integer temp = offspring1.get(j);
+                    offspring1.set(j, offspring2.get(j));
+                    offspring2.set(j, temp);
                 }
             }
         }
-        List<List<Pair<T>>> result = new ArrayList<List<Pair<T>>>(2);
+        List<Genotype> result = new ArrayList<Genotype>(2);
         result.add(offspring1);
         result.add(offspring2);
         return result;

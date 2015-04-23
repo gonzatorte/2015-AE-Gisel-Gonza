@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
 
-public class Fitness implements FitnessEvaluator<List<Integer>> {
+public class Fitness implements FitnessEvaluator<Genotype> {
 
     List<Integer> ganancias = new ArrayList<>();
     List<Integer> pesos = new ArrayList<>();
@@ -19,9 +19,7 @@ public class Fitness implements FitnessEvaluator<List<Integer>> {
         this.w = w;
     }
 
-    @Override
-    public double getFitness(List<Integer> ind,
-            List<? extends List<Integer>> population) {
+    public double FitnessFun(Fenotype ind){
         int ganancia = 0;
         int peso = 0;
         for (int i = 0; i < pesos.size(); i++) {
@@ -36,6 +34,12 @@ public class Fitness implements FitnessEvaluator<List<Integer>> {
         } else {
             return (ganancia - ((2 * ganancia * (peso - w)) / peso));
         }
+    }
+    
+    @Override
+    public double getFitness(Genotype ind,
+            List<? extends Genotype> population) {
+        return this.FitnessFun(Coder.decode(ind));
     }
 
     @Override

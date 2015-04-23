@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 import org.uncommons.watchmaker.framework.factories.AbstractCandidateFactory;
 
-public class Factory extends AbstractCandidateFactory<List<Integer>>
+public class Factory extends AbstractCandidateFactory<Genotype>
 {
     int dimension;
     public Factory(int dimension)
@@ -15,13 +15,13 @@ public class Factory extends AbstractCandidateFactory<List<Integer>>
     }
 
     @Override
-    public List<Integer> generateRandomCandidate(Random rng)
+    public Genotype generateRandomCandidate(Random rng)
     {
        List<Integer> candidato= new ArrayList<Integer>();
        for(int i=0;i<dimension;i++){
            int valor=(new Random().nextInt(2));
            candidato.add(valor);
        }
-       return candidato;
+       return new Genotype(candidato);
     }
 }

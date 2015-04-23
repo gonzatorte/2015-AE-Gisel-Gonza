@@ -30,13 +30,11 @@ public final class Backpack {
         String output_filename = args[1];
 
         read_file(input_filename);
-        me = new Fitness(ganancias, pesos, w);
-
+        
 //        List<Pair<Integer>> l = evolve();
-        List<Integer> l = evolve();
+        Genotype l = evolve();
 
-//        fenotipo = decode(genotipo);
-        write_file(output_filename, l);
+        write_file(output_filename, Coder.decode(l));
     }
 
     public static void read_file(String input_filename) throws IOException {
@@ -54,41 +52,47 @@ public final class Backpack {
         w = Integer.parseInt(todo);
     }
 
-    public static void write_file(String output_filename, List<Integer> l) throws IOException {
+    public static void write_file(String output_filename, Fenotype l) throws IOException {
         FileWriter fichero = new FileWriter(output_filename);
         PrintWriter pw = new PrintWriter(fichero);
         for (Integer i : l) {
             pw.print(i);
         }
         pw.println();
-        pw.println((int) me.getFitness(l, null));
+        pw.println((int) me.FitnessFun(l));
         pw.print(me.p);
         fichero.close();
     }
     
 //    public static List<Pair<Integer>> evolve() {
-    public static List<Integer> evolve() {
+    public static Genotype evolve() {
+        me = new Fitness(ganancias, pesos, w);
 
         Factory factory = new Factory(pesos.size());
 //        List<EvolutionaryOperator<List<Pair<Integer>>>> operators = 
-        List<EvolutionaryOperator<List<Integer>>> operators = 
+        List<EvolutionaryOperator<Genotype>> operators = 
                 new ArrayList<>(2);
         operators.add(new Mutation(mutColor.getNumberGenerator(), pesos.size()));
 //        operators.add(new ListCrossover<Pair<Integer>>());
-        operators.add(new ListCrossover<Integer>());
-//        EvolutionaryOperator<List<Pair<Integer>>> pipeline = new EvolutionPipeline<>(operators);
-        EvolutionaryOperator<List<Integer>> pipeline = new EvolutionPipeline<>(operators);
-//        EvolutionEngine<List<Integer>> engine = new GenerationalEvolutionEngine<List<Pair<Integer>>>(factory,
-        EvolutionEngine<List<Integer>> engine = new GenerationalEvolutionEngine<List<Integer>>(factory,
-                pipeline,
-                me,
-                new RouletteWheelSelection(),
-                new Random());
+        operators.add(new Cross());
+//        EvolutionaryOperator<List<Pair<Integer>>> pipeline =
+        EvolutionaryOperator<Genotype> pipeline =
+                new EvolutionPipeline<>(operators);
+//        EvolutionEngine<List<Pair<Integer>>> engine = 
+        EvolutionEngine<Genotype> engine =
+                new GenerationalEvolutionEngine<>(
+                    factory,
+                    pipeline,
+                    me,
+                    new RouletteWheelSelection(),
+                    new Random()
+                );
 
         engine.addEvolutionObserver(new EvolutionLogger());
-        return engine.evolve(6, // 100 individuals in the population.
+        List<Integer> res = engine.evolve(6, // 100 individuals in the population.
                 1, // 5% elitism.
                 new GenerationCount(300));
+        return new Genotype(res);
     }
 
     /**

@@ -8,7 +8,7 @@ import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 
 //class Mutation implements EvolutionaryOperator<List<Pair<Integer>>> {
-class Mutation implements EvolutionaryOperator<List<Integer>> {
+class Mutation implements EvolutionaryOperator<Genotype> {
 
     private final NumberGenerator<Probability> mutationProbability;
     private final int dimension;
@@ -28,30 +28,30 @@ class Mutation implements EvolutionaryOperator<List<Integer>> {
 
     @Override
 //    public List<List<Pair<Integer>>> apply(List<List<Pair<Integer>>> population, Random rng) {
-    public List<List<Integer>> apply(List<List<Integer>> population, Random rng) {
+    public List<Genotype> apply(List<Genotype> population, Random rng) {
 
 //        List<List<Pair<Integer>>> newPop = new ArrayList<>(population.size());
-        List<List<Integer>> newPop = new ArrayList<>(population.size());
+        List<Genotype> newPop = new ArrayList<>(population.size());
 
 //        for (List<Pair<Integer>> individual : population) {
-        for (List<Integer> individual : population) {
+        for (Genotype individual : population) {
 
 //            List<Pair<Integer>> newInd = mutateIndividual(individual, rng);
-            List<Integer> newInd = mutateIndividual(individual, rng);
+            Genotype newInd = mutateIndividual(new Genotype(individual), rng);
 
             newPop.add(newInd.equals(individual)
                     ? individual
-                    : new ArrayList<>(newInd));
+                    : new Genotype(newInd));
         }
         return newPop;
     }
 
 //    protected List<Pair<Integer>> mutateIndividual(List<Pair<Integer>> individual, Random rng) {
-    protected List<Integer> mutateIndividual(List<Integer> individual, Random rng) {
+    protected Genotype mutateIndividual(Genotype individual, Random rng) {
 
         if (true) {
 //            List<Pair<Integer>> newInd = new ArrayList<>(individual);
-            List<Integer> newInd = new ArrayList<>(individual);
+            Genotype newInd = new Genotype(individual);
 
             for (int i = 0; i < this.dimension; i++) {
                 if (getMutationProbability().nextValue().nextEvent(rng)) {
