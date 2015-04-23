@@ -11,7 +11,6 @@ import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 import org.uncommons.watchmaker.framework.GenerationalEvolutionEngine;
 import org.uncommons.watchmaker.framework.PopulationData;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
-import org.uncommons.watchmaker.framework.operators.ListCrossover;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.swing.ProbabilityParameterControl;
@@ -31,7 +30,6 @@ public final class Backpack {
 
         read_file(input_filename);
         
-//        List<Pair<Integer>> l = evolve();
         Genotype l = evolve();
 
         write_file(output_filename, Coder.decode(l));
@@ -64,21 +62,16 @@ public final class Backpack {
         fichero.close();
     }
     
-//    public static List<Pair<Integer>> evolve() {
     public static Genotype evolve() {
         me = new Fitness(ganancias, pesos, w);
 
         Factory factory = new Factory(pesos.size());
-//        List<EvolutionaryOperator<List<Pair<Integer>>>> operators = 
         List<EvolutionaryOperator<Genotype>> operators = 
                 new ArrayList<>(2);
         operators.add(new Mutation(mutColor.getNumberGenerator(), pesos.size()));
-//        operators.add(new ListCrossover<Pair<Integer>>());
         operators.add(new Cross());
-//        EvolutionaryOperator<List<Pair<Integer>>> pipeline =
         EvolutionaryOperator<Genotype> pipeline =
                 new EvolutionPipeline<>(operators);
-//        EvolutionEngine<List<Pair<Integer>>> engine = 
         EvolutionEngine<Genotype> engine =
                 new GenerationalEvolutionEngine<>(
                     factory,
@@ -99,10 +92,10 @@ public final class Backpack {
      * Trivial evolution observer for displaying information at the end of each
      * generation.
      */
-    private static class EvolutionLogger implements EvolutionObserver<List<Integer>> {
+    private static class EvolutionLogger implements EvolutionObserver<Genotype> {
 
         @Override
-        public void populationUpdate(PopulationData<? extends List<Integer>> data) {
+        public void populationUpdate(PopulationData<? extends Genotype> data) {
             System.out.println("Fitness: " + data.getBestCandidateFitness() + data.getGenerationNumber());
         }
     }
