@@ -18,3 +18,4 @@ generator
 /Practico1/mochila/whatchmaker/build/
 /Practico1/mochila/whatchmaker/nbproject/private/private.xml
 /Practico1/mochila/whatchmaker/nbproject/private/private.properties
+*.out

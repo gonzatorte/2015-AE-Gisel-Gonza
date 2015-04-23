@@ -10,15 +10,16 @@ import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 //class Mutation implements EvolutionaryOperator<List<Pair<Integer>>> {
 class Mutation implements EvolutionaryOperator<List<Integer>> {
 
-
     private final NumberGenerator<Probability> mutationProbability;
+    private final int dimension;
 
     /**
      * @param mutationProbability A {@link NumberGenerator} that controls the
      * probability that a polygon's points will be mutated.
      */
-    protected Mutation(NumberGenerator<Probability> mutationProbability) {
+    protected Mutation(NumberGenerator<Probability> mutationProbability, int dimension) {
         this.mutationProbability = mutationProbability;
+        this.dimension = dimension;
     }
 
     protected NumberGenerator<Probability> getMutationProbability() {
@@ -52,7 +53,7 @@ class Mutation implements EvolutionaryOperator<List<Integer>> {
 //            List<Pair<Integer>> newInd = new ArrayList<>(individual);
             List<Integer> newInd = new ArrayList<>(individual);
 
-            for (int i = 0; i < Fitness.n; i++) {
+            for (int i = 0; i < this.dimension; i++) {
                 if (getMutationProbability().nextValue().nextEvent(rng)) {
 //                    Integer ff = (newInd.get(i).first + 1)%2;
 //                    Integer ss = (newInd.get(i).second + 1)%2;
