@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.uncommons.maths.number.AdjustableNumberGenerator;
+import org.uncommons.maths.number.NumberGenerator;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvolutionEngine;
 import org.uncommons.watchmaker.framework.EvolutionObserver;
@@ -13,7 +15,6 @@ import org.uncommons.watchmaker.framework.PopulationData;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
-import org.uncommons.watchmaker.swing.ProbabilityParameterControl;
 
 public final class Backpack {
 
@@ -25,6 +26,8 @@ public final class Backpack {
     static Integer w;
     static long seed;
 
+    static NumberGenerator<Probability> mutGen = new AdjustableNumberGenerator<Probability>(CERO_CON_CERO_UNO);
+    
     public static void main(String[] args) throws IOException {
         String input_filename = args[0];
         String output_filename = args[1];
@@ -76,7 +79,7 @@ public final class Backpack {
         Factory factory = new Factory(pesos.size(), rnd);
         List<EvolutionaryOperator<Genotype>> operators = 
                 new ArrayList<EvolutionaryOperator<Genotype>>(2);
-        operators.add(new Mutation(mutColor.getNumberGenerator(), pesos.size()));
+        operators.add(new Mutation(mutGen, pesos.size()));
         operators.add(new Cross());
         EvolutionaryOperator<Genotype> pipeline =
                 new EvolutionPipeline<Genotype>(operators);
@@ -106,6 +109,4 @@ public final class Backpack {
             System.out.println("Fitness: " + data.getBestCandidateFitness() + data.getGenerationNumber());
         }
     }
-
-    static ProbabilityParameterControl mutColor = new ProbabilityParameterControl(Probability.ZERO, CERO_CON_CERO_UNO, 3, new Probability(0.01d));
 }
