@@ -1,4 +1,4 @@
 #!/bin/bash
 
-JAR_PATH="$(pwd)/../Practico1/mochila/whatchmaker/dist/Mochila.jar"
+JAR_PATH="$(pwd)/Practico1/mochila/whatchmaker/dist/Mochila.jar"
 java -cp "$JAR_PATH" pkg_backpack.Backpack "$1" "solucion.in"
