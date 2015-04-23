@@ -1,28 +1,6 @@
 ToDo:
 
-
-
-
-Preludio:
-	"Sobre lenguaje y biblioteca, hay que presentar argumentos (breves) para fundamentar la elección. La justificación de utilizar AE surge de los conceptos vistos en el teórico."
-
-
-Cosas:
-	Guardar soluciones no factibles como alelo no dominante en un organismo diploide.
-	Para truchar la candiad de generaciones propongo codificar varias islas en 1 sola población (organismo n-ploide?)
-	Densidad de grafos (cantidad de vecinos)
-
-
-Problema 1: Mochila con repeticiones sin pesos
-	1. Codificación:
-		1. Codificaciones no factibles.
-	2. Población inicial.
-	3. Funcion de fitness.
-	4. Seleccción:
-		Remplazo.
-	5. Cruzamiento.
-	6. Mutación.
-	7. Remplazo.
+Densidad de grafos (cantidad de vecinos)
 
 
 Codificación:
@@ -130,26 +108,8 @@ Problema 2: Mochila sin repetidos con pesos
 		Cuando fitness se den muchas iteraciones. No conocemos el óptimo del problema a priori, nos basta con tener una buena solución.
 
 
-Puntos a tocar en el informe:
-	¿Qué biblioteca fue utilizada?
-		Malva para el de aperitivos, nos pareció bastante desprolijo, aunque quizás 
-	¿Qué representación fue utilizada para las soluciones candidatas?
-	¿Qué estrategia fue utilizada para inicializar la población?
-	¿Qué operadores evolutivos fueron utilizados?
-	¿Cómo fue definida la función de fitness?
-	Para el ejercicio 1:
-		¿Cúal fue la solución encontrada?
-		¿Se encontró más de	una solución?
-	Para el ejercicio 2:
-		¿Qué estrategia fue utilizada para el manejo de soluciones no factibles?
-
-
 ToDo Implementación:
 	Malva (aperitivos):
-		*Ver como se configura la selección en malva (ruleta? o proporcional).
-			http://neo.lcc.uma.es/mallba/easy-mallba/html/appendixA.html
-		*Ver video presentacion malva a ver que son los parametros de selección.
-			Creo que es torneo = 1, en ese caso ruleta es 2.
 		*Sorting
 		*Hacer un algoritmo de fuerza bruta para hallar mejor solución en casos pequeños.
 			*Para tratar de responder si existe solucion y si hay mas de una.

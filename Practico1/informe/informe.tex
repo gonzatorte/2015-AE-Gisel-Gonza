@@ -8,7 +8,7 @@
 @electronic{refmallba,
   author        = {Michael Shell},
   title         = {{IEEE}tran Homepage},
-  url           = {http://www.michaelshell.org/tex/ieeetran/},
+  url           = {http://neo.lcc.uma.es/mallba/easy-mallba/index.html},
   year          = {2008}
 }
 \end{filecontents*}
@@ -24,7 +24,7 @@
 			Facultad de ingeniería\\
 			UDELAR\\
 			Montevideo, Uruguay\\
-			Email: gtorterolo@fing.edu.uy
+			Email: gonzalo.torterolo@fing.edu.uy
 		}
 		\and
 		\IEEEauthorblockN{Gisel Cincunegui}
@@ -32,7 +32,7 @@
 			Facultad de ingeniería\\
 			UDELAR\\
 			Montevideo, Uruguay\\
-			Email: ccincunegui@fing.edu.uy
+			Email: gisel.cincunegui@fing.edu.uy
 		}
 	}
 
@@ -41,25 +41,75 @@
 % ------- Contenido -------
 	\maketitle
 
-	% \IEEEtitleabstractindextext{
 	\begin{abstract}
-	En el presente abordamos 
+	En el presente informe el objetivo es probar las ventajas y limitaciones de las actuales librerias que implementan algoritmos genéticos mediante la resolución de 2 problemas típicos de computación. Además se realizan pequeños analisis de las soluciones con el fin de verter conocimientos teóricos adquiridos en el curso.
 	\end{abstract}
 	\begin{IEEEkeywords}
-	Broad band networks, quality of service, WDM.
+	Algoritmos Evolutivos, AE, Algoritmos Genéticos, AG, Malva, Mallba, Whatchmaker, Knapshak, Mochila
 	\end{IEEEkeywords}
-	% }
-	% \IEEEpeerreviewmaketitle
-	% \IEEEraisesectionheading{\section{Introduccion}\label{sec:introduction}}
 
 	\section{Introducci\'on}
-	See \cite{refmallba} for more info 	
+	See \cite{refmallba} for more info
 
-	\section{Conclusion}
-	The conclusion goes here.
+	En la consigna presentada (ver letra en \cite{refmallba}) se deben resolver dos variantes del problema de la mochila (explicadas en la consigna también) utilizando ideas de los algoritmos genéticos.
 
-	\section*{Acknowledgment}
-	We acknowledge the acknowledged acknowledgees.
+	Por otra parte, el análisis y modelado del problema así como las ventajas de utilizar este tipo de algorimos para el escenario queda relegado a una segunda instancia, pues ya estaban resueltos en las consignas. En todo momento primó la aplicación de los conceptos teóricos del curso antes que la obtención de resultados como rendimiento, modularidad, etc. No nos interesa, por lo tanto, seguir aquí un enfoque práctico para esta primer aproximación a los algoritmos evolutivos donde ambos problemas son típicos y ampliamente estudiados.
+
+	Se analizan las diferentes soluciones a las dos variantes del problema de la mochila aquí presentadas, concluyendo con una implementación para ambos casos.
+	Para comenzar a definir las soluciones a los problemas se debe determinar las siguientes carácterízticas de importancia para un AE típico.
+
+	1. Codificación.
+		1. Tratamiento de codificaciones no factibles.
+	2. Población inicial.
+		1. Evaluación de coste/beneficio de utilizar criterios inteligentes de inicialización.
+		2. Velocidad de convergencia a un óptimo.
+	3. Funcion de fitness.
+		1. Carácterízticas especiales requeridas (e.g.: no negatividad de la función para seleccíon proporcional)
+		2. Transformación para otros escenarios (e.g.: aplicación para maximización/minimización)
+		3. Ajustes para mejorar soluciones (escalado, parámetros de configuración).
+	4. Seleccción:
+		1. Elitismo o no.
+	5. Cruzamiento.
+	6. Mutación.
+	7. Remplazo.
+
+
+	Particularidades y observaciones de las implementación/Librerias:
+	Malva:
+		Malva utiliza otro concepto para la mutación, la probabilidad se aplica por individuo y no por gen.
+		Malva para el de aperitivos, parece bastante desprolijo, aunque quizás mucho más performante y escalable que cualquier otra, pero como ya se dijo, estas carácterízticas no interesan en este momento.
+
+	Whatchmaker:
+		Permite elitismo y esta cantidad es extra a la de la población especificada.
+
+
+	Problemas de los aperitivos:
+
+	Para este primer problema interesa obtener el óptimo de un problema. La aplicación de AE no nos parecío muy adecuada.
+
+
+	Problemas de la mochila:
+
+	Para este primer problema interesa obtener el óptimo de un problema. La aplicación de AE no nos parecío muy adecuada.
+
+
+
+% Puntos a tocar en el informe:
+% 	¿Qué biblioteca fue utilizada?
+% 	¿Qué representación fue utilizada para las soluciones candidatas?
+% 	¿Qué estrategia fue utilizada para inicializar la población?
+% 	¿Qué operadores evolutivos fueron utilizados?
+% 	¿Cómo fue definida la función de fitness?
+% 	Para el ejercicio 1:
+% 		¿Cúal fue la solución encontrada?
+% 		¿Se encontró más de	una solución?
+% 	Para el ejercicio 2:
+% 		¿Qué estrategia fue utilizada para el manejo de soluciones no factibles?
+
+
+
+	\section{Conclusi\'on}
+	Al final de este laboratorio hemos podido decicir aquella librería que se adapta mejor a nuestras necesidades y que nos gustaría usar para resolver el proyecto final. Además, en el proceso de realización de este primer práctico, logramos interiorizarnos en aspectos prácticos y la aplicación de algoritmos genéticos y la síntesis de informes con Latex y otras herramientas.
 
 
 % ------ Final ------
@@ -68,7 +118,3 @@
 	\bibliography{informe.bib}{}
 
 \end{document}
-
-
-
-% LAS NOTAS QUE ESTABAN ACA LAS PASE A notas.txt en esta misma carpeta...
