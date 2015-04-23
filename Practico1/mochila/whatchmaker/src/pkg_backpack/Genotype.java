@@ -6,9 +6,12 @@ import java.util.List;
 //abstract class Genotype implements List<Integer>{}
 public class Genotype extends ArrayList<Integer>{
     public Genotype(Fenotype f){
-        super((ArrayList<Integer>) f);
+        super(Coder.encode(f));
     }
     public Genotype(List<Integer> l){
+        super(l);
+    }
+    public Genotype(int l){
         super(l);
     }
     public Genotype cross(Genotype g, int crossoverIndex){

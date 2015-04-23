@@ -1,0 +1,94 @@
+%% nada
+\documentclass[9pt,technote]{IEEEtran}
+
+\usepackage[nomarkers]{endfloat}
+
+\usepackage[cmex10]{amsmath}
+\interdisplaylinepenalty=2500
+
+\ifCLASSOPTIONcompsoc
+\usepackage[caption=false,font=normalsize,labelfon
+t=sf,textfont=sf]{subfig}
+\else
+\usepackage[caption=false,font=footnotesize]{subfig}
+\fi
+
+\begin{document}
+
+
+
+
+
+\begin{IEEEeqnarray}{rCl}
+Z&=&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\IEEEnonumber\\
+&&+\:a + b%
+\end{IEEEeqnarray}
+
+\begin{IEEEeqnarray}{Rl}
+Z=&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\IEEEnonumber\\
+&+\:a + b%
+\end{IEEEeqnarray}
+
+
+\begin{IEEEeqnarray}{rCl}
+A_1&=&7\IEEEyesnumber\IEEEyessubnumber\\
+A_2&=&b+1\IEEEyessubnumber\\
+\noalign{\noindent and\vspace{\jot}}A_3&=&d+2\IEEEyessubnumber%
+\end{IEEEeqnarray}
+
+
+\begin{IEEEeqnarray}[\setlength{\nulldelimiterspace}{0pt}]{rl,s}&x,&for $x \geq 0$\IEEEyesnumber\IEEEyessubnumber\\*
+[-0.625\normalbaselineskip]
+\smash{|x|=\left\{\IEEEstrut[3\jot][3\jot]\right.}&&
+\nonumber\\*[-0.625\normalbaselineskip]
+&-x,&for $x < 0$\IEEEyessubnumber
+\end{IEEEeqnarray}
+
+
+\begin{equation}
+\label{eqn_example}
+x = \sum\limits_{i=0}^{z} 2^{i}Q
+\end{equation}
+% ... as can be seen in (\ref{eqn_example}).
+
+
+\setlength{\arraycolsep}{0.0em}
+\begin{eqnarray}
+Z&{}={}&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\nonumber\\
+&&+a + b\\
+&&+{}a + b\\
+&&{}+a + b\\
+&&{+}\:a + b
+\end{eqnarray}
+\setlength{\arraycolsep}{5pt}
+
+
+\begin{equation}
+I = \left(\begin{IEEEeqnarraybox*}[][c]{,c/c/c,}
+1&0&0\\
+0&1&0\\
+0&0&1%
+\end{IEEEeqnarraybox*}\right)
+\end{equation}
+
+
+\newcounter{MYtempeqncnt}
+\begin{figure*}[!t]
+	\setcounter{MYtempeqncnt}{\value{equation}}
+	\setcounter{equation}{5}
+	\begin{equation}
+		\label{eqn_dbl_x}
+		x = 5 + 7 + 9 + 11 + 13 + 15 + 17 + 19 + 21+ 23 + 25
+		+ 27 + 29 + 31
+	\end{equation}
+	\begin{equation}
+		\label{eqn_dbl_y}
+		y = 4 + 6 + 8 + 10 + 12 + 14 + 16 + 18 + 20+ 22 + 24
+		+ 26 + 28 + 30
+	\end{equation}
+	% Restore the current equation number.
+	\setcounter{equation}{\value{MYtempeqncnt}}
+\end{figure*}
+
+
+\end{document}  %End of document.

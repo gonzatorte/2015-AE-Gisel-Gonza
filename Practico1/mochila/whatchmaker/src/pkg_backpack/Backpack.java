@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.uncommons.maths.number.AdjustableNumberGenerator;
 import org.uncommons.maths.number.NumberGenerator;
 import org.uncommons.maths.random.Probability;
@@ -18,29 +20,31 @@ import org.uncommons.watchmaker.framework.termination.GenerationCount;
 
 public final class Backpack {
 
-    private static final Probability CERO_CON_CERO_UNO = new Probability(0.1d);
+    private static final Probability PROB_001 = new Probability(0.01d);
+    private static final Probability PROB_75 = new Probability(0.75);
 
     static Fitness me;
     static List<Integer> ganancias = new ArrayList<Integer>();
     static List<Integer> pesos = new ArrayList<Integer>();
     static Integer w;
     static long seed;
+    static String output_filename = null;
 
-    static NumberGenerator<Probability> mutGen = new AdjustableNumberGenerator<Probability>(CERO_CON_CERO_UNO);
+    static NumberGenerator<Probability> mutGen = new AdjustableNumberGenerator<Probability>(PROB_001);
     
     public static void main(String[] args) throws IOException {
         String input_filename = args[0];
-        String output_filename = args[1];
+        output_filename = args[1];
         
         if (args.length > 2){
             seed = Long.parseLong(args[2]);
         } else {
             seed = System.currentTimeMillis();
         }
-        System.out.println(seed);
+        System.out.println("SEED USADO :" + seed);
         
         read_file(input_filename);
-        
+        Coder.SortProblem();
         Genotype l = evolve();
 
         write_file(output_filename, Coder.decode(l));
@@ -68,7 +72,7 @@ public final class Backpack {
             pw.print(i);
         }
         pw.println();
-        pw.println((int) Fitness.FitnessFun(l, ganancias, pesos, w).first);
+        pw.println((int) Fitness.FitnessFun(l).first);
         pw.print(me.p);
         fichero.close();
     }
@@ -80,7 +84,7 @@ public final class Backpack {
         List<EvolutionaryOperator<Genotype>> operators = 
                 new ArrayList<EvolutionaryOperator<Genotype>>(2);
         operators.add(new Mutation(mutGen, pesos.size()));
-        operators.add(new Cross());
+        operators.add(new Cross(PROB_75));
         EvolutionaryOperator<Genotype> pipeline =
                 new EvolutionPipeline<Genotype>(operators);
         EvolutionEngine<Genotype> engine =
@@ -92,21 +96,42 @@ public final class Backpack {
                     rnd
                 );
 
-        engine.addEvolutionObserver(new EvolutionLogger());
-        List<Integer> res = engine.evolve(6, // 100 individuals in the population.
+        engine.addEvolutionObserver(new EvolutionLogger(Backpack.output_filename));
+        List<Integer> res = engine.evolve(99, // 100 individuals in the population.
                 1, // 5% elitism.
-                new GenerationCount(300));
+                new GenerationCount(10000));
         return new Genotype(res);
     }
 
-    /**
-     * Trivial evolution observer for displaying information at the end of each
-     * generation.
-     */
     private static class EvolutionLogger implements EvolutionObserver<Genotype> {
+        PrintWriter writer = null;        
+        EvolutionLogger(String filename){
+            try {
+                FileWriter fichero = new FileWriter(filename + ".stats");
+                writer = new PrintWriter(fichero);
+            } catch (IOException ex) {
+                Logger.getLogger(Backpack.class.getName()).log(Level.SEVERE, null, ex);
+                System.exit(-1);
+            }
+        }
 
         public void populationUpdate(PopulationData<? extends Genotype> data) {
-            System.out.println("Fitness: " + data.getBestCandidateFitness() + data.getGenerationNumber());
+            Genotype g = data.getBestCandidate();
+            Fenotype f = Coder.decode(g);
+            
+            System.out.println();
+            Pair<Integer> p = Fitness.FitnessFun(f);
+            System.out.println("Fitness:" + p.first + " Peso:" + p.second + 
+                    " Generacion:" + data.getGenerationNumber());
+            for (Integer g1 : f) {
+                System.out.print(g1 + ",");
+            }
+            System.out.println();
+            
+            if (data.getGenerationNumber() % 100 == 0){
+                writer.print(data.getGenerationNumber() + "," + p.first + ";");
+                writer.flush();
+            }
         }
     }
 }

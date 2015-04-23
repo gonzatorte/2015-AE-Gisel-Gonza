@@ -3,6 +3,7 @@
 \usepackage[cmex10]{amsmath}
 \usepackage{filecontents}
 \usepackage{lipsum}
+\usepackage{graphicx}
 
 \begin{filecontents*}{informe.bib}
 @electronic{refmallba,
@@ -105,12 +106,60 @@
 
 	\subsection{Problemas de los aperitivos}
 	
-	Para este primer problema interesa obtener el \'optimo de un problema. La aplicaci\'on de AE no nos parec\'io muy adecuada.
+	Para este primer problema interesa obtener el \'optimo de un problema. La aplicaci\'on de AE no nos parec\'io muy adecuada, pues no se estaba buscando una solución aceptable, sino que solo la mejor solución posible es aceptable para los comensales. Por otra parte, el problema es multimodal y NP computacionalmente dificil, lo que lo hace atractivo a una solución de AG.
+	Se utilizó la libería Malva en este problema 
+
+	El algoritmo por lo tanto se detendrá al obtener una de ellas
 
 	\subsection{Problemas de la mochila}
 
 	Para este primer problema interesa obtener el \'optimo de un problema. La aplicaci\'on de AE no nos parec\'io muy adecuada.
 
+\includegraphics[width=0.5\textwidth]{images/graf_test_in.png}
+
+
+\begin{IEEEeqnarray}{rCl}
+Z&=&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\IEEEnonumber\\
+&&+\:a + b%
+\end{IEEEeqnarray}
+
+\begin{IEEEeqnarray}{Rl}
+Z=&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\IEEEnonumber\\
+&+\:a + b%
+\end{IEEEeqnarray}
+
+
+\begin{IEEEeqnarray}{rCl}
+A_1&=&7\IEEEyesnumber\IEEEyessubnumber\\
+A_2&=&b+1\IEEEyessubnumber\\
+\noalign{\noindent and\vspace{\jot}}A_3&=&d+2\IEEEyessubnumber%
+\end{IEEEeqnarray}
+
+
+\begin{IEEEeqnarray}[\setlength{\nulldelimiterspace}{0pt}]{rl,s}&x,&for $x \geq 0$\IEEEyesnumber\IEEEyessubnumber\\*
+[-0.625\normalbaselineskip]
+\smash{|x|=\left\{\IEEEstrut[3\jot][3\jot]\right.}&&
+\nonumber\\*[-0.625\normalbaselineskip]
+&-x,&for $x < 0$\IEEEyessubnumber
+\end{IEEEeqnarray}
+
+
+\begin{equation}
+\label{eqn_example}
+x = \sum\limits_{i=0}^{z} 2^{i}Q
+\end{equation}
+% ... as can be seen in (\ref{eqn_example}).
+
+
+\setlength{\arraycolsep}{0.0em}
+\begin{eqnarray}
+Z&{}={}&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\nonumber\\
+&&+a + b\\
+&&+{}a + b\\
+&&{}+a + b\\
+&&{+}\:a + b
+\end{eqnarray}
+\setlength{\arraycolsep}{5pt}
 
 
 % Puntos a tocar en el informe:
