@@ -35,6 +35,7 @@ public class Cross extends AbstractCrossover<Genotype>
         super(crossoverPointsVariable, crossoverProbabilityVariable);
     }
 
+    @Override
     protected List<Genotype> mate(Genotype parent1,
                                  Genotype parent2,
                                  int numberOfCrossoverPoints,

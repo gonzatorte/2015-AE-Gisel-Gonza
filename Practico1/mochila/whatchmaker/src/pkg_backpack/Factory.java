@@ -17,7 +17,7 @@ public class Factory extends AbstractCandidateFactory<Genotype>
     @Override
     public Genotype generateRandomCandidate(Random rng)
     {
-       List<Integer> candidato= new ArrayList<Integer>();
+       List<Integer> candidato = new ArrayList<Integer>();
        for(int i=0;i<dimension;i++){
            int valor=(new Random().nextInt(2));
            candidato.add(valor);
