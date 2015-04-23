@@ -57,13 +57,13 @@ public final class Backpack {
             pw.print(i);
         }
         pw.println();
-        pw.println((int) me.FitnessFun(l));
+        pw.println((int) Fitness.FitnessFun(l, ganancias, pesos, w).first);
         pw.print(me.p);
         fichero.close();
     }
     
     public static Genotype evolve() {
-        me = new Fitness(ganancias, pesos, w);
+        me = new Fitness();
 
         Factory factory = new Factory(pesos.size());
         List<EvolutionaryOperator<Genotype>> operators = 

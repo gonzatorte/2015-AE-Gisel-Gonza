@@ -11,15 +11,7 @@ public class Fitness implements FitnessEvaluator<Genotype> {
     Integer w;
     public Integer p;
 
-    public Fitness(List<Integer> ganancias, List<Integer> pesos, Integer w) {
-        assert(ganancias.size() == pesos.size());
-        this.ganancias = ganancias;
-        this.pesos = pesos;
-        this.ganancias = ganancias;
-        this.w = w;
-    }
-
-    public double FitnessFun(Fenotype ind){
+    public static Pair<Integer> FitnessFun(Fenotype ind, List<Integer> ganancias, List<Integer> pesos, Integer w){
         int ganancia = 0;
         int peso = 0;
         for (int i = 0; i < pesos.size(); i++) {
@@ -28,18 +20,20 @@ public class Fitness implements FitnessEvaluator<Genotype> {
                 peso += pesos.get(i);
             }
         }
-        p = peso;
         if (peso <= w) {
-            return ganancia;
+            return new Pair<>(ganancia, peso);
         } else {
-            return (ganancia - ((2 * ganancia * (peso - w)) / peso));
+            ganancia = (ganancia - ((2 * ganancia * (peso - w)) / peso));
+            return new Pair<>(ganancia, peso);
         }
     }
     
     @Override
     public double getFitness(Genotype ind,
             List<? extends Genotype> population) {
-        return this.FitnessFun(Coder.decode(ind));
+        Pair<Integer> res =  Fitness.FitnessFun(Coder.decode(ind), Backpack.ganancias, Backpack.pesos, Backpack.w);
+        p = res.second;
+        return res.first;
     }
 
     @Override
