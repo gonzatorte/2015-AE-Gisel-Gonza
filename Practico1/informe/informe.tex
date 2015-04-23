@@ -1,60 +1,68 @@
 \documentclass[9pt,technote]{IEEEtran}
 \usepackage[nomarkers]{endfloat}
 \usepackage[cmex10]{amsmath}
+\usepackage{filecontents}
+\usepackage{lipsum}
+
+\begin{filecontents*}{bibliografia_2.bib}
+@ARTICLE{893287,
+	author={},
+	journal={IEEE Std. 1516-2000}, 
+	title={{IEEE Standard for Modeling and Simulation {(M\&S)} High Level Architecture {(HLA)} - Framework and Rules}}, 
+	year={2000}, 
+	volume={}, 
+	pages={i -22}, 
+	doi={10.1109/IEEESTD.2000.92296}, 
+}
+\end{filecontents*}
 
 \begin{document}
 
-\author{
-	\IEEEauthorblockN{Gonzalo Torterolo}
-	\IEEEauthorblockA{
-		Facultad de ingeniería\\
-		UDELAR\\
-		Montevideo, Uruguay\\
-		Email: gtorterolo@fing.edu.uy
+%-------- Metadata -------- 
+	% \maketitle
+	\markboth{Algoritmos Evolutivos 2015}{Shell \MakeLowercase{\textit{et al.}}: A Novel Tin Can Link}
+	\author{
+		\IEEEauthorblockN{Gonzalo Torterolo}
+		\IEEEauthorblockA{
+			Facultad de ingeniería\\
+			UDELAR\\
+			Montevideo, Uruguay\\
+			Email: gtorterolo@fing.edu.uy
+		}
+		\and
+		\IEEEauthorblockN{Gisel Cincunegui}
+		\IEEEauthorblockA{
+			Facultad de ingeniería\\
+			UDELAR\\
+			Montevideo, Uruguay\\
+			Email: ccincunegui@fing.edu.uy
+		}
 	}
-	\and
-	\IEEEauthorblockN{Homer Simpson}
-	\IEEEauthorblockA{
-		Twentieth Century Fox\\
-		Springfield, USA\\
-		Email: homer@thesimpsons.com
+
+
+
+% ------- Contenido -------
+	\lipsum[1]See \cite{893287} for more info 
+
+	\IEEEtitleabstractindextext{
+		\begin{abstract}
+		En el presente abordamos 
+		\end{abstract}
+		\begin{IEEEkeywords}
+		Broad band networks, quality of service, WDM.
+		\end{IEEEkeywords}
 	}
-	\and
-	\IEEEauthorblockN{
-		James Kirk\\
-		and Montgomery Scott
-	}
-	\IEEEauthorblockA{
-		Starfleet Academy\\
-		San Francisco, California 96678-2391\\
-		Telephone: (800) 555--1212\\
-		Fax: (888) 555--1212
-	}
-}
 
-\markboth{Algoritmos Evolutivos 2015}{Shell \MakeLowercase{\textit{et al.}}: A Novel Tin Can Link}
+	\IEEEraisesectionheading{\section{Introducción}\label{sec:introduction}}
 
 
-\IEEEtitleabstractindextext{%
-	\begin{abstract}
-	We propose ...
-	\end{abstract}
-	\begin{IEEEkeywords}
-	Broad band networks, quality of service, WDM.
-	\end{IEEEkeywords}
-}
+% ------ Final ------
 
+	\bibliographystyle{IEEEtran}
+	\bibliography{bibliografia_2}
 
+\end{document}
 
-\IEEEraisesectionheading{\section{Introducción}\label{sec:introduction}}
-
-
-\begin{IEEEbiography}
-[1]{MichaelShell}
-http://neo.lcc.uma.es/mallba/easy-mallba/html/appendixA.html
-\end{IEEEbiography}
-
-\end{document}  %End of document.
 
 
 % LAS NOTAS QUE ESTABAN ACA LAS PASE A notas.txt en esta misma carpeta...

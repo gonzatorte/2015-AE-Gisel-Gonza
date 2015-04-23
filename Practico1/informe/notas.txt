@@ -155,14 +155,16 @@ ToDo Implementación:
 			*Para tratar de responder si existe solucion y si hay mas de una.
 
 	*Whatchmacker:
+
+		Pensar en usar correción en vez de penalización.
+		Implementar correción en el crossover.
+		Pasar escritura y lectura de archivo al main. (Queda mejor por el deco/enco)
+		Mover el proy.
+
 		Gisel:
-			*Pasaje por parámetro del archivo. (Gisel).
 			*Escribir a un archivo. (Gisel).
-			*Hacer casos de pruebas mas triviales y guardarlos en instancias de .in (cuanto debe dar que se escriba en la última linea del .in ).
-			*Instalate netbeans en windows para no estar tan lenta.
 
 		Gonza:
-			*Script de ejecución.
 			*Como asegurar que siempre tenga alguna solución factible?
 				*Ver como obtener la ultima generaciones en vez del mejor.
 			*Probar variando los parametros (cantidad de población, mutación, escalara la función de fitness, velocidad de convergencia).

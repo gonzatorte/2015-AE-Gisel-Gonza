@@ -7,7 +7,9 @@ import org.uncommons.maths.number.NumberGenerator;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 
+//class Mutation implements EvolutionaryOperator<List<Pair<Integer>>> {
 class Mutation implements EvolutionaryOperator<List<Integer>> {
+
 
     private final NumberGenerator<Probability> mutationProbability;
 
@@ -24,27 +26,39 @@ class Mutation implements EvolutionaryOperator<List<Integer>> {
     }
 
     @Override
+//    public List<List<Pair<Integer>>> apply(List<List<Pair<Integer>>> population, Random rng) {
     public List<List<Integer>> apply(List<List<Integer>> population, Random rng) {
-        List<List<Integer>> newPop = new ArrayList<List<Integer>>(population.size());
+
+//        List<List<Pair<Integer>>> newPop = new ArrayList<>(population.size());
+        List<List<Integer>> newPop = new ArrayList<>(population.size());
+
+//        for (List<Pair<Integer>> individual : population) {
         for (List<Integer> individual : population) {
+
+//            List<Pair<Integer>> newInd = mutateIndividual(individual, rng);
             List<Integer> newInd = mutateIndividual(individual, rng);
+
             newPop.add(newInd.equals(individual)
                     ? individual
-                    : new ArrayList<Integer>(newInd));
+                    : new ArrayList<>(newInd));
         }
         return newPop;
     }
 
+//    protected List<Pair<Integer>> mutateIndividual(List<Pair<Integer>> individual, Random rng) {
     protected List<Integer> mutateIndividual(List<Integer> individual, Random rng) {
+
         if (true) {
-            List<Integer> newInd = new ArrayList<Integer>(individual);
+//            List<Pair<Integer>> newInd = new ArrayList<>(individual);
+            List<Integer> newInd = new ArrayList<>(individual);
+
             for (int i = 0; i < Fitness.n; i++) {
                 if (getMutationProbability().nextValue().nextEvent(rng)) {
-                    if (newInd.get(i) == 0) {
-                        newInd.set(i, 1);
-                    } else {
-                        newInd.set(i, 0);
-                    }
+//                    Integer ff = (newInd.get(i).first + 1)%2;
+//                    Integer ss = (newInd.get(i).second + 1)%2;
+//                    Pair<Integer> p = new Pair<>(ff,ss);
+                    Integer p = (newInd.get(i) + 1)%2;
+                    newInd.set(i, p);
                 }
             }
             return newInd;

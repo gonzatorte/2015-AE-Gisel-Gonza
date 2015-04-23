@@ -21,30 +21,55 @@ public final class Backpack {
     private static final Probability CERO_CON_CERO_UNO = new Probability(0.1d);
 
     static Fitness me;
+    
+    public static void main(String[] args) throws IOException {
+        String input_filename = args[0];
+        String output_filename = args[1];
 
-    public static void main(String[] args) {
-        me = new Fitness(args[0]);
+        me = new Fitness(input_filename);
+
+//        List<Pair<Integer>> l = evolve();
         List<Integer> l = evolve();
-        try {
-            FileWriter fichero = new FileWriter("Resultado.out");
-            PrintWriter pw = new PrintWriter(fichero);
-            for (Integer i : l) {
-                pw.print(i);
-            }
-            pw.println();
-            pw.println((int) me.getFitness(l, null));
-            pw.print(Fitness.p);
-            fichero.close();
-        } catch (Exception e) {
+
+//        fenotipo = decode(genotipo);
+        FileWriter fichero = new FileWriter(output_filename);
+        PrintWriter pw = new PrintWriter(fichero);
+        for (Integer i : l) {
+            pw.print(i);
         }
+        pw.println();
+        pw.println((int) me.getFitness(l, null));
+        pw.print(Fitness.p);
+        fichero.close();
     }
 
+    public static String read_file(String input_filename) throws IOException {
+        FileInputStream fstream = new FileInputStream(input_filename);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+        String todo = br.readLine();
+        return todo;
+    }
+
+    public static void write_file(String output_filename, String content) throws IOException {
+        FileWriter fichero_test = new FileWriter(output_filename);
+        PrintWriter pw_test = new PrintWriter(fichero_test);
+        pw_test.print("Hola " + content + " Chau");
+        fichero_test.close();
+    }
+    
+//    public static List<Pair<Integer>> evolve() {
     public static List<Integer> evolve() {
+
         Factory factory = new Factory();
-        List<EvolutionaryOperator<List<Integer>>> operators = new ArrayList<EvolutionaryOperator<List<Integer>>>(2);
+//        List<EvolutionaryOperator<List<Pair<Integer>>>> operators = 
+        List<EvolutionaryOperator<List<Integer>>> operators = 
+                new ArrayList<>(2);
         operators.add(new Mutation(mutColor.getNumberGenerator()));
-        operators.add(new ListCrossover());
-        EvolutionaryOperator<List<Integer>> pipeline = new EvolutionPipeline<List<Integer>>(operators);
+//        operators.add(new ListCrossover<Pair<Integer>>());
+        operators.add(new ListCrossover<Integer>());
+//        EvolutionaryOperator<List<Pair<Integer>>> pipeline = new EvolutionPipeline<>(operators);
+        EvolutionaryOperator<List<Integer>> pipeline = new EvolutionPipeline<>(operators);
+//        EvolutionEngine<List<Integer>> engine = new GenerationalEvolutionEngine<List<Pair<Integer>>>(factory,
         EvolutionEngine<List<Integer>> engine = new GenerationalEvolutionEngine<List<Integer>>(factory,
                 pipeline,
                 me,
@@ -63,6 +88,7 @@ public final class Backpack {
      */
     private static class EvolutionLogger implements EvolutionObserver<List<Integer>> {
 
+        @Override
         public void populationUpdate(PopulationData<? extends List<Integer>> data) {
             System.out.println("Fitness: " + data.getBestCandidateFitness() + data.getGenerationNumber());
         }
