@@ -140,15 +140,15 @@
 	\item Fitness
 		Tomaremos como función de fitness la distancia al valor objetivo.
 		Podemos configurar la librería Malva para resolver un problema de minimización en vez de maximización, por lo que no hacé falta transformar la función de fitness.
-		\[ v = |Sum(CiXi) - O| \]
+		\[ v = |\sum\limits_{i=0}^{N} (C_i X_i) - O| \]
 		es la distancia del valor objetivo.
 
 	\item Cruzamiento
 		Se ha enfocado la elección de las anteriores caracterízticas de AG para utilizar SPX, pero otros algoritmos de cruzamientos donde se apliquen operadores numéricos podría surgir, como por ejemplo, se propone el promedio entre valores de cada padre, o diferentes promedios ponderados. Sin embargo, para la implementación se opta por SPX.
 
 	\item Mutación
-		Se utilizó una mutación uniforme sobre los valores posibles de alelo de cada gen, expresada por la formula.
-		Bi = (Bi + rand(0,Mi)) \% Mi
+		Se utilizó una mutación uniforme sobre los valores posibles de alelo de cada gen, expresada por la formula:
+		\[ B_i = (B_i + rand(0,M_i)) \% M_i \]
 
 
 	Población inicial
@@ -158,7 +158,8 @@
 	\subsection{Problemas de la mochila}
 
 
-	Descripcion del problema:
+	\begin{enumerate}
+	\item Descripcion del problema:
 	El problema es un problema de optimización combinatoria perteneciente a la familia de problemas N-P difíciles. El problema se define de la siguiente manera:
 	Dados un conjunto de n objetos, cada uno con una ganancia asociada gi y un peso asociado pi, el objetivo del problema es encontrar el subconjunto de objetos que maximiza la ganancia total, manteniendo el peso total por debajo de la capacidad máxima de la mochila (W).	
 	
@@ -173,46 +174,55 @@
 	\end{equation}
 
 	
-	Descripción de la solución:
-	Este problema constiste en obtener una solución lo mas próxima posible a la óptima del problema, implementando para ello técnicas de algoritmos evolutivos.
+	\item Descripción de la solución:
+		Este problema constiste en obtener una solución lo mas próxima posible a la óptima del problema, implementando para ello técnicas de algoritmos evolutivos.
 	
-	A continuacion se detallará las desiciones para la implementacion del algoritmo evolutivo del problema de la mochila:
+		A continuacion se detallará las desiciones para la implementacion del algoritmo evolutivo del problema de la mochila:
 	
-	Codificacion:
-		Arreglo binario con el largo igual a la cantidad de elementos totales que puedo incorporar en la mochila, donde cada posicion del arreglo correspone a el objeto $i$ de la solución. Dicho arreglo será ordenado por peso, manteniendo la referencia del ordenamiento del arreglo original, ya que se busca con esto que la operacion de cruzamiento operada por el algoritmo evolutivo intente probar distintos valores de ganancia ``manteniendo'' relativamente el peso de la solucion mas factible.
-		El odenamiento de el arreglo se hará manteniendo dos estructuras de indices para la codificacion (arreglo original -> arreglo ordenado , fenotipo -> genotipo) y la decodificacion (arreglo ordenado -> arreglo original, genotipo -> fenotipo). La función de fitness se evaluará con el fenotipo, las operaciones se realizaran con el genotipo, y el resultado retornará el fenotipo de la mejor solucion encontrada.
+	\item Codificacion:
+		\begin{itemize}	
 
-	Factibilidad de la solucion: Se tomará como solucion factible aquella que no sobrepase el limite de peso de la mochila.
+		\item Arreglo binario con el largo igual a la cantidad de elementos totales que puedo incorporar en la mochila, donde cada posicion del arreglo correspone a el objeto $i$ de la solución. Dicho arreglo será ordenado por peso, manteniendo la referencia del ordenamiento del arreglo original, ya que se busca con esto que la operacion de cruzamiento operada por el algoritmo evolutivo intente probar distintos valores de ganancia ``manteniendo'' relativamente el peso de la solucion mas factible.
+		El odenamiento de el arreglo se hará manteniendo dos estructuras de indices para la codificacion (arreglo original -> arreglo ordenado , fenotipo -> genotipo) y la decodificacion (arreglo ordenado -> arreglo original, genotipo -> fenotipo).
+		La función de fitness se evaluará con el fenotipo, las operaciones se realizaran con el genotipo, y el resultado retornará el fenotipo de la mejor solucion encontrada.
+
+		\item Factibilidad de la solucion:\\ Se tomará como solucion factible aquella que no sobrepase el limite de peso de la mochila.
+		\end{itemize}	
 			
-	Población inicial:
-	Para la población inicial se optó por la generacion aleatoria de los individuos.
+	\item Población inicial:\\
+		Para la población inicial se optó por la generacion aleatoria de los individuos, pues podemos ver que en varias ejecuciones se alacanza rápidamente un óptimo del problemas.
 		
-	Funcion de fitness:
-	La ecuacion final de la misma ha mutado de acuerdo a proble	5. Cruzamiento.
-		SPX. Idema anterior.mas que se nos han planteado a lo largo de la implementacion. Al principio se optó por lo siguiente:	
-	-Funcion con penalizacion:
-	La idea de esta función es mantener los individuos no factibles a lo largo de las generaciones para evitar la deriva genética, ya que los mimos pueden brindar informacion relevante para llegar a la optimizacion de la solucion final.
-		Si el peso total del individo no sobrepasa al maxímo permitido para la mochila(candidato factible), la función de fitness retornará la ganancia total del individo evaluado.
-		Si el peso sobrepasa el máximo estipulado (candidato no factible), la ganancia total se penalizará restando la ganancia proporcional a la diferencia de peso, quedando a formúla como la siguiente:
-				Gtot-((2*Gtot*(k-p))/k)
-	-Funcion sin penalizacion:
-	Como la solución anterior presentó problemas con respecto a la solucion retornada por el algoritmo, debido a que se devolvian soluciones no factibles, se optó por solo maximizar la ganancia, e implementar otros mecanimos para cuando nos topamos con casos de no factibilidad que se detallará más adelante.
-	
+	\item Funcion de fitness:\\
+			La ecuacion final de la misma ha mutado de acuerdo a problemas que se nos han planteado a lo largo de la implementacion. Al principio se optó por lo siguiente:	
+		\begin{itemize}	
+			\item Funcion con penalizacion:\\
+			La idea de esta función es mantener los individuos no factibles a lo largo de las generaciones para evitar la deriva genética, ya que los mimos pueden brindar informacion relevante para llegar a la optimizacion de la solucion final.
+			Si el peso total del individo no sobrepasa al maxímo permitido para la mochila(candidato factible), la función de fitness retornará la ganancia total del individo evaluado.
+			Si el peso sobrepasa el máximo estipulado (candidato no factible), la ganancia total se penalizará restando la ganancia proporcional a la diferencia de peso, quedando a formúla como la siguiente:
+				\[ G_{tot}-(frac{2 G_{tot} (k-p)}/k) \]
+			\item Funcion sin penalizacion:\\
+				Como la solución anterior presentó problemas con respecto a la solucion retornada por el algoritmo, debido a que se devolvian soluciones no factibles, se optó por solo maximizar la ganancia, e implementar otros mecanimos para cuando nos topamos con casos de no factibilidad que se detallará más adelante.
+		\end{itemize}	
 		
-	Selección:
+	\item Selección\\
 		Para la selección se optó utilizar el mecanismo de la selección proporcional implementada con el algoritmo de la ruleta, para poder mantener individuos menos factibles en la poblacion generacional y así evitar la deriva genetica.
 		
-		
-		Cruzamiento.
-		SPX. Idema anterior.
-		Cruzamiento con probabilidad 0.75
-		Para evitar el problema de obtener individuos no factibles, lo que se realizó fue que luego de aplicar la operacion de cruzamiento se evalúa la factibilidad de los mismos, si estos no son factibles se realizará una mutación a el objeto que tenga menos peso, con valor 1 en la codificacion. (otra opcion seria mutar algun objeto aleatoriamente o a aquel que posea menos ganacia), y aplicar esto hasta conseguir la factibilidad del candidato. Asi, logramos no tener candidatos no factibles, y por lo tanto no tener soluciones no factibles. 
-		
-		Mutación.
+	\item Cruzamiento\\
+		\begin{itemize}	
+		\item SPX. Idema anterior.
+		\item Cruzamiento con probabilidad 0.75
+
+		\item Para la selección se optó utilizar el mecanismo de la selección proporcional implementada con el algoritmo de la ruleta, para poder mantener individuos menos factibles en la poblacion generacional y así evitar la deriva genetica.
+
+		\item Para evitar el problema de obtener individuos no factibles, lo que se realizó fue que luego de aplicar la operacion de cruzamiento se evalúa la factibilidad de los mismos, si estos no son factibles se realizará una mutación a el objeto que tenga menos peso, con valor 1 en la codificacion. (otra opcion seria mutar algun objeto aleatoriamente o a aquel que posea menos ganacia), y aplicar esto hasta conseguir la factibilidad del candidato. Asi, logramos no tener candidatos no factibles, y por lo tanto no tener soluciones no factibles. 
+		\end{itemize}	
+	
+	\item Mutación.
 		Mutación de bit aleatorio con probabilidad 0.01.
-		
-		Condición de parada:
+	
+	\item Condición de parada:
 		10000 generaciones.
+	\end{enumerate}
 
 % *Probar variando los parametros (cantidad de población, mutación, escalara la función de fitness, velocidad de convergencia).
 % *Explicar pq estamos usando elitismo (remplazo).
@@ -224,6 +234,10 @@
 
 
 \includegraphics[width=0.5\textwidth]{images/graf_test_in.png}
+\includegraphics[width=0.5\textwidth]{images/graf_1.png}
+\includegraphics[width=0.5\textwidth]{images/graf_50.png}
+\includegraphics[width=0.5\textwidth]{images/graf_78.png}
+\includegraphics[width=0.5\textwidth]{images/graf_90.png}
 
 
 \begin{IEEEeqnarray}{rCl}
@@ -252,27 +266,20 @@ A_2&=&b+1\IEEEyessubnumber\\
 \end{IEEEeqnarray}
 
 
-\setlength{\arraycolsep}{0.0em}
-\begin{eqnarray}
-Z&{}={}&x_1 + x_2 + x_3 + x_4 + x_5 + x_6\nonumber\\
-&&+a + b\\
-&&+{}a + b\\
-&&{}+a + b\\
-&&{+}\:a + b
-\end{eqnarray}
-\setlength{\arraycolsep}{5pt}
-
-
 % Puntos a tocar en el informe:
-% 	¿Qu\'e representaci\'on fue utilizada para las soluciones candidatas?
-% 	¿Qu\'e estrategia fue utilizada para inicializar la poblaci\'on?
-% 	¿Qu\'e operadores evolutivos fueron utilizados?
-% 	¿C\'omo fue definida la funci\'on de fitness?
 % 	Para el ejercicio 1:
 % 		¿C\'ual fue la soluci\'on encontrada?
 % 		¿Se encontr\'o m\'as de	una soluci\'on?
 % 	Para el ejercicio 2:
 % 		¿Qu\'e estrategia fue utilizada para el manejo de soluciones no factibles?
+
+% *Probar variando los parametros (cantidad de población, mutación, escalara la función de fitness, velocidad de convergencia).
+% *Explicar pq estamos usando elitismo (remplazo).
+% *Hacer un algoritmo de fuerza bruta para hallar mejor solución en casos pequeños.
+% 	Para tratar de responder si existe solucion y si hay mas de una.
+% *Graficar fitness vs tiempo de ejecucion vs poblacion inicial.
+% *Pensar en la distancia del espacio de busqueda.
+% 	*Para generar una buena pob inicial.
 
 
 
