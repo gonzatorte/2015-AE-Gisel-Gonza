@@ -38,8 +38,9 @@ public class Fitness implements FitnessEvaluator<Genotype> {
         if (peso <= Backpack.w) {
             return new Pair<Integer>(ganancia, peso);
         } else {
-            ganancia = (ganancia - ((2 * ganancia * (peso - Backpack.w)) / peso));
-            return new Pair<Integer>(ganancia, peso);
+//            ganancia = (ganancia - ((2 * ganancia * (peso - Backpack.w)) / peso));
+//            return new Pair<Integer>(ganancia, peso);
+            return new Pair<Integer>(0, peso);
         }
     }
     
