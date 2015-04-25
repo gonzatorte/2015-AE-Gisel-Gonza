@@ -2,8 +2,10 @@
 
 # git config --global http.proxy httpproxy:3128
 # git config --global https.proxy httpproxy:3128
+# mv 2015-AE-Gisel-Gonza-master AE_2015
 # setfacl -m user:algevo00:x "$HOME" && setfacl -R -m user:algevo00:rwx "$HOME/AE_2015"
 
+# JAR_PATH="$(pwd)/Practico1/mochila/whatchmaker/dist/Mochila.jar"
 JAR_PATH="/ens/home01/g/gonzalo.torterolo/AE_2015/Practico1/mochila/whatchmaker/dist/Mochila.jar"
 java -cp "$JAR_PATH" pkg_backpack.Backpack "$1" "solucion.in"
 # java -jar "$JAR_PATH" "$1" "solucion.in"

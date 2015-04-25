@@ -96,7 +96,9 @@ public final class Backpack {
                     rnd
                 );
 
-        engine.addEvolutionObserver(new EvolutionLogger(Backpack.output_filename));
+//        engine.addEvolutionObserver(new EvolutionLogger(Backpack.output_filename));
+        engine.addEvolutionObserver(new EvolutionLogger());
+
         List<Integer> res = engine.evolve(99, // 100 individuals in the population.
                 1, // 5% elitism.
                 new GenerationCount(10000));
@@ -114,6 +116,8 @@ public final class Backpack {
                 System.exit(-1);
             }
         }
+        
+        EvolutionLogger(){}
 
         public void populationUpdate(PopulationData<? extends Genotype> data) {
             Genotype g = data.getBestCandidate();
@@ -128,10 +132,11 @@ public final class Backpack {
             }
             System.out.println();
             
-            if (data.getGenerationNumber() % 100 == 0){
-                writer.print(data.getGenerationNumber() + "," + p.first + ";");
-                writer.flush();
-            }
+            if (writer != null)
+                if (data.getGenerationNumber() % 100 == 0){
+                    writer.print(data.getGenerationNumber() + "," + p.first + ";");
+                    writer.flush();
+                }
         }
     }
 }
