@@ -107,7 +107,7 @@ public final class Backpack {
     }
 
     private static class EvolutionLogger implements EvolutionObserver<Genotype> {
-        PrintWriter writer = null;        
+        PrintWriter writer = null;
         EvolutionLogger(String filename){
             try {
                 FileWriter fichero = new FileWriter(filename + ".stats");
@@ -121,20 +121,30 @@ public final class Backpack {
         EvolutionLogger(){}
 
         public void populationUpdate(PopulationData<? extends Genotype> data) {
-            Genotype g = data.getBestCandidate();
-            Fenotype f = Coder.decode(g);
-            
-            System.out.println();
-            Pair<Integer> p = Fitness.FitnessFun(f);
-            System.out.println("Fitness:" + p.first + " Peso:" + p.second + 
-                    " Generacion:" + data.getGenerationNumber());
-            System.out.println(f);
-            
-            if (writer != null)
+            Pair<Integer> p = null;
+            Fenotype f = null;
+            if (data.getGenerationNumber() % 100 == 0){
+                if (p == null){
+                    Genotype g = data.getBestCandidate();
+                    f = Coder.decode(g);
+                    p = Fitness.FitnessFun(f);
+                }
+                System.out.println();
+                System.out.println("Fitness:" + p.first + " Peso:" + p.second + 
+                        " Generacion:" + data.getGenerationNumber());
+                System.out.println(f);
+            }
+            if (writer != null){
                 if (data.getGenerationNumber() % 100 == 0){
+                    if (p == null){
+                        Genotype g = data.getBestCandidate();
+                        f = Coder.decode(g);
+                        p = Fitness.FitnessFun(f);
+                    }
                     writer.print(data.getGenerationNumber() + "," + p.first + ";");
                     writer.flush();
                 }
+            }
         }
     }
 }
