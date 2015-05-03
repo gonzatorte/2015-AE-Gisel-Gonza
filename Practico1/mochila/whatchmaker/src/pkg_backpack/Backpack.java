@@ -20,7 +20,7 @@ import org.uncommons.watchmaker.framework.termination.GenerationCount;
 
 public final class Backpack {
 
-    private static final Probability PROB_001 = new Probability(0.01d);
+    private static final Probability PROB_001 = new Probability(0.001d);
     private static final Probability PROB_75 = new Probability(0.75);
 
     static Fitness me;
@@ -40,8 +40,8 @@ public final class Backpack {
             seed = Long.parseLong(args[2]);
         } else {
             seed = System.currentTimeMillis();
+            System.out.println("SEED USADO :" + seed);
         }
-        System.out.println("SEED USADO :" + seed);
         
         read_file(input_filename);
         Coder.SortProblem();
@@ -72,8 +72,9 @@ public final class Backpack {
             pw.print(i);
         }
         pw.println();
-        pw.println((int) Fitness.FitnessFun(l).first);
-        pw.print(me.p);
+        Pair<Integer> fitness_val = Fitness.FitnessFun(l);
+        pw.println(fitness_val.first);
+        pw.println(fitness_val.second);
         fichero.close();
     }
     
@@ -87,7 +88,7 @@ public final class Backpack {
         operators.add(new Cross(PROB_75));
         EvolutionaryOperator<Genotype> pipeline =
                 new EvolutionPipeline<Genotype>(operators);
-        EvolutionEngine<Genotype> engine =
+        GenerationalEvolutionEngine<Genotype> engine =
                 new GenerationalEvolutionEngine<Genotype>(
                     factory,
                     pipeline,
@@ -95,12 +96,12 @@ public final class Backpack {
                     new RouletteWheelSelection(),
                     rnd
                 );
+        engine.setSingleThreaded(true);
 
-//        engine.addEvolutionObserver(new EvolutionLogger(Backpack.output_filename));
         engine.addEvolutionObserver(new EvolutionLogger());
 
-        List<Integer> res = engine.evolve(99, // 100 individuals in the population.
-                1, // 5% elitism.
+        List<Integer> res = engine.evolve(100,
+                0,
                 new GenerationCount(10000));
         return new Genotype(res);
     }
@@ -127,10 +128,7 @@ public final class Backpack {
             Pair<Integer> p = Fitness.FitnessFun(f);
             System.out.println("Fitness:" + p.first + " Peso:" + p.second + 
                     " Generacion:" + data.getGenerationNumber());
-            for (Integer g1 : f) {
-                System.out.print(g1 + ",");
-            }
-            System.out.println();
+            System.out.println(f);
             
             if (writer != null)
                 if (data.getGenerationNumber() % 100 == 0){

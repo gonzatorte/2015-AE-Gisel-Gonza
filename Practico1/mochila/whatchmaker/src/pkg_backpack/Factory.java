@@ -22,6 +22,8 @@ public class Factory extends AbstractCandidateFactory<Genotype>
            int valor=(this.rnd.nextInt(2));
            candidato.add(valor);
        }
-       return new Genotype(candidato);
+       Genotype g = new Genotype(candidato);
+       g.correct(rng);
+       return g;
     }
 }

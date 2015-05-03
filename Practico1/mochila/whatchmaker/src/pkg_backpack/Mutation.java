@@ -26,38 +26,20 @@ class Mutation implements EvolutionaryOperator<Genotype> {
     }
 
     public List<Genotype> apply(List<Genotype> population, Random rng) {
-
-        List<Genotype> newPop = new ArrayList<Genotype>(population.size());
-
         for (Genotype individual : population) {
-
-            Genotype newInd = mutateIndividual(new Genotype(individual), rng);
-
-            newPop.add(newInd.equals(individual)
-                    ? individual
-                    : new Genotype(newInd));
+            mutateIndividual(individual, rng);
         }
-        return newPop;
+        return population;
     }
 
     protected Genotype mutateIndividual(Genotype individual, Random rng) {
-
-        if (true) {
-            Genotype newInd = new Genotype(individual);
-
-            for (int i = 0; i < this.dimension; i++) {
-                if (getMutationProbability().nextValue().nextEvent(rng)) {
-//                    Integer ff = (newInd.get(i).first + 1)%2;
-//                    Integer ss = (newInd.get(i).second + 1)%2;
-//                    Pair<Integer> p = new Pair<>(ff,ss);
-                    Integer p = (newInd.get(i) + 1)%2;
-                    newInd.set(i, p);
-                }
+        for (int i = 0; i < this.dimension; i++) {
+            if (getMutationProbability().nextValue().nextEvent(rng)) {
+                Integer p = (individual.get(i) + 1)%2;
+                individual.set(i, p);
             }
-            return newInd;
-        } else // Nothing changed.
-        {
-            return individual;
         }
+        individual.correct(rng);
+        return individual;
     }
 }
