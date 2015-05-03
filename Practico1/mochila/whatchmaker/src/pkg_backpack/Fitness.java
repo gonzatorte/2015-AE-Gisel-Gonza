@@ -21,8 +21,6 @@ public class Fitness implements FitnessEvaluator<Genotype> {
 //            int ganancia = ind.GananciaTotal();
 //            ganancia = (ganancia - ((2 * ganancia * (peso - Backpack.w)) / peso));
 //            return new Pair<Integer>(ganancia, peso);
-            System.out.println("ERROR: " + Backpack.seed);
-            System.exit(-1);
             return new Pair<Integer>(0, ind.PesoTotal());
         }
     }
