@@ -1,0 +1,16 @@
+Ver info de TSP
+
+Ver la naturaleza del problema (convexo)
+
+Tratar de categorizar según el curso el problema
+
+Ver distintas metaheuristicas que aplicar
+	Greedy
+	La de Ant Colony
+
+Que hacer con este problema si no tiene grandes complicaciones técnicas?
+
+Tiene complicaciones técnicas?
+	Manejo de mapas?
+
+
