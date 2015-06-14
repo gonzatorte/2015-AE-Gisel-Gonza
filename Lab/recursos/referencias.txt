@@ -1,0 +1,15 @@
+Mapas de montevideo publicados:
+	https://catalogodatos.gub.uy/dataset/manzanas
+	https://catalogodatos.gub.uy/dataset/cruces-de-calles-montevideo
+
+Para tomar mapas publicados:
+	https://en.wikipedia.org/wiki/OpenStreetMap
+	https://en.wikipedia.org/wiki/Google_Maps
+
+Librerias para manejo de estas fuentes:
+	http://www.geotools.org/
+	https://en.wikipedia.org/wiki/Keyhole_Markup_Language
+
+
+Problema online:
+	https://en.wikipedia.org/wiki/Online_algorithm#Online_problems

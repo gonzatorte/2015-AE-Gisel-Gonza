@@ -1,6 +1,15 @@
 %% nada
 \documentclass[9pt,technote]{IEEEtran}
 
+\usepackage{filecontents}
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{array}
+
+\usepackage[utf8]{inputenc}
+
 \usepackage[nomarkers]{endfloat}
 
 \usepackage[cmex10]{amsmath}
@@ -50,7 +59,7 @@ Telephone: (800) 555--1212, Fax: (888) 555--1212}
 --4321}}
 
 
-\markboth{Journal of Quantum Telecommunications, ~Vol
+\markboth{Journal of Qúañántóm Quantum Telecommunications, ~Vol
 . ~1, No. ~1, ~January ~2025}{Shell \MakeLowercase{\textit{et al.}}: A Novel Tin Can Link}
 
 Hola
@@ -61,6 +70,7 @@ Hola
 
 \begin{abstract}
 We propose ...
+Cósás cón múchos tildes y ñ Ñ de todos típós!! ¿
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -84,6 +94,78 @@ x = \sum\limits_{i=0}^{z} 2^{i}Q
 % ... as can be seen in (\ref{eqn_example}).
 
 
+\begin{tabular}{llr}
+\hline
+\multicolumn{2}{c}{Item} \\
+\cline{1-2}
+Animal    & Description & Price (\$) \\
+\hline
+Gnat      & per gram    & 13.65      \\
+          & each        & 0.01       \\
+Gnu       & stuffed     & 92.50      \\
+Emu       & stuffed     & 33.33      \\
+Armadillo & frozen      & 8.99       \\
+\hline
+\end{tabular}
+
+\begin{turn}{-90}Test 90\end{turn}
+
+
+\begin{tabular}{ r|c|c| }
+\multicolumn{1}{r}{}
+ &  \multicolumn{1}{c}{noninteractive}
+ & \multicolumn{1}{c}{interactive} \\
+\cline{2-3}
+massively multiple & Library & University \\
+\cline{2-3}
+one-to-one & Book & Tutor \\
+\cline{2-3}
+\end{tabular}
+
+
+\begin{tabular}{cc|c|c|c|c|l}
+\cline{3-6}
+& & \multicolumn{4}{ c| }{Primes} \\ \cline{3-6}
+& & 2 & 3 & 5 & 7 \\ \cline{1-6}
+\multicolumn{1}{ |c  }{\multirow{2}{*}{Powers} } &
+\multicolumn{1}{ |c| }{504} & 3 & 2 & 0 & 1 &     \\ \cline{2-6}
+\multicolumn{1}{ |c  }{}                        &
+\multicolumn{1}{ |c| }{540} & 2 & 3 & 1 & 0 &     \\ \cline{1-6}
+\multicolumn{1}{ |c  }{\multirow{2}{*}{Powers} } &
+\multicolumn{1}{ |c| }{gcd} & 2 & 2 & 0 & 0 & min \\ \cline{2-6}
+\multicolumn{1}{ |c  }{}                        &
+\multicolumn{1}{ |c| }{lcm} & 3 & 3 & 1 & 1 & max \\ \cline{1-6}
+\end{tabular}
+
+
+\begin{tabular}{ |l|l|l| }
+\hline
+\multicolumn{3}{ |c| }{Team sheet} \\
+\hline
+Goalkeeper & GK & Paul Robinson \\ \hline
+\multirow{4}{*}{Defenders} & LB & Lucus Radebe \\
+ & DC & Michael Duburry \\
+ & DC & Dominic Matteo \\
+ & RB & Didier Domi \\ \hline
+\multirow{3}{*}{Midfielders} & MC & David Batty \\
+ & MC & Eirik Bakke \\
+ & MC & Jody Morris \\ \hline
+Forward & FW & Jamie McMaster \\ \hline
+\multirow{2}{*}{Strikers} & ST & Alan Smith \\
+ & ST & Mark Viduka \\
+\hline
+\end{tabular}
+
+
+% \begin{tabular}{|c|l|r|r|r|}
+% 	\hline
+% 	& \multicolumn{1}{c|}{Pocos} & \multicolumn{1}{c|}{Muchos} \\
+% 	\hline
+% 	\parbox[t]{2mm}{\multirow{2}{*}{\rotatebox[origin=c]{90}{rota}}}
+% 	& text &&&&\\
+% 	& text &&&&\\
+% 	\hline
+% \end{tabular}
 
 \setlength{\arraycolsep}{0.0em}
 \begin{eqnarray}

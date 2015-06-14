@@ -1,16 +1,20 @@
 \documentclass[9pt,conference]{IEEEtran}
 \usepackage[nomarkers]{endfloat}
 \usepackage[cmex10]{amsmath}
+\usepackage[utf8]{inputenc}
 \usepackage{filecontents}
 \usepackage{lipsum}
 \usepackage{graphicx}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{array}
 
 \begin{filecontents*}{informe.bib}
-@electronic{refmallba,
-  author        = {Universidad de M\'alaga},
-  title         = {Referencia Mallba/Malva},
-  url           = {http://neo.lcc.uma.es/mallba/easy-mallba/index.html},
-  year          = {2008}
+@electronic{refvrp,
+  author        = {Wikipedia},
+  title         = {VRP brief},
+  url           = {http://en.wikipedia.org/wiki/Vehicle_routing_problem},
+  year          = {2015}
 }
 @electronic{refwmaker,
   author        = {Daniel W. Dyer},
@@ -23,7 +27,7 @@
 \begin{document}
 
 %-------- Metadata -------- 
-	\title{Pr\'actico 1}
+	\title{Informe Proyecto parte 1}
 	\markboth{Algoritmos Evolutivos 2015}{Shell \MakeLowercase{\textit{et al.}}: A Novel Tin Can Link}
 	\author{
 		\IEEEauthorblockN{Gonzalo Torterolo}
@@ -49,246 +53,253 @@
 	\maketitle
 
 	\begin{abstract}
-	En el presente informe el objetivo es probar las ventajas y limitaciones de las actuales librerias que implementan algoritmos gen\'eticos mediante la resoluci\'on de 2 problemas t\'ipicos de computaci\'on. Adem\'as se realizan pequeños analisis de las soluciones con el fin de verter conocimientos te\'oricos adquiridos en el curso.
+	En esta primer entrega se presenta el problema a solucionar en el correr del proyecto, las principales estrategias de resolución, y los principales focos del estudio experimental.
+	En la próxima entrega se intentan aplicar las estrategias planteadas para la resolución práctica del problema. Al final del proyecto se espera lograr una aplicación que logre con recursos computacionales no demasiados elevados y en un tiempo razonable resolver una instancia real o al menos verosímil del problema, junto con un set de datos estadísticos experimentales.
 	\end{abstract}
 	\begin{IEEEkeywords}
-	Algoritmos Evolutivos, AE, Algoritmos Gen\'eticos, AG, Malva, Mallba, Whatchmaker, Knapshak, Mochila
+	GA, VRP, TSP, Rescheduling, Crowding, GoogleMaps, watchmaker, java 
 	\end{IEEEkeywords}
 
-	\section{Introducci\'on}
-	En la consigna presentada (ver letra en \cite{refmallba}) se deben resolver dos variantes del problema de la mochila (explicadas en la consigna tambi\'en) utilizando ideas de los algoritmos gen\'eticos.
+	\section{Introducción}
 
-	Por otra parte, el an\'alisis y modelado del problema as\'i como las ventajas de utilizar este tipo de algorimos para el escenario queda relegado a una segunda instancia, pues ya estaban resueltos en las consignas. En todo momento prim\'o la aplicaci\'on de los conceptos te\'oricos del curso antes que la obtenci\'on de resultados como rendimiento, modularidad, etc. No nos interesa, por lo tanto, seguir aqu\'i un enfoque pr\'actico para esta primer aproximaci\'on a los algoritmos evolutivos donde ambos problemas son t\'ipicos y ampliamente estudiados.
+	El escenario del problema en cuestión puede enunciarse de la manera siguiente:
+	\"Dado un conjunto de pedidos a resolver sobre un mapa, y un conjunto de mandaderos que resuelven los pedidos, se desea encontrar un recorrido para cada mandadero partiendo de un punto inicial, de manera que se resuelvan todos en el menor tiempo posible. A medida que pasa el tiempo y se resuelven pedidos también van llegando nuevos.\"
 
+	El problema puede mapearse a una variante del problema de ruteo de vehiculos, una generalización de TSP \cite{refvrp}, donde además se agrega que el la instancia del problema varíe con el tiempo a medida que llegan nuevos pedidos y se resuelven otros, característica a la que se llama rescheduling de recorridos
 
-	\subsection{Aplicaci\'on de AG}
+	La motivación de este problema es realizar una aplicación móvil/web que permita a un conjunto de personas coordinar sus recorridos de manera eficiente. Esto comprende el agregar/quitar pedidos, ó agregar/quitar mandaderos.
 
-	Se analizan las diferentes soluciones a las dos variantes del problema de la mochila aqu\'i presentadas, concluyendo con una implementaci\'on para ambos casos.
-	Para comenzar a definir las soluciones a los problemas se debe determinar las siguientes car\'acter\'izticas de importancia para un AE t\'ipico.
+	\section{Análisis}
 
-	\begin{enumerate}
-		\item Codificaci\'on.
-		\begin{itemize}
-				\item Tratamiento de codificaciones no factibles.
-		\end{itemize}
-		\item Poblaci\'on inicial.
-		\begin{itemize}
-				\item  Evaluaci\'on de coste/beneficio de utilizar criterios inteligentes de inicializaci\'on.
-				\item  Velocidad de convergencia a un \'optimo.
-		\end{itemize}
-		\item Funcion de fitness.
-		\begin{itemize}
-				\item  Car\'acter\'izticas especiales requeridas (e.g.: no negatividad de la funci\'on para selecc\'ion proporcional)
-				\item  Transformaci\'on para otros escenarios (e.g.: aplicaci\'on para maximizaci\'on/minimizaci\'on)
-				\item  Ajustes para mejorar soluciones (escalado, par\'ametros de configuraci\'on).
-		\end{itemize}
-		\item Seleccci\'on:
-		\begin{itemize}
-				\item  Elitismo o no.
-		\end{itemize}
-		\item Cruzamiento.
-		\begin{itemize}
-			\item Definir operadores de cruzamiento y estudiar la deriva gen\'etica que estos puedan provocar. 
-		\end{itemize}
-		\item Mutaci\'on.
-		\begin{itemize}
-			\item Definir operadores de mutaci\'on. 
-		\end{itemize}
-	\end{enumerate}
+	\subsection{Variables de entrada}
 
-	\subsection{Particularidades y observaciones de las implementaci\'on/Librerias}
-	\begin{itemize}
-		\item Malva
-		\begin{itemize}
-			\item Malva utiliza otro concepto para la mutaci\'on, la probabilidad se aplica por individuo y no por gen.
-			\item Parece bastante desprolija, aunque quiz\'as mucho m\'as performante y escalable que cualquier otra, pero como ya se dijo, estas car\'acter\'izticas no interesan en este momento.
-		\end{itemize}
-
-		\item Whatchmaker
-		\begin{itemize}	
-			\item Permite elitismo y esta cantidad es extra a la de la poblaci\'on especificada.
-			\item Es bastante menos performante que Malva, pero consisten en una estructura mucho m\'as ordenada y flexible, por la que la preferimos a la hora de prototipar nuestra implementaci\'on.
-		\end{itemize}
-	\end{itemize}
-
-	\subsection{Problemas de los aperitivos}
-	
-	Para este primer problema interesa obtener el \'optimo de un problema. La aplicaci\'on de AE no nos parec\'io muy adecuada, pues no se estaba buscando una soluci\'on aceptable, sino que solo la mejor soluci\'on posible es aceptable para los comensales. Por otra parte, el problema es multimodal y NP computacionalmente dificil, lo que lo hace atractivo a una soluci\'on de AG.
-	En esta variante del problema de la mochila se buscan soluciones enteras pero se aceptan repeticiones, y no existen pesos, o puede entenderse que el peso es proporcional a la ganancia o costo (es el mismo).
-	Se utiliz\'o la liber\'ia Malva en este problema.
-	Se definen las caracterizticas de la soluci\'on relativas al AG:
-
-	Notaci\'on
-		$$X_i,C_i$$\\ son la cantidad de aperitivos, costo de aperitivo para el tipo $i$ respectivamente\\
-		$$N,O$$\\ la dimensi\'on del problema y costo objetivo respectivamente\\
+	Considerando el enunciado inicial del problema se define:
 
 	\begin{enumerate}
-		\item Codificaci\'on.
-		Nos es importante utilizar una codificaci\'on conveniente a para facilitar el trabajo del cruzamiento y utilizar SPX o cruzamiento uniforme que ya se encuentran implementadas.
-
-		\item Evaluamos la posibilidad de utilizar 2 tipos de codificaciones.
-			La primera de ella muy parecida a la pedida en el pr\'oximo problema, donde asignamos un gen binario (los alelos toman valores en \{0,1\}) para cada posible aperitivo en caso de que se elija o no. En el caso deber\'iamos asignar una cota a la cantidad del genoma, dada por \ref{eq_tope_rep} para cada tipo de aperitivo. Esta codificaci\'on es bastante intuitiva pero tiene la desventaja de asignar varios genotipos a un mismo fenotipo. El cruzamiento SPX tiene un comportamiento menos discruptivo en esta representaci\'on. Podr\'ia ser \'util en etapas avanzadas de la evoluci\'on.
-
-			\begin{equation}
-			\label{eqn_tope_req}
-			M_i = \lceil \frac{N}{C_i} \rceil
-			\end{equation}
-
-			Otra codificaci\'on elimina el problema de que varios genotipos se correspondan con un mismo fenotipo. La misma consite en una representaci\'on de enteros, donde cada gen representa la cantidad de aperitivos de un tipo dado. Aplicada junto a un cruzamiento SPX esta codificaci\'on tiene un comportamiento m\'as discruptivo que la anterior, se mueve por bloques.
-
-			Se puede incluso, utilizar ambas representaciones en distintas etapas de la evoluciones, de hecho propondremos una funci\'on de fitness que es {compatible} para ambas codificaciones.
-
-			En las codificaciones anteriores se le puede agregar sem\'antica en el ordenamiento del cromosoma. Se discute la posibilidad de ordenar los genes dentro del cromosoma en funci\'on del costo.
-
-			Para la implementaci\'on se elige la segunda opci\'on, sin agregar informaci\'on en el ordenamiento.
+		\item N
+		Cantidad de puntos en el mapa.
 		
-		Todas las soluciones representables ser\'an consideraciones factibles.
+		\item M
+		Cantidad de mandaderos asignados al problema.
+		
+		\item Mapa
+		Es el conjunto de puntos pi con 0 < i <= N
+		
+		\item Dist
+		La distancia en el mapa del problema, que es una función Dist(x,y) que para dos puntos x,y retorna su distancia en tiempo (es la distancia en tiempo). Todos los pedidos deben ser realizables, por lo que la distancia entre cualquier par de puntos debe ser finita.
+		
+		\item ColaPendientes
+		La lista global de pedidos pendientes a resolver.
 
-	\item Selecci\'on
-		Usaremos selecci\'on proporcional tanto para la selecci\'on de cruzamiento como selecci\'on generacional, ya implementada en malva utilizando el algoritmos de la ruleta. La funci\'on de fitness toma valores positivos, por lo que es adecuada para este tipo de selecci\'on.
+		\item Tasa de arribos T
+		Es el tiempo cada cuanto se agrega un nuevo pedido a la cola de pendientes. Los puntos del pedido se generan aleatoriamente según una distribución propia del problema.
 
-	\item Fitness
-		Tomaremos como funci\'on de fitness la distancia al valor objetivo.
-		Podemos configurar la librer\'ia Malva para resolver un problema de minimizaci\'on en vez de maximizaci\'on, por lo que no hace falta transformar la funci\'on de fitness.
-		\[ v = |\sum\limits_{i=0}^{N} (C_i X_i) - O| \]
-		es la distancia del valor objetivo.
+		\item Punto de origen O
+		Representa la ubicación del local a donde se va comenzar el recorrido.
+		
+		\item R_i 0<i<=M
+		Es el recorrido para el mandadero i, una tupla ordenada de puntos del mapa cumpliendo que no tiene puntos en común con ningún otro Xj salvo por el origen.
 
-	\item Cruzamiento
-		Se ha enfocado la elecci\'on de las anteriores caracter\'izticas de AG para utilizar SPX, pero otros algoritmos de cruzamientos donde se apliquen operadores num\'ericos podr\'ia surgir, como por ejemplo, se propone el promedio entre valores de cada padre, o diferentes promedios ponderados. Sin embargo, para la implementaci\'on se opta por SPX.
+		\item R
+		Es el conjunto de todos los recorridos.
 
-	\item Mutaci\'on
-		Se utiliz\'o una mutaci\'on uniforme sobre los valores posibles de alelo de cada gen, expresada por la formula:
-		\[ X_i = (X_i + rand(0,M_i)) \% M_i \]
-
-
-	Poblaci\'on inicial
-		La poblaci\'on inicial ser\'a muy importante para determinar una buena soluci\'on, pues a partir de ella se tiene casi todo el material gen\'etico nuevo. En las ejecuciones donde se ha probado la probabilidad de mutaci\'on baja hace que no se genere nuevo material gen\'etico m\'as del aportado por la poblaci\'on inicial. Sin embargo, una cantidad suficiente de individuos en cada generaci\'on logra cubrir el espacio de busqueda bastante bien. Para la generaci\'on de la poblaci\'on inicial se utiliz\'o un criterio aleatorio, pero se asegura que existen al menos un aperitivo de cada tipo al asignar el m\'aximo valor factible a en alg\'un gen de cada individuo (el gen numero de individuo \% cantidad de genes del cromosoma).
 	\end{enumerate}
 
-	\subsection{Problemas de la mochila}
+	El problema busca optimizar el tiempo transcurrido en los recorridos R_i entre todas las instancias R posibles, esto es, intenta minimizar la función objetivo
+
+	%ToDo !!
+
+	TotTime(R) = max 0 <= i < M (Tiempo(R_i))
+	Tiempo(R_n) = sum(Dist(p_{i-1}, p_i))
+
+		% \begin{itemize}
+		% 	\item Item 1
+		% 	\item Item 2
+		% \end{itemize}
 
 
-	\begin{itemize}	
-	\item Descripcion del problema:
-		El problema es un problema de optimizaci\'on combinatoria perteneciente a la familia de problemas N-P dif\'iciles. El problema se define de la siguiente manera:
-		Dados un conjunto de n objetos, cada uno con una ganancia asociada gi y un peso asociado pi, el objetivo del problema es encontrar el subconjunto de objetos que maximiza la ganancia total, manteniendo el peso total por debajo de la capacidad m\'axima de la mochila (W). En ecuaciones ver \ref{eqn_tot_gain} y \ref{eqn_tot_peso}:
-		\begin{equation}
-		\label{eqn_tot_gain}
-		G_{tot} = \sum\limits_{i=0}^{n} g_{i}x_{i}
-		\end{equation}
+	\section{Análisis}
 
-		\begin{equation}
-		\label{eqn_tot_peso}
-		P_{tot} = \sum\limits_{i=0}^{n} p_{i}x_{i} < W
-		\end{equation}
+	\subsection{Literatura y trabajos previos}
 
-	
-	\item Descripci\'on de la soluci\'on:
-			Este problema constiste en obtener una soluci\'on lo mas pr\'oxima posible a la \'optima del problema, implementando para ello t\'ecnicas de algoritmos evolutivos.
-			A continuaci\'on se detallar\'a las desiciones para la implementaci\'on del algoritmo evolutivo del problema de la mochila:
-	\end{itemize}	
-	\begin{enumerate}
-	
-	\item Codificacion:
-		\begin{itemize}	
+		No se conocen para el proyecto en particular, si para variantes similares. Existe un estudio para un problema simple de VPR que incluye además capacidades y costos aunque no rescheduling (ver http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.3.7230&rep=rep1&type=pdf), que propone la utilización de una técnica similar al crowding para mantener la diversidad de la población, a partir del mismo se decide utilizar crowding en el algoritmo.
 
-		\item Arreglo binario con el largo igual a la cantidad de elementos totales que puedo incorporar en la mochila, donde cada posicion del arreglo correspone a el objeto $i$ de la soluci\'on. Dicho arreglo ser\'a ordenado por peso, manteniendo la referencia del ordenamiento del arreglo original, ya que se busca con esto que la operacion de cruzamiento operada por el algoritmo evolutivo intente probar distintos valores de ganancia ``manteniendo'' relativamente el peso de la solucion mas factible.
-		El odenamiento de el arreglo se har\'a manteniendo dos estructuras de indices para la codificacion (arreglo original -> arreglo ordenado , fenotipo -> genotipo) y la decodificacion (arreglo ordenado -> arreglo original, genotipo -> fenotipo).
-		La funci\'on de fitness se evaluar\'a con el fenotipo, las operaciones se realizaran con el genotipo, y el resultado retornar\'a el fenotipo de la mejor solucion encontrada.
 
-		\item Factibilidad de la solucion:\\ 
-			Se tomar\'a como solucion factible aquella que no sobrepase el limite de peso de la mochila.
-		\end{itemize}	
-			
-	\item Poblaci\'on inicial:\\
-		\begin{itemize}	
-		\item Para la poblaci\'on inicial se opt\'o por la generacion aleatoria de los individuos, pues podemos ver que en varias ejecuciones se alacanza r\'apidamente un \'optimo del problemas.
-		\end{itemize}	
+	\subsection{Técnicas a utilizar}
+
+		La utilización de AG parece adecuada para abordar el problema planteado, por las siguientes razones:
+			Interesa tener un buen tiempo de respuesta y retornar soluciones de calidad relativamente buena en tiempos cortos de ejecución, los AG al ser técnicas metaheurísticas suelen funcionar más rápido que métodos exactos, sobre todo en problemas NP, como es el presentado.
+			Los AG son buenos para problemas combinatorios, pues tienen una formulación algorítmica natural.
+			No se suele conocer muchas particularidades 
+
+		Se ha optado por utilizar modelo de islas con la intención de distribuir el cómputo del algoritmo. Esta arquitectura permite paralelizar el cómputo, haciéndola más escalable. Dada esta realidad, puede interesar estudiar el comportamiento de aumentar el tamaño de la población a medida que se incorporan nuevos mandaderos, pues cada uno dispone de un celular que puede aportar en el cómputo. Los parámetros adecuados se estudian en la configuración paramétrica de cada instancia. La migración se realizará de manera asincrónica.
+
+		Codificación
+			Se codifican los recorridos de todos los mandaderos utilizando una permutación de puntos del mapa, separando el recorrido de cada mandadero por un separador S, habiendo M-1 separadores.
+			R = <R_{i_1}, S, R_{i_2}, ..., S, R_{i_M}>
+			Siendo la concatenación de R_i una permutación de todos los puntos del mapa.
+
+		Población inicial
+			Se piensa que utilizar alguna heurística como greedy para inicializar la población podría afectar la diversidad, por lo que una inicialización aleatoria parece lo más adecuado.
+
+		Fitness
+			El fitness sugerido en una función de minimización es sencillamente la función objetivo:
+			Fitness(R) = TotTime(R)
+
+		Operadores evolutivos
+			Mutación
+				Para la mutación se utiliza sencillamente el intercambio de lugar de un gen del cromosoma. A los fines prácticos su poder disruptivo es tan bueno como cualquier otro, y asegura la obtención de una solución factible. 
+
+			Selección
+				La estrategia de selección será por torneo de tamaño M, para evitar calcular el fitness tantas veces, y mu+lamda.
+
+			Cruzamiento
+				Se tiene algo muy similar a una permutación, a los fines prácticos se puede adaptar Ordered Crossover para la codificación en cuestión, además en comparación con PMX y CX parece ser menos disruptiva. Este tipo de cruzamiento tiene la propiedad de mantener la cantidad de mandaderos en todo momento, lo que asegura una instancia factible.
+
+
+	\subsection{Aspectos y consideraciones tecnológicas}
+
 		
-	\item Funcion de fitness:\\
-			La ecuacion final de la misma ha mutado de acuerdo a problemas que se nos han planteado a lo largo de la implementacion. Al principio se opt\'o por lo siguiente:	
-		\begin{itemize}	
-			\item Funcion con penalizacion:\\
-			La idea de esta funci\'on es mantener los individuos no factibles a lo largo de las generaciones para evitar la deriva gen\'etica, ya que los mimos pueden brindar informacion relevante para llegar a la optimizacion de la solucion final.
-			Si el peso total del individo no sobrepasa al max\'imo permitido para la mochila(candidato factible), la funci\'on de fitness retornar\'a la ganancia total del individo evaluado.
-			Si el peso sobrepasa el m\'aximo estipulado (candidato no factible), la ganancia total se penalizar\'a restando la ganancia proporcional a la diferencia de peso, quedando a form\'ula como la siguiente:
-
-			\begin{IEEEeqnarray}[\setlength{\nulldelimiterspace}{0pt}]{rl,s}&G_{tot},&for $P_{tot} \le W$\IEEEyesnumber\IEEEyessubnumber\\*
-			[-0.625\normalbaselineskip]
-			\smash{fitness(x)=\left\{\IEEEstrut[3\jot][3\jot]\right.}&&
-			\nonumber\\*[-0.625\normalbaselineskip]
-			&G_{tot}-(\frac{2 G_{tot} (k-p)}{k}),&for $P_{tot} > W$\IEEEyessubnumber
-			\end{IEEEeqnarray}
-
-			\item Funcion sin penalizacion:\\
-				Como la soluci\'on anterior present\'o problemas con respecto a la solucion retornada por el algoritmo, debido a que se devolvian soluciones no factibles, se opt\'o por solo maximizar la ganancia, e implementar otros mecanimos para cuando nos topamos con casos de no factibilidad que se detallar\'a m\'as adelante.
-		\end{itemize}	
+		Por su portabilidad al momento de escalar se decide utilizar java como lenguaje de programación.
 		
-	\item Selecci\'on\\
-		\begin{itemize}	
-		\item Para la selecci\'on se opt\'o utilizar el mecanismo de la selecci\'on proporcional implementada con el algoritmo de la ruleta, para poder mantener individuos menos factibles en la poblacion generacional y as\'i evitar la deriva genetica.
-		\end{itemize}	
+		Por su claridad y sencillez se decide utilizar el framework watchmaker para implementar el AG.
 		
-	\item Cruzamiento\\
-		\begin{itemize}	
-		\item SPX. Idema anterior.
-		\item Cruzamiento con probabilidad 0.75
+		Son muchas las librerías para el manejo de mapas y datos geográficos (algunas investigadas son geotools http://www.geotools.org/ y KML), y muchas son también las fuentes desde donde obtener modelos geográficos realistas/reales (se pueden citar GoogleMaps, datos abiertos de montevideo y OpenStreetMap). La más prometedora ha sido Google DistanceMatrixAPI (https://developers.google.com/maps/documentation/distancematrix/?hl=es-g) y DirectionAPI (https://developers.google.com/maps/documentation/directions/?hl=es-gt), las mismas permiten dar la el tiempo real de un recorrido entre dos puntos geográficos, considerando la forma de las calles y otras restricciones reales.
 
-		\item Para la selecci\'on se opt\'o utilizar el mecanismo de la selecci\'on proporcional implementada con el algoritmo de la ruleta, para poder mantener individuos menos factibles en la poblacion generacional y as\'i evitar la deriva genetica.
+		El tiempo es otra dimensión importante a determinar. Se exige la que el algoritmo pueda arrojar soluciones de calidad en tiempos del orden de pocos minutos.
 
-		\item Para evitar el problema de obtener individuos no factibles, lo que se realiz\'o fue que luego de aplicar la operacion de cruzamiento se eval\'ua la factibilidad de los mismos, si estos no son factibles se realizar\'a una mutaci\'on a el objeto que tenga menos peso, con valor 1 en la codificacion. (otra opcion seria mutar algun objeto aleatoriamente o a aquel que posea menos ganacia), y aplicar esto hasta conseguir la factibilidad del candidato. Asi, logramos no tener candidatos no factibles, y por lo tanto no tener soluciones no factibles. 
-		\end{itemize}	
-	
-	\item Mutaci\'on.
-		Mutaci\'on de bit aleatorio con probabilidad 0.01.
-	
-	\item Condici\'on de parada:
-		10000 generaciones.
-	\end{enumerate}
+		La principal particularidad del problema implica el rescheduling. Para solucionar el mismo, ante el arribo de un nuevo pedido, se mantiene mantiene la población del calculada hasta el momento pero se le agrega a todos los individuos de la población en una posición aleatoria el nuevo punto del pedido; y ante la asignación de un pedido a un mandadero, se eliminan de todos los individuos de la población el punto del pedido. Luego de esto se deja evolucionar el algoritmo para que se ajuste al cambio.
 
-% *Probar variando los parametros (cantidad de poblaci\'on, mutaci\'on, escalara la funci\'on de fitness, velocidad de convergencia).
-% *Explicar pq estamos usando elitismo (remplazo).
-% *Hacer un algoritmo de fuerza bruta para hallar mejor soluci\'on en casos pequeños.
-% 	Para tratar de responder si existe solucion y si hay mas de una.
-% *Graficar fitness vs tiempo de ejecucion vs poblacion inicial.
-% *Pensar en la distancia del espacio de busqueda.
-% 	*Para generar una buena pob inicial.
+	% \begin{itemize}
+	% 	\item item A.
+	% 	\begin{itemize}
+	% 		\item Item 1
+	% 		\item Item 2
+	% 	\end{itemize}
+	% 	\item Item B
+	% 	\begin{itemize}
+	% 		\item Item 1
+	% 		\item Item 2
+	% 	\end{itemize}
+	% \end{itemize}
+
+	\section{Evaluación experimental}
+
+	\subsection{Ajuste y Configuración Paramétrica}
+
+		En la configuración paramétrica se van a probar diversas instancias de ajuste y comparar los resultados en distintos casos. Una vez determinado los mejores parámetros se inicia la evaluación experimental.
+		Las instancias a utilizar serán generadas a partir de una selección de puntos de un mapa real, y la distribución a tomar de estos se generarán a partir de información de densidad de población ó cantidad de puntos de interés, etc de cada mapa. Se maneja la posibilidad de usar GooglePlaces como fuente de referencia para las distribución de los puntos.
+		
+		En resumen, los parámetros a configurar dadas las técnicas antes definidas son:
+			Tamaño de población: El tamaño global de la población.
+			Mutación: Probabilidad de mutación.
+			Reemplazo:
+				Crowding: El delta de crowding debe ser determinado.
+			Islas:
+				Uso de islas.
+				Número de islas.
+				Número de islas en relación a cantidad de mandaderos.
+				Tasa de migración.
+				Topología.
+
+	\subsection{Dimensiones del problema}
+
+			En una primer etapa de ajustes deberá importar el rendimiento que alcance el algoritmo, pero su principal objetivo es verificar la correctitud funcional del mismo.
+			Al momento de realizar la evaluación experimental se espera poder manejar instancias de dimensiones realistas.
+
+			Haciendo un análisis de las variables de decisión, se enfocará el estudio sobre los casos particulares donde se tiene:
+				Una cantidad reducida de mandaderos en comparación a los puntos del mapa, pues el caso contrario tiende a ser cada vez más sencillo y algoritmos greedy alcanzan el óptimo mejor.
+				También a medida que la tasa de arribo de nuevos pedidos se hace más grande, el problema se asemeja a un VPR clásico, no es el principal interés resolver este caso, pero puede ser de utilidad a modo de contrastar la calidad del algoritmo con implementaciones conocidas. Del mismo modo a medida que se reduce la cantidad de mandaderos a 1 el problema se reduce a un TSP clásico.
+
+	\subsection{Pruebas}
+
+		El proceso de evaluación experimental comprenderá:
+			Análisis comparativo de calidad de solución con un algoritmo greedy trivial.
+			Análisis comparativo del mismo algoritmo usando islas y sin usar islas.
+				En distintos entornos de ejecución paralelo VS secuencial (Cluster VS Máquinas domésticas).
+			Análisis de evolución del sistema. Tiempo VS mejora de la función de fitness.
+			Análisis de sensibilidad a las entradas:
+				Se estudiará cuanto tarda en estabilizarse la solución y una vez que el sistema entre en régimen como varía la calidad de la solución obtenida a lo largo del tiempo.
+				El mismo procedimiento se piensa realizar variando cantidad de mandaderos y la tasa de arribo de pedidos.
 
 
-	\section{Ejecuciones}
-Se muestran algunas gr\'aficas de cantidad de generaciones VS fitness sobre las ejecuciones del algoritmo de la mochila para distintas semillas.
 
-\includegraphics[width=0.5\textwidth]{images/graf_test_in.png}
-\includegraphics[width=0.5\textwidth]{images/graf_1.png}
-\includegraphics[width=0.5\textwidth]{images/graf_50.png}
-\includegraphics[width=0.5\textwidth]{images/graf_78.png}
-\includegraphics[width=0.5\textwidth]{images/graf_90.png}
+	% \section{Análisis}
+
+	% \subsection{Ajuste y Configuración Paramétrica}
 
 
-% Puntos a tocar en el informe:
-% 	Para el ejercicio 1:
-% 		¿C\'ual fue la soluci\'on encontrada?
-% 		¿Se encontr\'o m\'as de	una soluci\'on?
-% 	Para el ejercicio 2:
-% 		¿Qu\'e estrategia fue utilizada para el manejo de soluciones no factibles?
+		% $$X_i,C_i$$\\ son la cantidad de aperitivos, costo de aperitivo para el tipo $i$ respectivamente\\
+		% $$N,O$$\\ la dimensi\'on del problema y costo objetivo respectivamente\\
 
-% *Probar variando los parametros (cantidad de poblaci\'on, mutaci\'on, escalara la funci\'on de fitness, velocidad de convergencia).
-% *Explicar pq estamos usando elitismo (remplazo).
-% *Hacer un algoritmo de fuerza bruta para hallar mejor soluci\'on en casos pequeños.
-% 	Para tratar de responder si existe solucion y si hay mas de una.
-% *Graficar fitness vs tiempo de ejecucion vs poblacion inicial.
-% *Pensar en la distancia del espacio de busqueda.
-% 	*Para generar una buena pob inicial.
+	% \begin{enumerate}
+	% 	\item item B.
+	% 	Lorem ipsum
 
+	% 	\item alternat
+
+	% 		\begin{equation}
+	% 		\label{eqn_tope_req}
+	% 		M_i = \lceil \frac{N}{C_i} \rceil
+	% 		\end{equation}
 
 
-	\section{Conclusi\'on}
-	Al final de este laboratorio hemos podido decicir aquella librer\'ia que se adapta mejor a nuestras necesidades y que nos gustar\'ia usar para resolver el proyecto final. Adem\'as, en el proceso de realizaci\'on de este primer pr\'actico, logramos interiorizarnos en aspectos pr\'acticos y la aplicaci\'on de algoritmos gen\'eticos y la s\'intesis de informes con Latex y otras herramientas.
+	% 	\item item C
+	% 		Lorem lorem ipsum ipsum amoret amoret
+	% 		\[ v = |\sum\limits_{i=0}^{N} (C_i X_i) - O| \]
+	% 		Lorem lorem ipsum ipsum amoret amoret.
+	% 		\[ X_i = (X_i + rand(0,M_i)) \% M_i \]
 
+	% \end{enumerate}
 
-% ------ Final ------
+	% \subsection{some subsec}
 
-	\bibliographystyle{IEEEtran}
-	\bibliography{informe.bib}{}
+	% \begin{itemize}
+	% 	\item some item:
+	% 	En ecuaciones ver \ref{eqn_tot_gain} y \ref{eqn_tot_peso}:
+		
+	% 	\begin{equation}
+	% 		\label{eqn_tot_gain}
+	% 		G_{tot} = \sum\limits_{i=0}^{n} g_{i}x_{i}
+	% 	\end{equation}
+
+	% 	\begin{equation}
+	% 		\label{eqn_tot_peso}
+	% 		P_{tot} = \sum\limits_{i=0}^{n} p_{i}x_{i} < W
+	% 	\end{equation}
+
+	% \end{itemize}	
+	% \begin{enumerate}
+	% 	\item Funcion de fitness:\\
+	% 	\begin{itemize}
+
+	% 		\item Funcion sin penalizacion:\\
+
+	% 		\begin{IEEEeqnarray}[\setlength{\nulldelimiterspace}{0pt}]{rl,s}&G_{tot},&for $P_{tot} \le W$\IEEEyesnumber\IEEEyessubnumber\\*
+	% 		[-0.625\normalbaselineskip]
+	% 		\smash{fitness(x)=\left\{\IEEEstrut[3\jot][3\jot]\right.}&&
+	% 		\nonumber\\*[-0.625\normalbaselineskip]
+	% 		&G_{tot}-(\frac{2 G_{tot} (k-p)}{k}),&for $P_{tot} > W$\IEEEyessubnumber
+	% 		\end{IEEEeqnarray}
+
+	% 		\item Funcion sin penalizacion:\\
+
+	% 	\end{itemize}	
+
+	% 	\item Condici\'on de parada:
+	% 		10000 generaciones.
+	% \end{enumerate}
+
+	% \section{Ejecuciones}
+	% Lorem ipsum
+
+% \includegraphics[width=0.5\textwidth]{images/graf_test_in.png}
+
+% 	\section{Conclusi\'on}
+% 	Lorem Ipsum amoret
+% % ------ Final ------
+
+% 	\bibliographystyle{IEEEtran}
+% 	\bibliography{informe.bib}{}
 
 \end{document}

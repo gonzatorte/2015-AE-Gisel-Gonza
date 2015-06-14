@@ -1,0 +1,366 @@
+MOCKUP DE INFORME
+
+######## REQUISITOS #########
+Primer entrega del informe - Domingo 14 de Junio (hasta las 23.59 hs.)
+
+Conteniendo:
+    Descripción del problema
+    Justificación de usar AEs
+    	Dan resultados buenos rápido.
+    Estrategia de resolución (incluyendo representación, función de fitness, operadores, técnicas avanzadas, etc.)
+    Propuesta de evaluación experimental (calidad de soluciones, eficiencia computacional, comparación con otras técnicas o soluciones, métricas, etc.).
+#############################
+
+
+Objetivos:
+	En el presente informe se intenta aplicar técnicas de algoritmos evolutivos para la resolución práctica de un problema real planteado. Al final del proyecto esperamos lograr una aplicación que logre con recursos computacionales no demasiados elevados y en un tiempo razonable una solución a una instancia real o al menos verosimil del problema. Se hace incapié en la realizabilidad
+	Si bien pero no en sus utilidad comercial o valor real para algún usuario sino que el objetivo final es puramente educativo y académico.
+
+	Se espera recibir comentarios acerca de la dirección del proyecto.
+
+	(agregar en los objetivos lo pedido en la propuesta...)
+
+
+Introducción
+	El escenario del problema en cuestión puede enunciarse de la manera siguiente.
+	"Dado un conjunto de personas encargadas de realizar , y un mapa con posible puntos a recorrer, encontrar un recorrido y asignación de recursos que logre recorer los puntos en el menor tiempo posible, (maximizando la cantidad de nodos visitados?)"
+
+	Motivación:
+		Poner pq elegimos esta tarea.
+
+Análisis
+	Considerando el enunciado inicial del problema definimos:
+
+	M, mapa del problema
+		Distancias transitivas implicitas?
+	T, Timetable, momentos de arribo de nuevos pedidos.
+	P, conjunto de mandaderos
+
+	Categorización:
+		El problema guarda muchas similitudes con TSP (ref TSP), puede entenderse como una variante del mismo. A tales efectos cabe destacar que es igualmente dificil que TSP. Surge rápidamente la idea de reducir el problema actual a este problema más conocido (que es NP) para demostrar que también es NP.
+		Es un problema de permutaciones?
+		Cuanta memoria tiene el problema (cuanto depende de la trayectoria hasta el momento? Cuanta prog dinámica se puede usar?)? Es mejor mientras más mandaderos hay en relación al mapa (mas densos son los mandaderos).
+
+	Variables de entrada
+		Las variables de entrada se corresponden con
+			Taza de arribos
+				Los nuevos pedidos se generan aleatoreamente en cada momento según una taza de arribos probabilistica, con probabilidad uniforme sobre cada nodo del mapa:
+			Mapa (M):
+				Es un conjunto de nodos en el mapa.
+				El mapa debe ser conexo.
+				La distancia entre nodos es proporcional al tiempo, en general pensaremos la distancia como = a tiempo, creemos es una simplificación de la realidad razonable. De todos modos, solo interesa hablar de tiempo, este tiempo puede ser calculado por diferentes factores, donde se involucre la distancia, tráfico, etc, pero esto es indiferente para el problema.
+				...
+				Norma 0 ? ( dist(X_i1_j1, X_i2_j2) = j2-j1 + i_2-i_1 ).
+				Dada la topología (Desig Trinagular) siempre es más probable que me aleje del centro a que me acerque a medida que más mandados hago.			
+			Punto de salida de repartidores (O):
+				Representa la ubicación del local a donde se va y a donde se vuelve cuando la capacidad se alcanza.
+			Cantidad de repartidores (n):
+				Con cuantos repartidores se cuentan para hacer los mandados.
+			Capacidad de repartidores (C_a, C_b, C_c, ..., C_n):
+				Cuantos puntos puede recorrer un repartidor antes de tener que volver a su punto de partida. De otro modo el largo máximo de los ciclos que se puede tener.
+			Peso de los nodos (X_i):
+				Este no se tomará como variable de entrada pues no parece aportar significativamente al modelo, y puede modelarse con una densidad mayor en el mapa.
+
+	Variables de decisión
+		Las variables de decisición pueden diferir de las variables de entrada por ser métricas definidas en base a estas o solo algunos rangos de interes de las anteriores, para realizar el analisis se varian las variables de decisión, no tanto las variables de entrada, aunque estas puedan no tener una interpretación real tan natural.
+
+		Cuando el tiempo de arribo tiende a infinito el problema tiende a un TSP tradicional, por lo que interesará estudiar parametros no muy grandes de taza de arribo
+
+
+		No interesa la dimensión absoluta del problema a fines caulitativos del problema, sino el tamaño relativo a la cantidad de mandaderos.
+
+		A medida que la capacidad de los mandaderos tiende a infinito, el problema tiende también a un TSP tradicional.
+
+		A medida que la capacidad de mandaderos aumenta.
+
+		Casi todos los parámetros son relativos a la cantidad de mandadero y tamaño del mapa.
+
+		La interacción entre los mandaderos aumenta.
+			Subdivición del espacio de busqueda para cada mandadero, cuando estan muy distantes
+
+		La esparcidad del mapa, de los puntos del mapa puede.
+
+		Tamaño del mapa = Diámetro del mapa VS Apreciación del mapa -> normalización -> aproximacion a enteros -> sencibilidad a la variación de la distancia.
+
+
+Síntesis
+
+	Técnias a utilizar
+		Se cree la utilización de técnicas de AG adecuada para abordar el problema planteado, por las siguientes razones:
+		
+			Se está interesado en construir una solución buena en tiempos cortos, los AG al ser técnicas metaheuristicas suelen funcionar más rápido que métodos exactos, que en problemas NP dificiles como es el presentado
+		
+			Interesa la robustez de las soluciónes arrojadas por el algoritmo, esto es, su fléxibilidad ante los pequeños cambios en el tiempo que van generando los nuevos pedidos, no tanto su optimalidad absoluta sobre las demás soluciones
+		
+		A los efectos de lograr especializar las técnicas de AG al problema en cuestión, se utiliza un AG híbrido, donde incorporamos información del problema especifico a los operadores evolutivos.
+
+
+		Codificación
+
+		Población inicial
+
+		Fitness
+			Crowding sobre una de las métricas definidas en las instancias?
+			Fitness Sharing?
+			Es un problema de minimización
+			El fitness puede ser lo que se quiere optimizar, pero podría estar normalizado por la taza de arribo...
+				Se va a no premiar tanto a instancias que esten superespecializadas.
+
+		Operadores evolutivos
+
+			Mutación
+
+			Selección
+
+			Cruzamiento
+				Celular
+				Con la restricción sexual dicha
+				Generacional
+
+		Heuristicas
+			Greedy
+				Probabilidad de elegir proximo proporcional a distancia
+			Clustering (divide and conquer)
+				Criterio de clustering
+					Regiones que son más pobladas de puntos (mas cercanos entre si), conexidad, etc
+					Buscar simetrias en el mapa?
+
+	Aspectos y consideraciones tecnológicas
+		Por su portabilidad al momento de escalar el automata celular se decide utilizar java como lenguaje de programación.
+		Por su claridad y sencillez se decide utilizar el framework watchmaker para implementar el AG.
+		Abundan librerías para el manejo de mapas y datos geográficos (algunas que hemos investigado son), y muchas son también las fuentes desde donde obtener modelos geográficos realistas/reales (se pueden citar GoogleMaps, datos abiertos de montevideo y OpenStreetMap). Pero aún se tiene el suficiente conocimiento práctico para decidir por una de ellas.
+
+	Evaluación experimental
+
+		Literatura y trabajos previos:
+			No se conocen para el proyecto en particular.
+
+		Se espera probarlo teniendo el sistema en regimen durante mucho tiempo
+			Si la variación es poca y llega a regimen es el óptimo?
+			Para problemas de chicos se puede implementar el algoritmo exacto y comparar.
+
+		Como medir el algoritmo en varias de sus ejecuciones.
+			Comparar con
+				método exacto (brute force) si no da mucho trabajo.
+				El algoritmo es lo suficientemente escalable para obtener una solución aproximada.
+				una heuristica simple (Greedy?)
+					El greedy para mi generaría un arbol de cubrimiento Dijstra con cantidad de hojas la cantidad de mandaderos.
+						El greedy puede ser en dos sentidos, en asignar mas mandaderos, o en recorrer más por mandadero
+				una asignación aleatorea.
+							Asigar ptos de recorrido
+								Greedy
+								2-opt (ref)
+							Asigar ptos de mandaderos
+								Greedy
+
+			Configuración paramétrica:
+				Si alguna técnica requiriera configuración paramétrica (la prob de selección de cruzamiento, la prob de mutación, etc), tendríamos que usar algunas instancias de ajuste extra y comprar con lo anterior
+
+		Dimensiones del problema
+			En una primer etapa de ajustes deberá importar el rendimiento que alcance el algoritmo, pero su principal objetivo es verificar la correctitud funcional del mismo.
+			Al momento de realizar las pruebas de campo esperamos poder manejar instancias realistas del problema, basada en la información publicada por la intendencia.
+
+
+	Planificación
+		En esta primer aproximación a la síntesis de nuestro algoritmo, y en base a las ideas antes planteadas se planea
+		Como ya se ha adelantado se planea dividir la síntesis del algoritmo y el proyecto en 3 etapas:
+			Investigación
+				Encontrar responder y satisfacer las inquietudes planteadas antes.
+			Análisis y Diseño:
+
+			Implementación y testing:
+				Construcción de generador de instancia de problema (de tamaño pequeño).
+					Consiste en un mapa realista, pero en puntos supuestos.
+				Construcción del AG.
+				Construcción (ó utilización) de otros algoritmos no AG que resuelvan los problemas.
+				Testing funcional.
+			Ajuste
+				Configuración paramétrica sobre instancias pequeñas.
+					La restricción será por tiempo, que es la restricción real sobre la que estamos interesados.
+			Análisis experimental
+				Busqueda de instancias realistas.
+				Scipts de Cálculo de métricas.
+				Analisis de los datos obtenidos.
+					Análisis comparativos con algoritmos deterministas realizables:
+						2-opt
+					Análisis de evolución:
+					Métricas de calidad:
+						Tests de normalidad.
+						Test paramétricos o no.
+						Calculos de las métricas pertinentes, etc.
+						Conclusiones
+					Métricas de eficiencia
+						SpeedUp
+						Conclusiones
+
+
+		Se realizará tantas iteraciones del proyecto como sea posible, a modo de ajustar y mejorar el producto en cada iteración.
+
+Conclusión
+	La aplicación práctica de las técnicas de AG son variadas
+
+	Se espera al finalizar este proyecto comprobar la adecuación, confirmando o corrigiendo las ideas planteadas en esta primer instancia de analisis.
+
+Mejoras futuras
+
+	Poner un esquema (lluvia o mapa conceptual) de ideas a mejorar.
+
+	Hacer preoptimizaciones sobre el mapa... variando luego los puntos de los mandaderos, cantidad, capacidad, etc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Resolver un TSP a mano, o una instancia del problema para ver que particularidades conceptuales presenta:
+
+Tiene complicaciones técnicas?
+	Manejo de mapas?
+
+
+Conteniendo:
+    Descripción del problema
+
+    Justificación de usar AEs
+
+    	Los AG son buenos para problemas combinatorios, pues tienen una formulación algoritmica natural.
+		Los AG guardan cierto aprendizaje de hechos estadísticos (una cantidad de memoria dada en la diversidad de sus poblaciones)
+		Los AG dan respuestas rápidas.
+    	Dan resultados buenos.
+    	El problema es NP.
+    	Como metaheuristica, podemos mejorar las heuristicas sin alterar demasiado el operador que gobierna la busqueda, por lo que deja lugar para extensiones futuras, sin dejar de ser un prototipo rápido que permite estudiar el problema.
+
+    Estrategia de resolución (incluyendo representación, función de fitness, operadores, técnicas avanzadas, etc.)
+
+    	Decir que usamos celulares
+
+#############################
+
+Trabajos futuros:
+
+	Mejorar con metaheuristas, o realizar más procesamiento del mapa antes de iniciar.
+
+	Agregar alguna utilidad práctica que se ajuste?
+
+		Ejecuta en cada celular
+			Usar modelo celular
+				Si ejecuta en cada celular y se distribuyen en una red p2p? Con una topología de mas de anillo o etc.
+					La topología puede estar relacionada tambien con la proximidad entre ellos (redes mesh, etc)
+						En este sentido de localidad no sé que tiene en común con un autómata celular (aqui cada individuo es cada teléfono ejecutando el algoritmo)
+
+			El poco pedido de cómputo (para ejecutar en un celular)
+			Una vez que se tiene una población en régimen se puede mandar a otros y evolucionar con mayr rápidez...
+			Los nodos que entren podrían inicializarse con la población de otro nodo cercano.
+
+					| Mucha Cap | Muchos Mandaderos | Poca Cap 	| Pocos Mandaderos
+Pocos Mandaderos 	|	1		|		2			|    3   	|		X
+Poca Cap 			|	4		|		5			|	X
+Muchos Mandaderos 	|	6		|		X
+Mucha Cap 			|	X
+Rescheduling rapido
+
+caso 1: Classic:
+caso 2: Classic:
+
+Si los nodos son fijos (no viajeros) se puede sacar conclusiones sobre la topología del mapa (clustering, etc).
+Sino es algo más dificil, pues los mandaderos se mueven pero los ptos del mapa no...
+
+2 problemas de asignación
+	Asignación de destinos a mandaderos.
+	Asignar recorridos para cada destino.
+
+3 Particularidades del problema:
+	Reeschedule
+	Mandaderos
+	TSP
+
+	Ver como es que cada técnica se centra en un tipo de diversidad y no otra...
+		La diversidad de reeschedule es mantenida por la codificación multiploide.
+		La diversidad de caminos es mantenida por la localidad.
+
+	Eliminación de la simetría? O la simetría aporta mas peso a esas instancias?
+
+Principios:
+	Fair
+	Pureza
+		Memeticos = movimientos conjuntos de la población
+		Métodos poblacionales
+		Fitness Sharing
+	Conceptualidad
+	Interpretación
+	Rendimiento VS Complejidad
+
+
+Población inicial Random cuidando que todos los individuos tengan una cantidad de ciclos de largo N.
+
+Cruzamiento de permutación que mantiene los ciclos.
+	Tiene la ventaja de 2 cosas:
+		Elimina la asimetría de permutar el individuo para realizar cada tarea, dos soluciones que serían identicas.
+		Hace a este tipo de cruzamiento exclusivo
+
+	Ya que uso codificación de permutaciones, ver si darle alguna semántica al orden y usar cruzamiento de 2 puntos o usar cruzamiento uniforme...
+		Cruzamiento uniforme parece menos discruptivo.
+
+	Selección al cruzamiento usando diferenciación sexual, solo se pueden cruzar individuos de con carga R con individuos de capacidad que sumen la capacidad del mismo.
+	La estrategia de selección aún no se ha determinado. Puede ser por torneo, proporcional u otra. Eso se determinará en un analisis paramétrico.
+	En principio se usará un mu+lamda, pues es más fácil de implementar y interesa tener siempre en la población buenas soluciones (no descartamos a los buenos padres).
+
+
+Se utilizarán individuos diploides, pues ayuda a mantener memoria, mantiene soluciones buenas en tiempos pasados antes de extingirlas. Visto que este algoritmo va a dejarse ejecutando, y van a ir llegando nuevos pedidos en el correr de ese tiempo, la utilización de diploides ayuda al problema del reescheduling.
+	Usar codificación multiploide pues es adecuado para cuando cambios en el ambiente, como es en este caso por el reescheduling. Los individuos multiploides recuerdan antiguas soluciones.
+	Decir cual implementación de dominancia se piensa usar.
+
+Representación de la población será como permutaciones, y ademas diploide (o multiploide)
+	Con la restricción sexual del cruzamiento, y partiendo de una población factible, se asegura la factibilidad de todas las soluciones generadas.
+
+La mutación consistirá, a modo de evitar complicaciones de infactibilidad, en generar un individuo aleatoreo y cruzarlo con el individuo a mutar.
+
+Se usará automatas celulares
+	Que son los AGc sincronos y asincronos? no entendí como eso es importante...
+
+	Hay que determinar parámetros como la forma de la celula, tamaño, etc...
+
+
+
+
+Tener en cuenta que se tienen varias opciones válidas corriendo al mismo tiempo (lo leí en youtube), pero incompatibles, ver como normalizar esa diferencia, en que consiste o sesgar las busquedas a distintos puntos según modas.
+	Por ejemplo, remplazabilidad del mandadero (simetricos deben ser indistigibles), eso se arreglaría con una normalización o convención al generar soluciones.
+	Usar crowding o FitnesSharing para evitar esto?
+
+Ver como definir distancia entre soluciones
+	Para implementar crowding? Sino se puede utilizar distancia en sus fitness
+
+	Puedo particionar el espacio de soluciones por donde arranca cada uno (punto inicial)
+		Definir una distancia entre instancias de prefijo, eso me va a ayudar a diferenciar distintos estrategias evolutivas entre si...
+
+	Cada mandadero va a intentar optimizar su labor, por lo que otro criterio de particion es cual mandadero van a intentar optimizar primero lo que arranca desde su posición actual.
+		Un criterio de votación puede ser implementado con organismos N-ploides con N mandaderos.
+
+
+
+La idea es ejecuta el problema online ()
+	Condiciones que se pueden dar online:
+		Abandono de un mandadero
+		Ingreso de nuevos pedidos
+			Cambio de la taza de arribo de pedidos
+		Cambio en el mapa?
+
+Poner que vamos a probar en la evaluación experimental usando diploides para rescheduler alto, midiendo VS tiempo de ejecución y calidad de solución.
+
