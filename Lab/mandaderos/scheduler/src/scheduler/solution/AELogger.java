@@ -1,4 +1,4 @@
-package scheduler;
+package scheduler.solution;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import my_utils.Pair;
 import org.uncommons.watchmaker.framework.EvolutionObserver;
 import org.uncommons.watchmaker.framework.PopulationData;
+import scheduler.Coder;
+import scheduler.Solver;
 import scheduler.problem.Fenotype;
 
 public class AELogger implements EvolutionObserver<List<Integer>> {
@@ -26,7 +28,6 @@ public class AELogger implements EvolutionObserver<List<Integer>> {
     AELogger(){}
 
     public void populationUpdate(PopulationData<? extends List<Integer>> data) {
-        Pair<Integer> p = null;
         Fenotype f = null;
         if (data.getGenerationNumber() % 100 == 0){
             List<Integer> g = data.getBestCandidate();
@@ -35,7 +36,7 @@ public class AELogger implements EvolutionObserver<List<Integer>> {
         }
         if (writer != null){
             if (data.getGenerationNumber() % 100 == 0){
-                writer.print(data.getGenerationNumber() + "," + p.first + ";");
+//                writer.print(data.getGenerationNumber() + "," + p + ";");
                 writer.flush();
             }
         }

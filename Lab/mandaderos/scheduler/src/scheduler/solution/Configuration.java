@@ -11,4 +11,5 @@ public class Configuration {
     private static final int nro_islands = 1;
     private static final double migration_ratio = 0d;
     private static final int tournament_size = 2;
+    private static final double elitism_proportion = 0.1;
 }

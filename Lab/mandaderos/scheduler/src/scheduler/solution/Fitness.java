@@ -1,4 +1,4 @@
-package scheduler;
+package scheduler.solution;
 
 import scheduler.problem.Fenotype;
 import my_utils.Pair;

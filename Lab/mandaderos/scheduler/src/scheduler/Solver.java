@@ -1,5 +1,6 @@
 package scheduler;
 
+import scheduler.solution.AESingleThreadEngine;
 import scheduler.problem.Fenotype;
 import scheduler.solution.Factory;
 import scheduler.solution.Cross;
@@ -23,23 +24,42 @@ import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import scheduler.problem.Configuration;
+import scheduler.problem.Event;
+import scheduler.problem.OfflineProblemInstance;
+import scheduler.problem.ProblemInstance;
 
-public final class Solver {
-    static long seed;
-    static String output_filename = null;
+class ParamGetter{
+    public String[] args;
+    public ParamGetter(String[] args){
+        this.args = args;
+    }
     
-    public static void main(String[] args) throws IOException {
-        String input_filename = args[0];
-        output_filename = args[1];
-        
+    public long get_seed(){
+        long seed;
         if (args.length > 2){
             seed = Long.parseLong(args[2]);
         } else {
             seed = System.currentTimeMillis();
             System.out.println("SEED USADO :" + seed);
         }
-        AESingleThreadEngine engine = new AESingleThreadEngine();
-        List<Integer> l = engine.evolve();
-        System.out.print(l);
+        return seed;
+    }
+}
+
+public final class Solver {
+    public static void main(String[] args) throws IOException {
+        ParamGetter param_getter = new ParamGetter(args);
+        long seed = param_getter.get_seed();
+        AESingleThreadEngine engine = new AESingleThreadEngine(seed);
+        ProblemInstance problem = new OfflineProblemInstance();
+        List<Event> events;
+        events = problem.getNextEvents();
+        while (events != null){
+            for (Event ev : events){
+                ev.apply(engine);
+            }
+            List<Integer> l = engine.evolve();
+            events = problem.getNextEvents();
+        }
     }
 }
