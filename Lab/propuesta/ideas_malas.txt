@@ -86,31 +86,16 @@ Análisis
 Síntesis
 
 	Técnias a utilizar
-		Se cree la utilización de técnicas de AG adecuada para abordar el problema planteado, por las siguientes razones:
-		
-			Se está interesado en construir una solución buena en tiempos cortos, los AG al ser técnicas metaheuristicas suelen funcionar más rápido que métodos exactos, que en problemas NP dificiles como es el presentado
-		
-			Interesa la robustez de las soluciónes arrojadas por el algoritmo, esto es, su fléxibilidad ante los pequeños cambios en el tiempo que van generando los nuevos pedidos, no tanto su optimalidad absoluta sobre las demás soluciones
-		
-		A los efectos de lograr especializar las técnicas de AG al problema en cuestión, se utiliza un AG híbrido, donde incorporamos información del problema especifico a los operadores evolutivos.
-
 
 		Codificación
-
-		Población inicial
 
 		Fitness
 			Crowding sobre una de las métricas definidas en las instancias?
 			Fitness Sharing?
-			Es un problema de minimización
 			El fitness puede ser lo que se quiere optimizar, pero podría estar normalizado por la taza de arribo...
 				Se va a no premiar tanto a instancias que esten superespecializadas.
 
 		Operadores evolutivos
-
-			Mutación
-
-			Selección
 
 			Cruzamiento
 				Celular
@@ -125,19 +110,7 @@ Síntesis
 					Regiones que son más pobladas de puntos (mas cercanos entre si), conexidad, etc
 					Buscar simetrias en el mapa?
 
-	Aspectos y consideraciones tecnológicas
-		Por su portabilidad al momento de escalar el automata celular se decide utilizar java como lenguaje de programación.
-		Por su claridad y sencillez se decide utilizar el framework watchmaker para implementar el AG.
-		Abundan librerías para el manejo de mapas y datos geográficos (algunas que hemos investigado son), y muchas son también las fuentes desde donde obtener modelos geográficos realistas/reales (se pueden citar GoogleMaps, datos abiertos de montevideo y OpenStreetMap). Pero aún se tiene el suficiente conocimiento práctico para decidir por una de ellas.
-
 	Evaluación experimental
-
-		Literatura y trabajos previos:
-			No se conocen para el proyecto en particular.
-
-		Se espera probarlo teniendo el sistema en regimen durante mucho tiempo
-			Si la variación es poca y llega a regimen es el óptimo?
-			Para problemas de chicos se puede implementar el algoritmo exacto y comparar.
 
 		Como medir el algoritmo en varias de sus ejecuciones.
 			Comparar con
@@ -153,26 +126,13 @@ Síntesis
 							Asigar ptos de mandaderos
 								Greedy
 
-			Configuración paramétrica:
-				Si alguna técnica requiriera configuración paramétrica (la prob de selección de cruzamiento, la prob de mutación, etc), tendríamos que usar algunas instancias de ajuste extra y comprar con lo anterior
-
-		Dimensiones del problema
-			En una primer etapa de ajustes deberá importar el rendimiento que alcance el algoritmo, pero su principal objetivo es verificar la correctitud funcional del mismo.
-			Al momento de realizar las pruebas de campo esperamos poder manejar instancias realistas del problema, basada en la información publicada por la intendencia.
-
-
 	Planificación
-		En esta primer aproximación a la síntesis de nuestro algoritmo, y en base a las ideas antes planteadas se planea
-		Como ya se ha adelantado se planea dividir la síntesis del algoritmo y el proyecto en 3 etapas:
-			Investigación
-				Encontrar responder y satisfacer las inquietudes planteadas antes.
-			Análisis y Diseño:
-
 			Implementación y testing:
 				Construcción de generador de instancia de problema (de tamaño pequeño).
 					Consiste en un mapa realista, pero en puntos supuestos.
 				Construcción del AG.
 				Construcción (ó utilización) de otros algoritmos no AG que resuelvan los problemas.
+				Herramientas de visualización(GUI).
 				Testing funcional.
 			Ajuste
 				Configuración paramétrica sobre instancias pequeñas.
@@ -193,17 +153,7 @@ Síntesis
 						SpeedUp
 						Conclusiones
 
-
-		Se realizará tantas iteraciones del proyecto como sea posible, a modo de ajustar y mejorar el producto en cada iteración.
-
-Conclusión
-	La aplicación práctica de las técnicas de AG son variadas
-
-	Se espera al finalizar este proyecto comprobar la adecuación, confirmando o corrigiendo las ideas planteadas en esta primer instancia de analisis.
-
 Mejoras futuras
-
-	Poner un esquema (lluvia o mapa conceptual) de ideas a mejorar.
 
 	Hacer preoptimizaciones sobre el mapa... variando luego los puntos de los mandaderos, cantidad, capacidad, etc
 
@@ -225,33 +175,13 @@ Mejoras futuras
 
 
 
-
-
-
-
 Resolver un TSP a mano, o una instancia del problema para ver que particularidades conceptuales presenta:
 
-Tiene complicaciones técnicas?
-	Manejo de mapas?
+
+Justificación de usar AEs
+	Como metaheuristica, podemos mejorar las heuristicas sin alterar demasiado el operador que gobierna la busqueda, por lo que deja lugar para extensiones futuras, sin dejar de ser un prototipo rápido que permite estudiar el problema.
 
 
-Conteniendo:
-    Descripción del problema
-
-    Justificación de usar AEs
-
-    	Los AG son buenos para problemas combinatorios, pues tienen una formulación algoritmica natural.
-		Los AG guardan cierto aprendizaje de hechos estadísticos (una cantidad de memoria dada en la diversidad de sus poblaciones)
-		Los AG dan respuestas rápidas.
-    	Dan resultados buenos.
-    	El problema es NP.
-    	Como metaheuristica, podemos mejorar las heuristicas sin alterar demasiado el operador que gobierna la busqueda, por lo que deja lugar para extensiones futuras, sin dejar de ser un prototipo rápido que permite estudiar el problema.
-
-    Estrategia de resolución (incluyendo representación, función de fitness, operadores, técnicas avanzadas, etc.)
-
-    	Decir que usamos celulares
-
-#############################
 
 Trabajos futuros:
 

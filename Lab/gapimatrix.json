@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DistanceMatrixResponse>
+ <status>OK</status>
+ <origin_address>45 Bell Street, Chagrin Falls, OH 44022, EE. UU.</origin_address>
+ <origin_address>20.43206,-81.38992</origin_address>
+ <origin_address>35.43206,-35.38992</origin_address>
+ <destination_address>45 Bell Street, Chagrin Falls, OH 44022, EE. UU.</destination_address>
+ <destination_address>20.43206,-81.38992</destination_address>
+ <destination_address>35.43206,-35.38992</destination_address>
+ <row>
+  <element>
+   <status>OK</status>
+   <duration>
+    <value>0</value>
+    <text>1 min</text>
+   </duration>
+   <distance>
+    <value>0</value>
+    <text>1 m</text>
+   </distance>
+  </element>
+  <element>
+   <status>ZERO_RESULTS</status>
+  </element>
+  <element>
+   <status>ZERO_RESULTS</status>
+  </element>
+ </row>
+ <row>
+  <element>
+   <status>ZERO_RESULTS</status>
+  </element>
+  <element>
+   <status>ZERO_RESULTS</status>
+  </element>
+  <element>
+   <status>ZERO_RESULTS</status>
+  </element>
+ </row>
+ <row>
+  <element>
+   <status>ZERO_RESULTS</status>
+  </element>
+  <element>
+   <status>ZERO_RESULTS</status>
+  </element>
+  <element>
+   <status>ZERO_RESULTS</status>
+  </element>
+ </row>
+</DistanceMatrixResponse>
