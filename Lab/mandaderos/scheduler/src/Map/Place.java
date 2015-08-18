@@ -1,6 +1,8 @@
 package Map;
 
-public class Place{
+import java.io.Serializable;
+
+public class Place implements Serializable {
     public String place_id;
     public Coordinate coord;
     public Place(String place_id, double latit, double longit){

@@ -16,8 +16,6 @@ Por partes:
 		La instancia del problema tiene que poder llegar de manera online
 			tambien puede ser dada en el arranque, para debugear, como una serie de eventos de arribos
 			definir formato para serializacion de estado... no será mucho mas dificil
-		Investigar GoogleMatrixApi y GooglePlacesApi.
-		Como hacer para la visualización de las soluciones? QGIS, KML, ó algo de Google?
 		Definir formato de archivo de config para la config parametrica
 		Profiling y optimizacion
 

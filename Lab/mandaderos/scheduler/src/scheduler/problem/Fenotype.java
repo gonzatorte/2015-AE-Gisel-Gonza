@@ -2,6 +2,7 @@ package scheduler.problem;
 
 import Map.Mapa;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -9,15 +10,15 @@ import my_utils.ArrayUtil;
 
 public class Fenotype extends ArrayList<Integer>{
     public Mapa currentMapa;
-    public List<Integer> tasks_queue = new ArrayList<Integer>();
-    
+    public LinkedList<MandaderoTaskQueue> tasks_queues;
     public List<Integer> genotipo = null;
-    public Fenotype(int g){
-        super(g);
-    }
     
     public boolean factible(){
         return true;
+    }
+    
+    public void normalize(){
+        
     }
     
     @Override

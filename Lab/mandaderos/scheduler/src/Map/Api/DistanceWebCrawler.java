@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.xml.parsers.DocumentBuilder;
@@ -20,25 +22,33 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class DistanceWebCrawler extends WebCrawler {
-    public List<Place> places;
+    public List<Place> destinos;
+    public List<Place> origenes;
     
-    public DistanceWebCrawler(List<Place> places){
-        this.places = places;
-    }
+    public DistanceWebCrawler(){}
 
+    // ToDo: hacer llamadas de cada 9 places... sino de mas de 100 resultados
+    // Luego ver como hacer una recorrida mas inteligente, eliminando las simetrias y reflexiones
     public URL create_call() throws MalformedURLException {
         String base_url = "maps.googleapis.com/maps/api/distancematrix/xml";
         String coordinate_format = "%f,%f";
-        ArrayList all_location_str = new ArrayList();
-        for (Place p : this.places) {
-            // ToDo: hacer llamadas de cada 9 places... sino de mas de 100 resultados
-            // Luego ver como hacer una recorrida mas inteligente, eliminando las simetrias y reflexiones
+        
+        ArrayList all_destinos_str = new ArrayList();
+        for (Place p : this.destinos) {
             String location = String.format(Locale.ENGLISH, coordinate_format, p.coord.latit, p.coord.longit);
-            all_location_str.add(location);
+            all_destinos_str.add(location);
         }
-        String locations = String.join("|", all_location_str);
-        String destinations = "destinations=" + locations;
-        String origins = "origins=" + locations;
+        String destinations = String.join("|", all_destinos_str);
+        destinations = "destinations=" + destinations;
+
+        ArrayList all_origenes_str = new ArrayList();
+        for (Place p : this.origenes) {
+            String location = String.format(Locale.ENGLISH, coordinate_format, p.coord.latit, p.coord.longit);
+            all_origenes_str.add(location);
+        }
+        String origins = String.join("|", all_origenes_str);
+        origins = "origins=" + origins;
+        
         String options = "mode=walking&language=es&units=metric";
         String apikey = "key=AIzaSyC0cd3JlrPkMuoDH2GMW_DSDAXV0vTmROs";
         String api_format = "https://%s?%s&%s&%s&%s";
@@ -58,6 +68,7 @@ public class DistanceWebCrawler extends WebCrawler {
         NodeList rowNodeList = document.getElementsByTagName("row");
         DualMap<Place, Place, Double> distances = new DualMap<Place, Place, Double>();
         for (int i = 0; i < rowNodeList.getLength(); i++) {
+            HashMap<Place, Double> interMap = new HashMap<Place, Double>();
             Node rowNode = rowNodeList.item(i);
             NodeList elementNodeList = ((Element) rowNode).getElementsByTagName("element");
             for (int j = 0; j < elementNodeList.getLength(); j++){
@@ -69,8 +80,9 @@ public class DistanceWebCrawler extends WebCrawler {
 
                 double distance = Double.parseDouble(distance_str);
 
-                distances.put(this.places.get(i), this.places.get(j), distance);
+                interMap.put(this.destinos.get(j), distance);
             }
+            distances.put(this.origenes.get(i), interMap);
         }
         return distances;
     }
