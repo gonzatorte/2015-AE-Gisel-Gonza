@@ -34,20 +34,25 @@ public final class MapaGenerator {
     }
     
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        Mapa mapa = new Mapa(new Coordinate(-34.583742, 56.090683), new Coordinate(-34.543393, 56.083478));
-
+//        Mapa mapa = new Mapa(new Coordinate(-34.543393, -56.083478), new Coordinate(-34.583742, -56.090683));
+        Mapa mapa = new Mapa(new Coordinate(51.503186, -0.126446), new Coordinate(51.523186, -0.146446));
         PlacesWebCrawler pcrawler = new PlacesWebCrawler();
         
         TreeMap<String, Place> all_places_tree = new TreeMap<String, Place>();
         
-        Coordinate aux_coord = mapa.diag1;
+        Coordinate aux_coord = new Coordinate(
+                Math.min(mapa.diag1.latit, mapa.diag2.latit), 
+                Math.min(mapa.diag1.longit, mapa.diag2.longit));
+        Coordinate max_coord = new Coordinate(
+                Math.max(mapa.diag1.latit, mapa.diag2.latit), 
+                Math.max(mapa.diag1.longit, mapa.diag2.longit));
         double delta_longitud = 0.018;// 1 grado es 111,11 km. 0.018 son 2 KM
         double delta_latitud = 0.018;
         double overlaping = 0.5;
-        //Radious es en KM para google?
-        int some_radious = 2;
-        while (aux_coord.latit < mapa.diag2.latit){
-            while (aux_coord.longit < mapa.diag2.latit){
+        //Radious en metros
+        int some_radious = 2000;
+        while (aux_coord.longit < max_coord.longit){
+            while (aux_coord.latit < max_coord.latit){
                 pcrawler.location_x = aux_coord.latit;
                 pcrawler.location_y = aux_coord.longit;
                 pcrawler.radius = some_radious;
@@ -63,6 +68,9 @@ public final class MapaGenerator {
         
         DistanceWebCrawler dcrawler = new DistanceWebCrawler();
         DualMap<Place, Place, Double> all_distances = new DualMap<Place, Place, Double>();
+
+        all_places = all_places.subList(0, 3);
+
         int places_size = all_places.size();
         assert(places_size < 100);
         for (int i = 0 ; i < places_size ; i++){

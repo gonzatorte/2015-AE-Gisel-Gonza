@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,7 +71,7 @@ public class DistanceWebCrawler extends WebCrawler {
             Node rowNode = rowNodeList.item(i);
             NodeList elementNodeList = ((Element) rowNode).getElementsByTagName("element");
             for (int j = 0; j < elementNodeList.getLength(); j++){
-                Node elementNode = elementNodeList.item(i);
+                Node elementNode = elementNodeList.item(j);
                 Node distanceNode = ((Element) elementNode).getElementsByTagName("distance").item(0);
 
                 String distance_str = ((Element) distanceNode).getElementsByTagName("value")

@@ -4,4 +4,8 @@ import java.util.List;
 
 public abstract class ProblemInstance {
     public abstract List<Event> getNextEvents();
+    
+    public void applyEvent(Event ev){
+        
+    }
 }

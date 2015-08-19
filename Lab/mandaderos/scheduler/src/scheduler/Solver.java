@@ -56,7 +56,8 @@ public final class Solver {
         events = problem.getNextEvents();
         while (events != null){
             for (Event ev : events){
-                ev.apply(engine);
+                problem.applyEvent(ev);
+                //ToDo: Aplicar a todos los operadores y cosas del Engine Tb
             }
             List<Integer> l = engine.evolve();
             events = problem.getNextEvents();

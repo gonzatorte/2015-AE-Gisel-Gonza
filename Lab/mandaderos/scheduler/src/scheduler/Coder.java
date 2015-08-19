@@ -13,7 +13,7 @@ public class Coder {
     }
     
     public static Fenotype decode(List<Integer> genotipo){
-        Fenotype f = new Fenotype(genotipo.size());
+        Fenotype f = new Fenotype();
         return f;
     }
     
