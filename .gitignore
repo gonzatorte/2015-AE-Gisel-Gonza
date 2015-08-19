@@ -19,3 +19,6 @@ generator
 /Practico1/mochila/whatchmaker/nbproject/private/private.xml
 /Practico1/mochila/whatchmaker/nbproject/private/private.properties
 *.out
+/Lab/mandaderos/scheduler/nbproject/private/
+/Lab/mandaderos/scheduler/build/
+/Lab/mandaderos/scheduler/dist/
