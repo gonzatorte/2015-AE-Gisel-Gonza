@@ -1,14 +1,15 @@
 package Map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import my_utils.DualMap;
 
-public class Mapa {
-    DualMap<Place, Place, Double> distances;
-    List<Place> places;
+public class Mapa implements Serializable{
+    public DualMap<Place, Place, Double> distances;
+    public List<Place> places;
     Coordinate diag1;
     Coordinate diag2;
     

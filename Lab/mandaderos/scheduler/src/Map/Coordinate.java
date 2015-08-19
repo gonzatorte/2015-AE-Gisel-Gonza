@@ -1,6 +1,8 @@
 package Map;
 
-public class Coordinate {
+import java.io.Serializable;
+
+public class Coordinate implements Serializable{
     public double latit;
     public double longit;
 
