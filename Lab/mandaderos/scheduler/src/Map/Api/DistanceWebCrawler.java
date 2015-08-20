@@ -1,5 +1,6 @@
 package Map.Api;
 
+import Map.DistanceTable;
 import Map.Place;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -9,10 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import my_utils.DualMap;
+import my_utils.MapUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,6 +27,13 @@ public class DistanceWebCrawler extends WebCrawler {
     public List<Place> origenes;
     
     public DistanceWebCrawler(){}
+    
+    /*
+    elements = origins * destinations
+    100 elements per query.
+    100 elements per 10 seconds. (????)
+    2500 elements per 24 hour period.
+    */
 
     // ToDo: hacer llamadas de cada 9 places... sino de mas de 100 resultados
     // Luego ver como hacer una recorrida mas inteligente, eliminando las simetrias y reflexiones
@@ -58,14 +67,14 @@ public class DistanceWebCrawler extends WebCrawler {
         return url_api;
     }
 
-    public DualMap<Place, Place, Double> process_response() throws SAXException, IOException, ParserConfigurationException {
+    public DistanceTable process_response() throws SAXException, IOException, ParserConfigurationException {
         BufferedInputStream web_stream = this.call();
         InputSource web_source = new InputSource(web_stream);
         DocumentBuilderFactory dom_factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dom_factory.newDocumentBuilder();
         Document document = builder.parse(web_source);
         NodeList rowNodeList = document.getElementsByTagName("row");
-        DualMap<Place, Place, Double> distances = new DualMap<Place, Place, Double>();
+        DistanceTable distances = new DistanceTable();
         for (int i = 0; i < rowNodeList.getLength(); i++) {
             HashMap<Place, Double> interMap = new HashMap<Place, Double>();
             Node rowNode = rowNodeList.item(i);

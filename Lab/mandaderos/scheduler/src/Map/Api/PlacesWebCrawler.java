@@ -17,19 +17,21 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import Map.Place;
 import java.util.Locale;
+import java.util.TreeMap;
+import my_utils.MapUtils;
 
 public class PlacesWebCrawler extends WebCrawler {
     
     public PlacesWebCrawler(){}
 
-    public double location_x;
-    public double location_y;
+    public double latit;
+    public double longit;
     public int radius;
 
     public URL create_call() throws MalformedURLException {
         String base_url = "maps.googleapis.com/maps/api/place/radarsearch/xml";
         String coordinate_format = "%f,%f";
-        String location = String.format(Locale.ENGLISH, coordinate_format, location_x, location_y);
+        String location = String.format(Locale.ENGLISH, coordinate_format, latit, longit);
         location = "location=" + location;
         String radius_format = "radius=%d";
         String radius_str = String.format(Locale.ENGLISH, radius_format, radius);
@@ -70,6 +72,23 @@ public class PlacesWebCrawler extends WebCrawler {
             places.add(new Place(place_id, latit, longit));
         }
         return places;
+    }
+
+    public static void main () throws SAXException, IOException, ParserConfigurationException{
+        PlacesWebCrawler pcrawler = new PlacesWebCrawler();
+        pcrawler.latit = 51.503186;
+        pcrawler.longit = -0.126446;
+        pcrawler.radius = 2000;
+        
+        List<Place> places_1 = pcrawler.process_response();
+        TreeMap<String, Place> places_tree_1 = MapUtils.toMap(places_1);
+
+        List<Place> places_2 = pcrawler.process_response();
+        TreeMap<String, Place> places_tree_2 = MapUtils.toMap(places_2);
+        
+        MapUtils.merge(places_tree_1, places_tree_2);
+        
+        assert(places_tree_1 == places_tree_2);
     }
     
     public static final String [] more_g_types = {

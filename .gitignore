@@ -12,6 +12,7 @@
 *.ps
 *.class
 *~
+*.jbin
 brute_force
 generator
 #/Practico1/mochila/whatchmaker/dist/
