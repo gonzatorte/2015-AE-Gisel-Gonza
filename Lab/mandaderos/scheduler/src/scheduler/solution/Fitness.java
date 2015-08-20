@@ -10,7 +10,7 @@ public class Fitness implements FitnessEvaluator<List<Integer>> {
 
     public double getFitness(List<Integer> ind,
             List<? extends List<Integer>> population) {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public boolean isNatural() {

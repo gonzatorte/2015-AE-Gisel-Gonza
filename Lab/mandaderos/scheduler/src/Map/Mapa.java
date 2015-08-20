@@ -1,8 +1,13 @@
 package Map;
 
+import Map.Api.DistanceWebCrawler;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 public class Mapa implements Serializable{
     public DistanceTable distances;
@@ -36,6 +41,18 @@ public class Mapa implements Serializable{
         return nuevoMapa;
     }
     
-    public void Serialize(){
+    public void addPlace(Place place) throws SAXException, IOException, ParserConfigurationException{
+        DistanceWebCrawler dcrawler = new DistanceWebCrawler();
+        dcrawler.destinos = places;
+        dcrawler.origenes = new ArrayList<Place>();
+        dcrawler.origenes.add(place);
+        DistanceTable distances_for_place = dcrawler.process_response();
+        distances.addPlace(place, distances_for_place.get(place));
+        places.add(place);
+    }
+    
+    public void removePlace(Place place){
+        places.remove(place);
+        distances.removePlace(place);
     }
 }

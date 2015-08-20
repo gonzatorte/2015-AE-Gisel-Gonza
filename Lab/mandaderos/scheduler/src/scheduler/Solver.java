@@ -49,8 +49,9 @@ public final class Solver {
         while (event != null){
             engine.applyEvent(event);
             Schedule mandaderos_schedule = engine.solve();
-            kml_manager.add_reschedule(mandaderos_schedule, event);
+            kml_manager.apply_reschedule(mandaderos_schedule, event);
             event = e_source.getNextEvent();
         }
+        kml_manager.write_kml("solucion_1.kml");
     }
 }

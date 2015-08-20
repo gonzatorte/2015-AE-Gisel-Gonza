@@ -13,8 +13,10 @@ import scheduler.Coder;
 import scheduler.Solver;
 import scheduler.problem.Schedule;
 
-public class AELogger implements EvolutionObserver<List<Integer>> {
+public class AELogger implements EvolutionObserver<Genotype> {
     PrintWriter writer = null;
+    Coder coder;
+    
     AELogger(String filename){
         try {
             FileWriter fichero = new FileWriter(filename + ".stats");
@@ -25,13 +27,15 @@ public class AELogger implements EvolutionObserver<List<Integer>> {
         }
     }
 
-    AELogger(){}
+    AELogger(Coder coder){
+        this.coder = coder;
+    }
 
-    public void populationUpdate(PopulationData<? extends List<Integer>> data) {
+    public void populationUpdate(PopulationData<? extends Genotype> data) {
         Schedule f = null;
         if (data.getGenerationNumber() % 100 == 0){
-            List<Integer> g = data.getBestCandidate();
-            f = Coder.decode(g);
+            Genotype g = data.getBestCandidate();
+            f = this.coder.decode(g);
             System.out.println(f);
         }
         if (writer != null){

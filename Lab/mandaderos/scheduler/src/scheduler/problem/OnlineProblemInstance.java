@@ -2,6 +2,7 @@ package scheduler.problem;
 
 import Map.Mapa;
 import java.util.List;
+import scheduler.events.Event;
 import scheduler.solution.AEEngine;
 
 public class OnlineProblemInstance extends ProblemInstance {
@@ -11,12 +12,7 @@ public class OnlineProblemInstance extends ProblemInstance {
     }
 
     @Override
-    public void applyEvent(Object event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Schedule solve() {
+    public void applyEvent(Event event) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

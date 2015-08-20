@@ -12,15 +12,7 @@ public class KmlManager {
     /*
     Agrega un timeSpan para todos los mandaderos involucrados
     */
-    public void add_reschedule(Schedule sched, Event event){
-        if (Math.pow(mandaderos_count, color_depth) < mandaderos_count){
-            color_count -= color_offset;
-        } else {
-            color_offset = color_offset*2;
-            color_count = color_offset;
-            color_depth--;
-        }
-        mandaderos_count--;
+    public void apply_reschedule(Schedule sched, Event event){
     }
     
     /*
@@ -41,7 +33,14 @@ public class KmlManager {
     Agrega un timeSpan para todos los mandaderos involucrados
     */
     public void remove_mandadero(Schedule sched){
-        
+        if (Math.pow(mandaderos_count, color_depth) < mandaderos_count){
+            color_count -= color_offset;
+        } else {
+            color_offset = color_offset*2;
+            color_count = color_offset;
+            color_depth--;
+        }
+        mandaderos_count--;
     }
     
     public void write_kml(String sched_id){
