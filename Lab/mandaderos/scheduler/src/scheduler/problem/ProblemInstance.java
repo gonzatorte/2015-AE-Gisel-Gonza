@@ -1,11 +1,16 @@
 package scheduler.problem;
 
+import Map.Mapa;
 import java.util.List;
+import scheduler.solution.Engine;
 
 public abstract class ProblemInstance {
-    public abstract List<Event> getNextEvents();
+    protected Mapa mapa;
     
-    public void applyEvent(Event ev){
-        
+    public ProblemInstance(Mapa mapa){
+        this.mapa = mapa;
     }
+    
+    public abstract void applyEvent(Object event);
+    public abstract Schedule solve();
 }

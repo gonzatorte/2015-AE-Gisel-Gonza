@@ -11,7 +11,7 @@ import org.uncommons.watchmaker.framework.EvolutionObserver;
 import org.uncommons.watchmaker.framework.PopulationData;
 import scheduler.Coder;
 import scheduler.Solver;
-import scheduler.problem.Fenotype;
+import scheduler.problem.Schedule;
 
 public class AELogger implements EvolutionObserver<List<Integer>> {
     PrintWriter writer = null;
@@ -28,7 +28,7 @@ public class AELogger implements EvolutionObserver<List<Integer>> {
     AELogger(){}
 
     public void populationUpdate(PopulationData<? extends List<Integer>> data) {
-        Fenotype f = null;
+        Schedule f = null;
         if (data.getGenerationNumber() % 100 == 0){
             List<Integer> g = data.getBestCandidate();
             f = Coder.decode(g);

@@ -1,32 +1,14 @@
 package scheduler;
 
+import Map.Mapa;
 import scheduler.solution.AESingleThreadEngine;
-import scheduler.problem.Fenotype;
-import scheduler.solution.Factory;
-import scheduler.solution.Cross;
-import scheduler.solution.Mutation;
-import my_utils.Pair;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.uncommons.maths.number.AdjustableNumberGenerator;
-import org.uncommons.maths.number.NumberGenerator;
-import org.uncommons.maths.random.Probability;
-import org.uncommons.watchmaker.framework.EvolutionEngine;
-import org.uncommons.watchmaker.framework.EvolutionObserver;
-import org.uncommons.watchmaker.framework.EvolutionaryOperator;
-import org.uncommons.watchmaker.framework.GenerationalEvolutionEngine;
-import org.uncommons.watchmaker.framework.PopulationData;
-import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
-import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
-import org.uncommons.watchmaker.framework.termination.GenerationCount;
-import scheduler.problem.Configuration;
-import scheduler.problem.Event;
+import scheduler.problem.EventSource;
+import scheduler.problem.Schedule;
 import scheduler.problem.OfflineProblemInstance;
 import scheduler.problem.ProblemInstance;
+import scheduler.solution.AEEngine;
 
 class ParamGetter{
     public String[] args;
@@ -47,20 +29,27 @@ class ParamGetter{
 }
 
 public final class Solver {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         ParamGetter param_getter = new ParamGetter(args);
         long seed = param_getter.get_seed();
-        AESingleThreadEngine engine = new AESingleThreadEngine(seed);
-        ProblemInstance problem = new OfflineProblemInstance();
-        List<Event> events;
-        events = problem.getNextEvents();
+        
+        String nombre_mapa = "ejemplo";
+        File f = new File("mapas/" + nombre_mapa + ".jbin");
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+        Mapa mapa = (Mapa)ois.readObject();
+        ProblemInstance problem = new OfflineProblemInstance(mapa);
+        EventSource e_source = new EventSource();
+        
+        AEEngine engine = new AESingleThreadEngine(seed, problem);
+        
+        List<Object> events;
+        events = e_source.getNextEvents();
         while (events != null){
-            for (Event ev : events){
-                problem.applyEvent(ev);
-                //ToDo: Aplicar a todos los operadores y cosas del Engine Tb
+            for (Object ev : events){
+                engine.applyEvent(ev);
             }
-            List<Integer> l = engine.evolve();
-            events = problem.getNextEvents();
+            Schedule mandaderos_schedule = engine.solve();
+            events = e_source.getNextEvents();
         }
     }
 }

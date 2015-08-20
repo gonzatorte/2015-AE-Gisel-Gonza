@@ -8,11 +8,14 @@ import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 import org.uncommons.watchmaker.framework.GenerationalEvolutionEngine;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
+import scheduler.problem.Schedule;
+import scheduler.problem.ProblemInstance;
 
 public class AESingleThreadEngine extends AEEngine {
     public long seed;
     
-    public AESingleThreadEngine(long seed){
+    public AESingleThreadEngine(long seed, ProblemInstance problem){
+        super(problem);
         this.fitness = new Fitness();
         this.cross = new Cross(new Probability(0.75d));
         this.selection_estrategy = new RouletteWheelSelection();

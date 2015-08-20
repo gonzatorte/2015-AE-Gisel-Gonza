@@ -86,8 +86,10 @@ public final class MapaGenerator {
         }
         mapa.distances = all_distances;
         mapa.places = all_places;
+        String file_name = "ejemplo";
         File f = new File("mapas/" + 
-                "mapa_" + mapa.h_latit + "_" + mapa.h_longit + "_" + mapa.l_latit + "_" + mapa.l_longit + ".jbin");
+//                "mapa_" + mapa.h_latit + "_" + mapa.h_longit + "_" + mapa.l_latit + "_" + mapa.l_longit + ".jbin");
+                file_name + ".jbin");
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
         oos.writeObject(mapa);
         oos.close();

@@ -1,27 +1,33 @@
 package scheduler.problem;
 
+import Map.Mapa;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import scheduler.solution.AEEngine;
 
 public class OfflineProblemInstance extends ProblemInstance {
-    public List<Event> event_list;
+    public List<EventSource> event_list;
     public int step = 0;
+    public AEEngine engine;
+    public Mapa mapa;
 
-    public OfflineProblemInstance(){
-        Event[] events = new Event[]{
-            new Event(),
-            new Event()
+    public OfflineProblemInstance(Mapa mapa){
+        super(mapa);
+        EventSource[] events = new EventSource[]{
+            new EventSource(),
+            new EventSource()
         };
         this.event_list = Arrays.asList(events);
     }
-    
+
     @Override
-    public List<Event> getNextEvents() {
-        Event ev = this.event_list.remove(step);
-        this.step++;
-        ArrayList<Event> res = new ArrayList<Event>();
-        res.add(ev);
-        return res;
+    public void applyEvent(Object event) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Schedule solve() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

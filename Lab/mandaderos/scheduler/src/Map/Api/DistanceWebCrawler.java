@@ -61,7 +61,6 @@ public class DistanceWebCrawler extends WebCrawler {
         String apikey = "key=AIzaSyC0cd3JlrPkMuoDH2GMW_DSDAXV0vTmROs";
         String api_format = "https://%s?%s&%s&%s&%s";
         String strurl = String.format(api_format, base_url, origins, destinations, apikey, options);
-        System.out.print(strurl);
 //          new URL(base_url_api_distance + "origins=41.43206,-81.38992&destinations=41.43206,-83.38992&mode=bicycling&language=es&key=AIzaSyC0cd3JlrPkMuoDH2GMW_DSDAXV0vTmROs");
         URL url_api = new URL(strurl);
         return url_api;

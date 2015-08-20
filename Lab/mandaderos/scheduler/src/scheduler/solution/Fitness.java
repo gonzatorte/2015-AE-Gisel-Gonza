@@ -1,6 +1,6 @@
 package scheduler.solution;
 
-import scheduler.problem.Fenotype;
+import scheduler.problem.Schedule;
 import my_utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
