@@ -1,4 +1,4 @@
-package scheduler.problem;
+package scheduler.events;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ public class EventSource {
         
     }
     
-    public List<Object> getNextEvents(){
+    public Event getNextEvent(){
         return null;
     }
 //    public List<Object> getNextEvents() {

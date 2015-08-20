@@ -5,6 +5,7 @@ import java.util.Random;
 import org.uncommons.watchmaker.framework.SelectionStrategy;
 import org.uncommons.watchmaker.framework.TerminationCondition;
 import scheduler.Coder;
+import scheduler.events.Event;
 import scheduler.problem.Schedule;
 import scheduler.problem.ProblemInstance;
 
@@ -23,7 +24,7 @@ public abstract class AEEngine extends Engine {
     }
     
     @Override
-    public void applyEvent(Object event) {
+    public void applyEvent(Event event) {
         super.applyEvent(event);
     }
     

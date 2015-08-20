@@ -1,10 +1,12 @@
 package scheduler;
 
+import Map.Kml.KmlManager;
 import Map.Mapa;
 import scheduler.solution.AESingleThreadEngine;
 import java.io.*;
 import java.util.List;
-import scheduler.problem.EventSource;
+import scheduler.events.Event;
+import scheduler.events.EventSource;
 import scheduler.problem.Schedule;
 import scheduler.problem.OfflineProblemInstance;
 import scheduler.problem.ProblemInstance;
@@ -41,15 +43,14 @@ public final class Solver {
         EventSource e_source = new EventSource();
         
         AEEngine engine = new AESingleThreadEngine(seed, problem);
+        KmlManager kml_manager = new KmlManager();
         
-        List<Object> events;
-        events = e_source.getNextEvents();
-        while (events != null){
-            for (Object ev : events){
-                engine.applyEvent(ev);
-            }
+        Event event = e_source.getNextEvent();
+        while (event != null){
+            engine.applyEvent(event);
             Schedule mandaderos_schedule = engine.solve();
-            events = e_source.getNextEvents();
+            kml_manager.add_reschedule(mandaderos_schedule, event);
+            event = e_source.getNextEvent();
         }
     }
 }

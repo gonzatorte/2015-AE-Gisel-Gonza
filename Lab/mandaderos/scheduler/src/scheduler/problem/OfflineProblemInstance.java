@@ -1,7 +1,7 @@
 package scheduler.problem;
 
+import scheduler.events.EventSource;
 import Map.Mapa;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import scheduler.solution.AEEngine;
