@@ -1,6 +1,7 @@
 package Map.Kml;
 
 import scheduler.events.Event;
+import scheduler.problem.ProblemInstance;
 import scheduler.problem.Schedule;
 
 public class KmlManager {
@@ -12,7 +13,7 @@ public class KmlManager {
     /*
     Agrega un timeSpan para todos los mandaderos involucrados
     */
-    public void apply_reschedule(Schedule sched, Event event){
+    public void apply_reschedule(ProblemInstance prob, Schedule sched, Event event){
     }
     
     /*

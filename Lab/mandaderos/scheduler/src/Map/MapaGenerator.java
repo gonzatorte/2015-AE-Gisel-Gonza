@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -32,6 +33,22 @@ public final class MapaGenerator {
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static Mapa test_data(){
+       Mapa mapa = new Mapa(new Coordinate(-29.0, 9.0), new Coordinate(-39.0, 19.0));
+       List<Place> places = new LinkedList<Place>();
+       DistanceTable dd = new DistanceTable();
+       Place p1 = new Place("p_1", -30.0, 10.0);
+       places.add(p1);
+       Place p2 = new Place("p_2", -30.1, 10.1);
+       places.add(p2);
+       HashMap<Place, Double> dp1 = new HashMap<Place, Double>();
+       dp1.put(p2, 20.0);
+       dd.addPlace(p1, dp1);
+       mapa.places = places;
+       mapa.distances = dd;
+       return mapa;
     }
     
     public static void generate_map() throws IOException, SAXException, ParserConfigurationException {

@@ -1,16 +1,22 @@
 package scheduler.problem;
 
 import Map.Mapa;
-import java.util.List;
+import Map.Place;
+import java.util.LinkedList;
 import scheduler.events.Event;
-import scheduler.solution.Engine;
 
 public abstract class ProblemInstance {
     public Mapa mapa;
-    public int count_mandaderos = 0;
+    public LinkedList<Place> origin_mandaderos;
     
+    public ProblemInstance(Mapa mapa, LinkedList<Place> origin_mandaderos){
+        this.mapa = mapa;
+        this.origin_mandaderos = origin_mandaderos;
+    }
+
     public ProblemInstance(Mapa mapa){
         this.mapa = mapa;
+        this.origin_mandaderos = new LinkedList<Place>();
     }
     
     public abstract void applyEvent(Event event);

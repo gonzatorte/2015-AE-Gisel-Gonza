@@ -1,5 +1,6 @@
-package scheduler.solution;
+package scheduler.solution.framework;
 
+import scheduler.solution.framework.Genotype;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,25 +11,26 @@ import my_utils.Pair;
 import org.uncommons.watchmaker.framework.EvolutionObserver;
 import org.uncommons.watchmaker.framework.PopulationData;
 import scheduler.Coder;
-import scheduler.Solver;
+import scheduler.Scheduler;
 import scheduler.problem.Schedule;
 
 public class AELogger implements EvolutionObserver<Genotype> {
-    PrintWriter writer = null;
+    PrintWriter writer;
     Coder coder;
     
-    AELogger(String filename){
+    public AELogger(Coder coder){
+        this.coder = coder;
+    }
+    
+    public AELogger(Coder coder, String filename){
+        this(coder);
         try {
             FileWriter fichero = new FileWriter(filename + ".stats");
             writer = new PrintWriter(fichero);
         } catch (IOException ex) {
-            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(-1);
         }
-    }
-
-    AELogger(Coder coder){
-        this.coder = coder;
     }
 
     public void populationUpdate(PopulationData<? extends Genotype> data) {
