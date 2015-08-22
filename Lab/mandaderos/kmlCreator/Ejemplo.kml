@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:kml xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:ns2="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xal="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0">
+    <ns2:Document>
+        <ns2:name>Ejemplo</ns2:name>
+        <ns2:Folder>
+            <ns2:name>Mandadero 1</ns2:name>
+            <ns2:Placemark>
+                <ns2:LineString>
+                    <ns2:coordinates>-112.2550785337791,36.07954952145647,2357.0 -112.2549277039738,36.08117083492122,2357.0 -112.2552505069063,36.08260761307279,2357.0 -112.2564540158376,36.08395660588506,2357.0 -112.2580238976449,36.08511401044813,2357.0</ns2:coordinates>
+                </ns2:LineString>
+            </ns2:Placemark>
+            <ns2:Placemark>
+                <ns2:name>Inicio</ns2:name>
+                <ns2:Point>
+                    <ns2:coordinates>-112.2550785337791,36.07954952145647,2357.0</ns2:coordinates>
+                </ns2:Point>
+            </ns2:Placemark>
+            <ns2:Placemark>
+                <ns2:Point>
+                    <ns2:coordinates>-112.2549277039738,36.08117083492122,2357.0</ns2:coordinates>
+                </ns2:Point>
+            </ns2:Placemark>
+            <ns2:Placemark>
+                <ns2:Point>
+                    <ns2:coordinates>-112.2552505069063,36.08260761307279,2357.0</ns2:coordinates>
+                </ns2:Point>
+            </ns2:Placemark>
+            <ns2:Placemark>
+                <ns2:Point>
+                    <ns2:coordinates>-112.2564540158376,36.08395660588506,2357.0</ns2:coordinates>
+                </ns2:Point>
+            </ns2:Placemark>
+            <ns2:Placemark>
+                <ns2:name>Fin</ns2:name>
+                <ns2:Point>
+                    <ns2:coordinates>-112.2580238976449,36.08511401044813,2357.0</ns2:coordinates>
+                </ns2:Point>
+            </ns2:Placemark>
+        </ns2:Folder>
+    </ns2:Document>
+</ns2:kml>
