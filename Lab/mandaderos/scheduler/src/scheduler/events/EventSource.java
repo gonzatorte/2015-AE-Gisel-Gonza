@@ -8,10 +8,7 @@ public class EventSource {
     ArrayList<Event> event_list;
     
     public EventSource(){
-        event_list = new ArrayList<Event>();
-        event_list.add(new Event("addMandadero"));
-        event_list.add(new Event("addMandadero"));
-        event_list.add(new Event("addMandadero"));
+        load_test_data();
     }
     
     public Event getNextEvent(){
@@ -25,4 +22,11 @@ public class EventSource {
 //        ev.time = step++;
 //        return ev;
 //    }
+    
+    private void load_test_data(){
+        event_list = new ArrayList<Event>();
+        event_list.add(new Event("addMandadero", "id1"));
+        event_list.add(new Event("addMandadero", "id2"));
+        event_list.add(new Event("addMandadero", "id1"));
+    }
 }

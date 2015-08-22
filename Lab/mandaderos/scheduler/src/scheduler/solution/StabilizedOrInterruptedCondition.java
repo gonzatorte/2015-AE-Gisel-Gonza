@@ -9,6 +9,8 @@ public class StabilizedOrInterruptedCondition implements TerminationCondition {
     public boolean shouldTerminate(PopulationData<?> populationData){
         //ToDo: Consulta la lista de eventos para saber si debe hacer algo o 
         // Si el sistema ya no tiene mucha mejora mas...
-        throw new UnsupportedOperationException("Not supported yet.");
+//        double bestCandidateFitness = populationData.getBestCandidateFitness();
+        double fitnessStandardDeviation = populationData.getFitnessStandardDeviation();
+        return fitnessStandardDeviation < 0.3;
     }
 }

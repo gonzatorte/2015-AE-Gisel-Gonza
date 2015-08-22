@@ -2,6 +2,7 @@ package scheduler;
 
 import Map.Kml.KmlManager;
 import Map.Mapa;
+import Map.MapaGenerator;
 import java.io.*;
 import scheduler.events.Event;
 import scheduler.events.EventSource;
@@ -40,6 +41,11 @@ class ParamGetter{
 
 public final class Scheduler {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+//        do_it(args);
+        test_case(args);
+    }
+    
+    public static void do_it(String[] args) throws IOException, ClassNotFoundException{
         ParamGetter param_getter = new ParamGetter(args);
         long seed = param_getter.get_seed();
         String solution_method = param_getter.get_method();
@@ -53,11 +59,11 @@ public final class Scheduler {
         
         Solver solver;
         if ("AE".equals(solution_method)){
-            solver = new AESolver(seed, mapa);
+            solver = new AESolver(seed, problem.mapa);
         } else if ("Greedy".equals(solution_method)){
-            solver = new GreedySolver(mapa);
+            solver = new GreedySolver(problem.mapa);
         } else {
-            throw new Error("Solo greedy o AE");
+            throw new Error("Solo Greedy o AE");
         }
         KmlManager kml_manager = new KmlManager();
         
@@ -66,9 +72,15 @@ public final class Scheduler {
             problem.applyEvent(event);
             solver.applyEvent(event);
             Schedule mandaderos_schedule = solver.solve(problem);
-            kml_manager.apply_reschedule(mandaderos_schedule, event);
+            kml_manager.apply_reschedule(problem, mandaderos_schedule, event);
             event = e_source.getNextEvent();
         }
         kml_manager.write_kml("solucion_1.kml");
+    }
+    
+    public static void test_case(String[] args){
+        ProblemInstance pp = OfflineProblemInstance.test_case();
+        Solver solver = new GreedySolver(pp.mapa);
+        solver.solve(pp);
     }
 }

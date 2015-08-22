@@ -20,6 +20,15 @@ public class Schedule
     
     public void normalize(){
         //ToDo: Esta normalizacion ahora debe cambiarse...
+        //Ahora el sorter debe considerar mas iguales a los que tienen el mismo
+        //origen
+        //Y no debe cambiarlos de lugar, a menos que tambien cambie de lugar
+        //el arreglo de origenes (de otro modo, sort a ambos mediante criterios
+        //consistentes)
+        
+        //El task_queues tambien se deberia mover
+        //Me estan quedando muy separados los origenes y el resto
+        // del recorrido, . Eso esta bien?
         Collections.sort(tasks_queues);
     }
     

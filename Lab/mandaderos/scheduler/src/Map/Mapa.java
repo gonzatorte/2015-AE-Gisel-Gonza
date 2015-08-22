@@ -64,4 +64,19 @@ public class Mapa implements Serializable{
         }
         return null;
     }
+    
+    public List<Place> findPlaceByCoords(Coordinate diag1, Coordinate diag2){
+        double l_latit_find = Math.min(diag1.latit, diag2.latit);
+        double l_longit_find = Math.min(diag1.longit, diag2.longit);
+        double h_latit_find = Math.max(diag1.latit, diag2.latit);
+        double h_longit_find = Math.max(diag1.longit, diag2.longit);
+        LinkedList<Place> result = new LinkedList<Place>();
+        for (Place p : this.places){
+            if ((l_latit_find < p.coord.latit) && (p.coord.latit < h_latit_find) && 
+                    (l_longit_find < p.coord.longit) && (p.coord.longit < h_longit_find)){
+                result.add(p);
+            }
+        }
+        return result;
+    }
 }
