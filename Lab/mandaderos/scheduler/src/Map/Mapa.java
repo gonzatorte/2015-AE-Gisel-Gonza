@@ -55,4 +55,13 @@ public class Mapa implements Serializable{
         places.remove(place);
         distances.removePlace(place);
     }
+    
+    public Place findPlaceById(String place_id){
+        for (Place p : this.places){
+            if (p.place_id.equals(place_id)){
+                return p;
+            }
+        }
+        return null;
+    }
 }

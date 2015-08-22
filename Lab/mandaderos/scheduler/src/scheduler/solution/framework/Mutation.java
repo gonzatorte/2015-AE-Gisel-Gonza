@@ -1,4 +1,4 @@
-package scheduler.solution;
+package scheduler.solution.framework;
 
 import java.util.ArrayList;
 import java.util.Collections;

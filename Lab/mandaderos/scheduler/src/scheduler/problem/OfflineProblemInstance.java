@@ -1,6 +1,8 @@
 package scheduler.problem;
 
 import Map.Mapa;
+import Map.Place;
+import java.util.LinkedList;
 import scheduler.events.Event;
 
 public class OfflineProblemInstance extends ProblemInstance {
@@ -9,13 +11,21 @@ public class OfflineProblemInstance extends ProblemInstance {
     public OfflineProblemInstance(Mapa mapa){
         super(mapa);
     }
+    
+    public OfflineProblemInstance(Mapa mapa, LinkedList<Place> origin_mandaderos){
+        super(mapa, origin_mandaderos);
+    }
 
     @Override
     public void applyEvent(Event event) {
         if ("addMandadero".equals(event.tipo)){
-            count_mandaderos++;
+            String place_id = event.data;
+            Place origin = this.mapa.findPlaceById(place_id);
+            this.origin_mandaderos.add(origin);
         } else if ("removeMandadero".equals(event.tipo)){
-            count_mandaderos--;
+            String place_id = event.data;
+            Place origin = this.mapa.findPlaceById(place_id);
+            this.origin_mandaderos.remove(origin);
         } else {
             throw new Error("No hay este tipo de evento");
         }
