@@ -64,6 +64,9 @@ public class DistanceTable extends HashMap<Place,HashMap<Place,Double>> implemen
     */
     public Place getNearest(Place p1, Set<Place> excluded_places){
         HashMap<Place,Double> distancesOfThat = this.get(p1);
+        if (distancesOfThat == null){
+            return null;
+        }
         Set<Entry<Place, Double>> entrySet = distancesOfThat.entrySet();
         Double min_distance = null;
         Place res_place = null;

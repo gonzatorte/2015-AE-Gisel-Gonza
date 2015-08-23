@@ -81,6 +81,6 @@ public final class Scheduler {
     public static void test_case(String[] args){
         ProblemInstance pp = OfflineProblemInstance.test_case();
         Solver solver = new GreedySolver(pp.mapa);
-        solver.solve(pp);
+        Schedule solution = solver.solve(pp);
     }
 }
