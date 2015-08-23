@@ -20,6 +20,7 @@ public class GreedySolver extends Solver {
         Schedule solution = new Schedule(mapa);
         LinkedList<MandaderoTaskQueue> tasks_by_mandadero = solution.tasks_queues;
         TreeSet<Place> visited = new TreeSet<Place>();
+        visited.addAll(problem.origin_mandaderos);
         for (Place origin_mandadero : problem.origin_mandaderos) {
             Place nearest = mapa.distances.getNearest(origin_mandadero, visited);
             visited.add(nearest);
@@ -27,7 +28,7 @@ public class GreedySolver extends Solver {
             task_by_mandadero.add(nearest);
             tasks_by_mandadero.add(task_by_mandadero);
         }
-        boolean all_visited = false;
+        boolean all_visited = visited.size() == problem.mapa.places.size();
         while (!all_visited){
             for (MandaderoTaskQueue task_by_mandadero : tasks_by_mandadero) {
                 Place place_before = task_by_mandadero.get(task_by_mandadero.size()-1);

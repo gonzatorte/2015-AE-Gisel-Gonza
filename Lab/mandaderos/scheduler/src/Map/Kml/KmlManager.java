@@ -96,7 +96,7 @@ public class KmlManager {
     Agrega un timeSpan para todos los mandaderos involucrados
     */
     public int get_Color(){
-        if (mandaderos_count < Math.pow(mandaderos_count, color_depth)){
+        if (mandaderos_count < Math.pow(2, color_depth+1) - 1){
             color_count += color_offset;
         } else {
             color_offset = color_offset/2;
@@ -115,12 +115,12 @@ public class KmlManager {
             MandaderoTaskQueue mtq= sched.tasks_queues.get(i);
             LineString linestring=folder.createAndAddPlacemark().createAndSetLineString();
             Place place;
-            for (int j=0; j<mtq.size();j++){
-                place = mtq.get(j);
+            for (Place mtq1 : mtq) {
+                place = mtq1;
                 linestring.addToCoordinates(place.coord.longit,place.coord.latit);
             }
-            for (int j=0; j<mtq.size();j++){
-                place = mtq.get(j);
+            for (Place mtq1 : mtq) {
+                place = mtq1;
                 folder.createAndAddPlacemark().createAndSetPoint().addToCoordinates(place.coord.longit,place.coord.latit);
             }
         }

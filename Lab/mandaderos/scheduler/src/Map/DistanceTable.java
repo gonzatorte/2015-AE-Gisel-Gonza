@@ -59,6 +59,9 @@ public class DistanceTable extends HashMap<Place,HashMap<Place,Double>> implemen
         }
     }
     
+    /*
+    Ojo que este metodo no esta dando como nearest al mismo punto p1
+    */
     public Place getNearest(Place p1, Set<Place> excluded_places){
         HashMap<Place,Double> distancesOfThat = this.get(p1);
         Set<Entry<Place, Double>> entrySet = distancesOfThat.entrySet();
