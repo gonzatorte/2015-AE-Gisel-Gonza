@@ -106,14 +106,17 @@ public class KmlManager {
         return color_count;
     }
     public void apply_reschedule(ProblemInstance prob, Schedule sched, Event event){
-        mandaderos_count = sched.tasks_queues.size();
-        
+        color_depth = 0;
+        color_count = 0;
+        color_offset = 256;
+        mandaderos_count = sched.tasks_queues.size();        
         Folder folder1 = document.createAndAddFolder().withName("EventTime: "+ event.time);
         for (int i=0; i<sched.tasks_queues.size();i++){
             Folder folder = folder1.createAndAddFolder().withName("Mandadero "+ i);
-            folder.createAndAddStyle().createAndSetLineStyle().setColor(Integer.toHexString(get_Color()));
             MandaderoTaskQueue mtq= sched.tasks_queues.get(i);
-            LineString linestring=folder.createAndAddPlacemark().createAndSetLineString();
+            Placemark placemark =  folder.createAndAddPlacemark();
+            placemark.createAndAddStyle().createAndSetLineStyle().setColor(Integer.toHexString(get_Color()));
+            LineString linestring = placemark.createAndSetLineString();
             Place place;
             for (Place mtq1 : mtq) {
                 place = mtq1;
