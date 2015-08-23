@@ -1,17 +1,10 @@
 package Map.Kml;
 
 import Map.Place;
-import de.micromata.opengis.kml.v_2_2_0.AbstractObject;
-import de.micromata.opengis.kml.v_2_2_0.Document;
-import de.micromata.opengis.kml.v_2_2_0.Feature;
-import de.micromata.opengis.kml.v_2_2_0.Folder;
-import de.micromata.opengis.kml.v_2_2_0.Kml;
-import de.micromata.opengis.kml.v_2_2_0.Placemark;
-import de.micromata.opengis.kml.v_2_2_0.Point;
+import de.micromata.opengis.kml.v_2_2_0.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,8 +21,9 @@ public class KmlManager {
     int color_offset = 256;
     int mandaderos_count = 0;
     Kml kml;
+    private Document document;
     
-    public void loadSolutionFromKML(String filename, Schedule sched){
+    public void load_Solution_From_KML(String filename, Schedule sched){
         File file = new File(filename);
         Kml kml2 = Kml.unmarshal(file);
         Document documento = (Document) kml2.getFeature ();
@@ -66,7 +60,7 @@ public class KmlManager {
     /*
     La idea es crear un kml con puntos y folders donde cada folder es un mandadero
     */
-    public void loadInitProblemFromKML(String filename, Schedule sched){
+    public void load_Init_Problem_From_KML(String filename, Schedule sched){
         File file = new File(filename);
         Kml kml2 = Kml.unmarshal(file);
         Document documento = (Document) kml2.getFeature ();
@@ -94,19 +88,14 @@ public class KmlManager {
         }
     }
     
-    
+    public void start_Kml(String filename){
+        kml = new Kml();
+        document = kml.createAndSetDocument().withName(filename);
+    }
     /*
     Agrega un timeSpan para todos los mandaderos involucrados
     */
-    public void apply_reschedule(ProblemInstance prob, Schedule sched, Event event){
-        
-        
-    }
-    
-    /*
-    Agrega un layer con el recorrido de un nuevo mandadero
-    */
-    public void add_mandadero(Schedule sched){
+    public int get_Color(){
         if (mandaderos_count < Math.pow(mandaderos_count, color_depth)){
             color_count += color_offset;
         } else {
@@ -114,24 +103,30 @@ public class KmlManager {
             color_count = color_offset;
             color_depth++;
         }
-        mandaderos_count++;
+        return color_count;
     }
-    
-    /*
-    Agrega un timeSpan para todos los mandaderos involucrados
-    */
-    public void remove_mandadero(Schedule sched){
-        if (Math.pow(mandaderos_count, color_depth) < mandaderos_count){
-            color_count -= color_offset;
-        } else {
-            color_offset = color_offset*2;
-            color_count = color_offset;
-            color_depth--;
+    public void apply_reschedule(ProblemInstance prob, Schedule sched, Event event){
+        mandaderos_count = sched.tasks_queues.size();
+        
+        Folder folder1 = document.createAndAddFolder().withName("EventTime: "+ event.time);
+        for (int i=0; i<sched.tasks_queues.size();i++){
+            Folder folder = folder1.createAndAddFolder().withName("Mandadero "+ i);
+            folder.createAndAddStyle().createAndSetLineStyle().setColor(Integer.toHexString(get_Color()));
+            MandaderoTaskQueue mtq= sched.tasks_queues.get(i);
+            LineString linestring=folder.createAndAddPlacemark().createAndSetLineString();
+            Place place;
+            for (int j=0; j<mtq.size();j++){
+                place = mtq.get(j);
+                linestring.addToCoordinates(place.coord.longit,place.coord.latit);
+            }
+            for (int j=0; j<mtq.size();j++){
+                place = mtq.get(j);
+                folder.createAndAddPlacemark().createAndSetPoint().addToCoordinates(place.coord.longit,place.coord.latit);
+            }
         }
-        mandaderos_count--;
     }
     
-    public void write_kml(String sched_id){
+    public void write_Kml(String sched_id){
         try {
             kml.marshal(new File("Solution.kml"));
         } catch (FileNotFoundException ex) {
