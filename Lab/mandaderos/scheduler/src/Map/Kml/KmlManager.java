@@ -126,7 +126,7 @@ public class KmlManager {
         }
     }
     
-    public void write_Kml(String sched_id){
+    public void write_kml(String sched_id){
         try {
             kml.marshal(new File("Solution.kml"));
         } catch (FileNotFoundException ex) {
