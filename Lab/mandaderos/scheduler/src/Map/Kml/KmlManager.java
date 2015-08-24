@@ -94,9 +94,13 @@ public class KmlManager {
         }
     }
     
-    public void start_Kml(String filename){
+    public KmlManager(String filename){
         kml = new Kml();
         document = kml.createAndSetDocument().withName(filename);
+    }
+    public KmlManager(){
+        kml = new Kml();
+        document = kml.createAndSetDocument().withName("Solution");
     }
     /*
     Agrega un timeSpan para todos los mandaderos involucrados
@@ -158,7 +162,10 @@ public class KmlManager {
     
     public void write_kml(String sched_id){
         try {
-            kml.marshal(new File("Solution.kml"));
+            if (lastFolderTimeSpan != null){
+                lastFolderTimeSpan.setTimePrimitive(lastTimeSpan);
+            }
+            kml.marshal(new File(sched_id));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
         }
