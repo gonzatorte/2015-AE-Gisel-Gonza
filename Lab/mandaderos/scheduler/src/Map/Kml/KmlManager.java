@@ -25,6 +25,9 @@ public class KmlManager {
     TimeSpan lastTimeSpan = null;
     Kml kml;
     private Document document;
+    Calendar now = Calendar.getInstance();
+    int offsetNow = 10; // en minutos
+    
     
     public void load_Solution_From_KML(String filename, Schedule sched){
         File file = new File(filename);
@@ -115,8 +118,9 @@ public class KmlManager {
         return ""+s;
     }
     //formato para timespan: 1999-07-16T07:30:15Z AAAA-MM-DDTHH:MM:SSZ
-    public String get_DateNow_to_TimeSpan(){
-        Calendar cal1 = Calendar.getInstance();
+    public String get_Date_to_TimeSpan(Event event){
+        Calendar cal1 = (Calendar)now.clone();
+        cal1.add(Calendar.MINUTE,event.time*offsetNow);
         return cal1.get(Calendar.YEAR)+"-"+add_cero(cal1.get(Calendar.MONTH)+1)
     +"-"+add_cero(cal1.get(Calendar.DATE))+"T"+add_cero(cal1.get(Calendar.HOUR_OF_DAY))
     +":"+add_cero(cal1.get(Calendar.MINUTE))+":"+add_cero(cal1.get(Calendar.SECOND))+"Z";
@@ -127,13 +131,13 @@ public class KmlManager {
         color_offset = 256;
         mandaderos_count = sched.tasks_queues.size();       
         if (lastFolderTimeSpan != null){
-            lastTimeSpan.setEnd(get_DateNow_to_TimeSpan());
+            lastTimeSpan.setEnd(get_Date_to_TimeSpan(event));
             lastFolderTimeSpan.setTimePrimitive(lastTimeSpan);
         }
         Folder folder1 = document.createAndAddFolder().withName("EventTime: "+ event.time);
         lastFolderTimeSpan = folder1;
         lastTimeSpan= new TimeSpan();
-        lastTimeSpan.setBegin(get_DateNow_to_TimeSpan());
+        lastTimeSpan.setBegin(get_Date_to_TimeSpan(event));
         for (int i=0; i<sched.tasks_queues.size();i++){
             Folder folder = folder1.createAndAddFolder().withName("Mandadero "+ i);
             MandaderoTaskQueue mtq= sched.tasks_queues.get(i);
