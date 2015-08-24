@@ -9,24 +9,24 @@ public class SQLiteTest {
 
     public static void main(String[] args) throws SQLiteException {
         SQLiteConnection sqLiteConnection = new SQLiteConnection(new File("Hola.db"));
-        sqLiteConnection.open();
+        sqLiteConnection.open(true);
         sqLiteConnection.exec(
-"CREATE TABLE \"Persona\" (\n" +
+"CREATE TABLE IF NOT EXISTS \"Persona\" (\n" +
 "    \"id\" INTEGER PRIMARY KEY,\n" +
 "    \"primer_nombre\" TEXT NOT NULL,\n" +
 "    \"primer_apellido\" TEXT\n" +
 ")");
         sqLiteConnection.exec(
-"INSERT INTO \"Persona\" (\"id\", \"primer_nombre\", \"primer_apellido\") VALUES (1,'hola','hola')"
+"INSERT INTO \"Persona\" (\"primer_nombre\", \"primer_apellido\") VALUES ('hola','hola')"
+);
+        SQLiteStatement prepare = sqLiteConnection.prepare(
+"SELECT \"primer_nombre\" FROM \"Persona\" WHERE \"primer_nombre\" = ?"
 );
 //        SQLiteStatement prepare = sqLiteConnection.prepare(
-//"SELECT \"primer_nombre\" FROM \"Persona\" WHERE \"Persona\" = ?"
+//"SELECT \"primer_nombre\" FROM \"Persona\""
 //);
-        SQLiteStatement prepare = sqLiteConnection.prepare(
-"SELECT \"primer_nombre\" FROM \"Persona\""
-);
-        SQLiteStatement res = prepare;
-//        SQLiteStatement res = prepare.bind(1, "hola");
+//        SQLiteStatement res = prepare;
+        SQLiteStatement res = prepare.bind(1, "hola");
         while(res.step()){
 //        while(res.hasRow()){
             Object columnValue = res.columnValue(0);
