@@ -2,6 +2,7 @@ package scheduler;
 
 import Map.Mapa;
 import Map.Place;
+import java.util.HashMap;
 import scheduler.problem.Schedule;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +12,13 @@ import scheduler.solution.framework.Genotype;
 
 
 public class Coder {
-    public Map<String, Integer> place_to_id_map;
-    public Map<Integer, String> id_to_place_map;
-    public Mapa mapa;
+    public Map<String, Integer> place_to_id_map = new HashMap<String, Integer>();
+    public Map<Integer, String> id_to_place_map = new HashMap<Integer, String>();
+    public ProblemInstance problem;
     private int id_generator_counter = 1;
     
-    public Coder(Mapa mapa){
-        this.mapa = mapa;
+    public Coder(ProblemInstance problem){
+        this.problem = problem;
     }
     
     public Integer addPlace(String place_id){
@@ -39,22 +40,18 @@ public class Coder {
     }
     
     public Schedule decode(Genotype genotipo){
-        Schedule f = new Schedule(this.mapa);
+        Schedule f = new Schedule(this.problem.mapa);
         MandaderoTaskQueue m_queue = new MandaderoTaskQueue();
         for (Integer gen : genotipo){
             if (gen == 0){
                 f.tasks_queues.add(m_queue);
                 m_queue = new MandaderoTaskQueue();
             } else {
-                Place p = mapa.findPlaceById(id_to_place_map.get(gen));
+                Place p = this.problem.mapa.findPlaceById(id_to_place_map.get(gen));
                 m_queue.add(p);
             }
         }
         f.tasks_queues.add(m_queue);
         return f;
-    }
-    
-    public Genotype encode(Schedule fenotipo){
-        return null;
     }
 }

@@ -1,7 +1,7 @@
 package SerializableTest;
 import Map.Mapa;
 import Map.Coordinate;
-import Map.DistanceTable;
+import Map.LightDistanceTable;
 import Map.Place;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ public class main {
         places.add(p1);
         places.add(p2);
         map.places = places;
-        DistanceTable all_distances = new DistanceTable();
+        LightDistanceTable all_distances = new LightDistanceTable();
         HashMap<Place, Double> interMap = new HashMap<Place, Double>();
         interMap.put(places.get(1), 1.5);
         all_distances.put(places.get(0),interMap);

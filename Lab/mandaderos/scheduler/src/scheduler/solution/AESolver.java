@@ -22,16 +22,14 @@ public class AESolver extends Solver {
     protected Coder coder;
     protected EvolutionEngine engine;
 
-    public AESolver(long seed, Mapa mapa) {
-        super(mapa);
-        this.coder = new Coder(mapa);
+    public AESolver(long seed, Coder coder) {
+        this.coder = coder;
         this.logger = new AELogger(this.coder);
         this.fitness = new Fitness(this.coder);
         Population pop = new Population(100);
         Random rng = new Random(seed);
         pop.RandomizePopultion(rng);
         this.engine = new EvolutionEngine(pop, this.fitness, rng);
-        engine.setSingleThreaded(true);
         engine.addEvolutionObserver(this.logger);
     }
     

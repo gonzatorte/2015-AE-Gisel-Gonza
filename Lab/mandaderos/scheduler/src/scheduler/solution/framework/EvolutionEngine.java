@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.AbstractEvolutionEngine;
 import org.uncommons.watchmaker.framework.EvaluatedCandidate;
@@ -22,7 +24,9 @@ import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import scheduler.solution.Fitness;
 
-public class EvolutionEngine extends AbstractEvolutionEngine<Genotype>
+public class EvolutionEngine
+//implements org.uncommons.watchmaker.framework.EvolutionEngine<Genotype> 
+//extends AbstractEvolutionEngine<Genotype>
 {
     private final Set<EvolutionObserver<? super Genotype>> observers = 
             new CopyOnWriteArraySet<EvolutionObserver<? super Genotype>>();
@@ -38,7 +42,6 @@ public class EvolutionEngine extends AbstractEvolutionEngine<Genotype>
     }
 
     public EvolutionEngine(Population pop, Fitness fitnessEvaluator, Random rng){
-        super(null, fitnessEvaluator, null);
         List<EvolutionaryOperator<Genotype>> operators = 
         new ArrayList<EvolutionaryOperator<Genotype>>(2);
         operators.add(new Mutation());
@@ -50,7 +53,6 @@ public class EvolutionEngine extends AbstractEvolutionEngine<Genotype>
         this.current_population = pop;
     }
 
-    @Override
     protected List<EvaluatedCandidate<Genotype>> nextEvolutionStep(List<EvaluatedCandidate<Genotype>> evaluatedPopulation,
                                                             int eliteCount,
                                                             Random rng)
@@ -77,6 +79,16 @@ public class EvolutionEngine extends AbstractEvolutionEngine<Genotype>
         return evaluatePopulation(population);
     }
 
+    protected List<EvaluatedCandidate<Genotype>> evaluatePopulation(List<Genotype> population)
+    {
+        List<EvaluatedCandidate<Genotype>> evaluatedPopulation = new ArrayList<EvaluatedCandidate<Genotype>>(population.size());
+        for (Genotype candidate : population)
+        {
+            evaluatedPopulation.add(new EvaluatedCandidate<Genotype>(candidate, fitnessEvaluator.getFitness(candidate, population)));
+        }
+        return evaluatedPopulation;
+    }
+    
     public Genotype evolve(int eliteCount,
                     TerminationCondition... conditions)
     {
@@ -85,10 +97,8 @@ public class EvolutionEngine extends AbstractEvolutionEngine<Genotype>
                       conditions).get(0).getCandidate();
     }
     
-    @Override
     public List<EvaluatedCandidate<Genotype>> evolvePopulation(int populationSize,
                                                         int eliteCount,
-                                                        Collection<Genotype> seedCandidates,
                                                         TerminationCondition... conditions)
     {
         if (eliteCount < 0 || eliteCount >= populationSize)
@@ -144,7 +154,6 @@ public class EvolutionEngine extends AbstractEvolutionEngine<Genotype>
         }
     }
     
-    @Override
     public List<TerminationCondition> getSatisfiedTerminationConditions()
     {
         if (satisfiedTerminationConditions == null)
@@ -155,5 +164,16 @@ public class EvolutionEngine extends AbstractEvolutionEngine<Genotype>
         {
             return Collections.unmodifiableList(satisfiedTerminationConditions);
         }
+    }
+
+    public void addEvolutionObserver(EvolutionObserver<? super Genotype> observer)
+    {
+        observers.add(observer);
+    }
+
+
+    public void removeEvolutionObserver(EvolutionObserver<? super Genotype> observer)
+    {
+        observers.remove(observer);
     }
 }

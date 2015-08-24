@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class Mapa implements Serializable{
-    public DistanceTable distances;
+    public LightDistanceTable distances;
     public List<Place> places;
     double h_latit;
     double l_latit;
@@ -27,7 +27,7 @@ public class Mapa implements Serializable{
     public Mapa subMapa(Coordinate diag1, Coordinate diag2){
         Mapa nuevoMapa = new Mapa(diag1, diag2);
         LinkedList<Place> nuevoPlaces = new LinkedList<Place>();
-        DistanceTable nuevaDistancias = (DistanceTable) this.distances.clone();
+        LightDistanceTable nuevaDistancias = (LightDistanceTable) this.distances.clone();
         for (Place place : places){
             if ((l_latit < place.coord.latit) && (place.coord.latit < h_latit) &&
                 (l_longit < place.coord.longit) && (place.coord.longit < h_longit)){
@@ -46,7 +46,7 @@ public class Mapa implements Serializable{
         dcrawler.destinos = places;
         dcrawler.origenes = new ArrayList<Place>();
         dcrawler.origenes.add(place);
-        DistanceTable distances_for_place = dcrawler.process_response();
+        LightDistanceTable distances_for_place = dcrawler.process_response();
         distances.addPlace(place, distances_for_place.get(place));
         places.add(place);
     }

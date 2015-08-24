@@ -38,7 +38,7 @@ public final class MapaGenerator {
     public static Mapa test_data(){
        Mapa mapa = new Mapa(new Coordinate(-29.0, 9.0), new Coordinate(-39.0, 19.0));
        List<Place> places = new LinkedList<Place>();
-       DistanceTable dd = new DistanceTable();
+       LightDistanceTable dd = new LightDistanceTable();
        Place p1 = new Place("p_1", -30.0, 10.0);
        places.add(p1);
        
@@ -96,7 +96,7 @@ public final class MapaGenerator {
         List<Place> all_places = MapUtils.toList(all_places_tree);
         
         DistanceWebCrawler dcrawler = new DistanceWebCrawler();
-        DistanceTable all_distances = new DistanceTable();
+        LightDistanceTable all_distances = new LightDistanceTable();
 
         all_places = new LinkedList<Place>(all_places.subList(0, 40));
 
@@ -109,7 +109,7 @@ public final class MapaGenerator {
             Place origen = all_places.get(i);
             dcrawler.origenes = new ArrayList<Place>();
             dcrawler.origenes.add(origen);
-            DistanceTable distances = dcrawler.process_response();
+            LightDistanceTable distances = dcrawler.process_response();
             all_distances.addPlace(origen, distances.get(origen));
         }
         mapa.distances = all_distances;

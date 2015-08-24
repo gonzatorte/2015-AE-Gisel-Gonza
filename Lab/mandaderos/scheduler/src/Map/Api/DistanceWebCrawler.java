@@ -1,6 +1,6 @@
 package Map.Api;
 
-import Map.DistanceTable;
+import Map.LightDistanceTable;
 import Map.Place;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -66,14 +66,14 @@ public class DistanceWebCrawler extends WebCrawler {
         return url_api;
     }
 
-    public DistanceTable process_response() throws SAXException, IOException, ParserConfigurationException {
+    public LightDistanceTable process_response() throws SAXException, IOException, ParserConfigurationException {
         BufferedInputStream web_stream = this.call();
         InputSource web_source = new InputSource(web_stream);
         DocumentBuilderFactory dom_factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dom_factory.newDocumentBuilder();
         Document document = builder.parse(web_source);
         NodeList rowNodeList = document.getElementsByTagName("row");
-        DistanceTable distances = new DistanceTable();
+        LightDistanceTable distances = new LightDistanceTable();
         for (int i = 0; i < rowNodeList.getLength(); i++) {
             HashMap<Place, Double> interMap = new HashMap<Place, Double>();
             Node rowNode = rowNodeList.item(i);

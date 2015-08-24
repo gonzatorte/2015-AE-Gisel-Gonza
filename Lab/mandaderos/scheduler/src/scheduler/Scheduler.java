@@ -42,7 +42,8 @@ class ParamGetter{
 public final class Scheduler {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 //        do_it(args);
-        test_case(args);
+        test_case_1();
+//        test_case_2();
     }
     
     public static void do_it(String[] args) throws IOException, ClassNotFoundException{
@@ -59,9 +60,9 @@ public final class Scheduler {
         
         Solver solver;
         if ("AE".equals(solution_method)){
-            solver = new AESolver(seed, problem.mapa);
+            solver = new AESolver(seed, new Coder(problem));
         } else if ("Greedy".equals(solution_method)){
-            solver = new GreedySolver(problem.mapa);
+            solver = new GreedySolver();
         } else {
             throw new Error("Solo Greedy o AE");
         }
@@ -78,9 +79,17 @@ public final class Scheduler {
         kml_manager.write_kml("solucion_1.kml");
     }
     
-    public static void test_case(String[] args){
+    public static Schedule test_case_1(){
         ProblemInstance pp = OfflineProblemInstance.test_case();
-        Solver solver = new GreedySolver(pp.mapa);
+        Solver solver = new GreedySolver();
         Schedule solution = solver.solve(pp);
+        return solution;
+    }
+    
+    public static Schedule test_case_2(){
+        ProblemInstance pp = OfflineProblemInstance.test_case();
+        Solver solver = new AESolver(17, new Coder(pp));
+        Schedule solution = solver.solve(pp);
+        return solution;
     }
 }
