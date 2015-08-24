@@ -5,6 +5,7 @@ import de.micromata.opengis.kml.v_2_2_0.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,8 @@ public class KmlManager {
     int color_count = 0;
     int color_offset = 256;
     int mandaderos_count = 0;
+    Folder lastFolderTimeSpan = null;
+    TimeSpan lastTimeSpan = null;
     Kml kml;
     private Document document;
     
@@ -105,12 +108,32 @@ public class KmlManager {
         }
         return color_count;
     }
+    public String add_cero(int s){
+        if (s<10){
+            return "0"+s;
+        }
+        return ""+s;
+    }
+    //formato para timespan: 1999-07-16T07:30:15Z AAAA-MM-DDTHH:MM:SSZ
+    public String get_DateNow_to_TimeSpan(){
+        Calendar cal1 = Calendar.getInstance();
+        return cal1.get(Calendar.YEAR)+"-"+add_cero(cal1.get(Calendar.MONTH)+1)
+    +"-"+add_cero(cal1.get(Calendar.DATE))+"T"+add_cero(cal1.get(Calendar.HOUR_OF_DAY))
+    +":"+add_cero(cal1.get(Calendar.MINUTE))+":"+add_cero(cal1.get(Calendar.SECOND))+"Z";
+    }
     public void apply_reschedule(ProblemInstance prob, Schedule sched, Event event){
         color_depth = 0;
         color_count = 0;
         color_offset = 256;
-        mandaderos_count = sched.tasks_queues.size();        
+        mandaderos_count = sched.tasks_queues.size();       
+        if (lastFolderTimeSpan != null){
+            lastTimeSpan.setEnd(get_DateNow_to_TimeSpan());
+            lastFolderTimeSpan.setTimePrimitive(lastTimeSpan);
+        }
         Folder folder1 = document.createAndAddFolder().withName("EventTime: "+ event.time);
+        lastFolderTimeSpan = folder1;
+        lastTimeSpan= new TimeSpan();
+        lastTimeSpan.setBegin(get_DateNow_to_TimeSpan());
         for (int i=0; i<sched.tasks_queues.size();i++){
             Folder folder = folder1.createAndAddFolder().withName("Mandadero "+ i);
             MandaderoTaskQueue mtq= sched.tasks_queues.get(i);
