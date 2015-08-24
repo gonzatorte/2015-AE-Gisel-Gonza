@@ -1,10 +1,8 @@
 package scheduler;
 
-import Map.Mapa;
 import Map.Place;
 import java.util.HashMap;
 import scheduler.problem.Schedule;
-import java.util.List;
 import java.util.Map;
 import scheduler.problem.MandaderoTaskQueue;
 import scheduler.problem.ProblemInstance;
@@ -40,7 +38,7 @@ public class Coder {
     }
     
     public Schedule decode(Genotype genotipo){
-        Schedule f = new Schedule(this.problem.mapa);
+        Schedule f = new Schedule(this.problem);
         MandaderoTaskQueue m_queue = new MandaderoTaskQueue();
         for (Integer gen : genotipo){
             if (gen == 0){

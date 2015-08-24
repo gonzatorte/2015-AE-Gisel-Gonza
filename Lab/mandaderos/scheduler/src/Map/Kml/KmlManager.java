@@ -48,7 +48,7 @@ public class KmlManager {
                         //el id tome el nombre que se le pone a la etiqueta porque el que retorna google es null
                         Place place = new Place(placemark.getName(),latitud,longitud);
                         try {
-                            sched.currentMapa.addPlace(place);
+                            sched.problem.mapa.addPlace(place);
                         } catch (SAXException ex) {
                             Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (IOException ex) {
@@ -82,7 +82,7 @@ public class KmlManager {
                 Double longitud = point.getCoordinates().get(0).getLongitude();
                 //el id tome el nombre que se le pone a la etiqueta porque el que retorna google es null
                 try {
-                    sched.currentMapa.addPlace(new Place(placemark.getName(),latitud,longitud));
+                    sched.problem.mapa.addPlace(new Place(placemark.getName(),latitud,longitud));
                 } catch (SAXException ex) {
                     Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {

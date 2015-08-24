@@ -7,7 +7,6 @@ import java.io.*;
 import scheduler.events.Event;
 import scheduler.events.EventSource;
 import scheduler.problem.Schedule;
-import scheduler.problem.OfflineProblemInstance;
 import scheduler.problem.ProblemInstance;
 import scheduler.solution.AESolver;
 import scheduler.solution.GreedySolver;
@@ -55,7 +54,7 @@ public final class Scheduler {
         File f = new File("mapas/" + nombre_mapa + ".jbin");
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
         Mapa mapa = (Mapa)ois.readObject();
-        ProblemInstance problem = new OfflineProblemInstance(mapa);
+        ProblemInstance problem = new ProblemInstance(mapa);
         EventSource e_source = new EventSource();
         
         Solver solver;
@@ -80,14 +79,14 @@ public final class Scheduler {
     }
     
     public static Schedule test_case_1(){
-        ProblemInstance pp = OfflineProblemInstance.test_case();
+        ProblemInstance pp = ProblemInstance.test_case();
         Solver solver = new GreedySolver();
         Schedule solution = solver.solve(pp);
         return solution;
     }
     
     public static Schedule test_case_2(){
-        ProblemInstance pp = OfflineProblemInstance.test_case();
+        ProblemInstance pp = ProblemInstance.test_case();
         Solver solver = new AESolver(17, new Coder(pp));
         Schedule solution = solver.solve(pp);
         return solution;

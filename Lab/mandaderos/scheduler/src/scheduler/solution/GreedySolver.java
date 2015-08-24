@@ -16,7 +16,7 @@ public class GreedySolver extends Solver {
 
     @Override
     public Schedule solve(ProblemInstance problem) {
-        Schedule solution = new Schedule(problem.mapa);
+        Schedule solution = new Schedule(problem);
         LinkedList<MandaderoTaskQueue> tasks_by_mandadero = solution.tasks_queues;
         TreeSet<Place> visited = new TreeSet<Place>();
         //ToDo: Agregar a la solucion aquellos lugares de origen que tambien

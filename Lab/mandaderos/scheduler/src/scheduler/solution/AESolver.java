@@ -21,14 +21,14 @@ public class AESolver extends Solver {
     protected TerminationCondition end_condition = new StabilizedOrInterruptedCondition();
     protected Coder coder;
     protected EvolutionEngine engine;
+    public Random rng;
 
     public AESolver(long seed, Coder coder) {
         this.coder = coder;
         this.logger = new AELogger(this.coder);
         this.fitness = new Fitness(this.coder);
-        Population pop = new Population(100);
-        Random rng = new Random(seed);
-        pop.RandomizePopultion(rng);
+        rng = new Random(seed);
+        Population pop = new Population(100, rng);
         this.engine = new EvolutionEngine(pop, this.fitness, rng);
         engine.addEvolutionObserver(this.logger);
     }
@@ -60,8 +60,6 @@ public class AESolver extends Solver {
         }
         fitness.setProblem(problem);
         engine.setFitness(fitness);
-        engine.current_population.addMandadero(problem.origin_mandaderos.size());
-        engine.current_population.addPlace(elems);
         
         Genotype res = engine.evolve(0, this.end_condition);
         return res;
