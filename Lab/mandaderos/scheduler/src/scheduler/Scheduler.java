@@ -42,8 +42,8 @@ class ParamGetter{
 public final class Scheduler {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 //        do_it(args);
-        test_case_1();
-//        test_case_2();
+//        test_case_1();
+        test_case_2();
     }
     
     public static void do_it(String[] args) throws IOException, ClassNotFoundException{

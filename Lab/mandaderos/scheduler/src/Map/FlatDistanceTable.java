@@ -21,6 +21,7 @@ public class FlatDistanceTable extends HashMap<Place,HashMap<Place,Double>> impl
 
     public void addPlace(Place p1, HashMap<Place, Double> distances) {
         this.put(p1, distances);
+//        this.get(p1).put(p1, 0.0);
         Set<Entry<Place, Double>> p_ds = distances.entrySet();
         for (Entry<Place, Double> pd : p_ds){
             this.get(pd.getKey()).put(p1, pd.getValue());
@@ -40,12 +41,13 @@ public class FlatDistanceTable extends HashMap<Place,HashMap<Place,Double>> impl
         // el minimo en tiempo 1
         Set<Entry<Place, Double>> pds = this.get(p1).entrySet();
         Double min_distance = null;
+        Place nearest = null;
         for (Entry<Place, Double> pd : pds){
             if ((min_distance == null) || (pd.getValue() < min_distance)){
-                return pd.getKey();
+                min_distance = pd.getValue();
+                nearest = pd.getKey();
             }
         }
-        return null;
+        return nearest;
     }
-
 }

@@ -44,12 +44,12 @@ public class GreedySolver extends Solver {
                 Place place_before = task_by_mandadero.get(task_by_mandadero.size()-1);
                 Place nearest = problem.mapa.distances.getNearest(place_before, visited);
                 if (nearest == null){
-                    all_visited = true;
                     break;
                 }
                 visited.add(nearest);
                 task_by_mandadero.add(nearest);
             }
+            all_visited = visited.size() >= problem.mapa.places.size();
         }
         return solution;
     }

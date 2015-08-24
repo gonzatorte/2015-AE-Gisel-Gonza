@@ -39,23 +39,24 @@ public final class MapaGenerator {
        Mapa mapa = new Mapa(new Coordinate(-29.0, 9.0), new Coordinate(-39.0, 19.0));
        List<Place> places = new LinkedList<Place>();
        LightDistanceTable dd = new LightDistanceTable();
+       
        Place p1 = new Place("p_1", -30.0, 10.0);
        places.add(p1);
+       HashMap<Place, Double> dp1 = new HashMap<Place, Double>();
+       dd.addPlace(p1, dp1);
        
        Place p2 = new Place("p_2", -30.1, 10.1);
        places.add(p2);
-       HashMap<Place, Double> dp1_2 = new HashMap<Place, Double>();
-       dp1_2.put(p2, 20.0);
-       dd.addPlace(p1, dp1_2);
+       HashMap<Place, Double> dp2 = new HashMap<Place, Double>();
+       dp2.put(p1, 20.0);
+       dd.addPlace(p2, dp2);
        
        Place p3 = new Place("p_3", -30.2, 10.2);
        places.add(p3);
-       HashMap<Place, Double> dp1_3 = new HashMap<Place, Double>();
-       dp1_3.put(p3, 30.0);
-       dd.addPlace(p1, dp1_3);
-       HashMap<Place, Double> dp2_3 = new HashMap<Place, Double>();
-       dp2_3.put(p3, 40.0);
-       dd.addPlace(p2, dp2_3);
+       HashMap<Place, Double> dp3 = new HashMap<Place, Double>();
+       dp3.put(p1, 30.0);
+       dp3.put(p2, 40.0);
+       dd.addPlace(p3, dp3);
        
        mapa.places = places;
        mapa.distances = dd;
