@@ -97,5 +97,4 @@ public final class Scheduler {
         Schedule solution = solver.solve(pp);
         return solution;
     }
-    
 }

@@ -1,11 +1,14 @@
 package Map.Kml;
 
+import Map.Mapa;
+import Map.MapaGenerator;
 import Map.Place;
 import de.micromata.opengis.kml.v_2_2_0.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +16,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import scheduler.events.Event;
 import scheduler.problem.MandaderoTaskQueue;
+import scheduler.problem.OfflineProblemInstance;
+import scheduler.problem.OnlineProblemInstance;
 import scheduler.problem.ProblemInstance;
 import scheduler.problem.Schedule;
 
@@ -64,34 +69,26 @@ public class KmlManager {
         }
     }
     /*
-    La idea es crear un kml con puntos y folders donde cada folder es un mandadero
+    La idea es crear un kml con puntos para indicar cada uno de los places
     */
-    public void load_Init_Problem_From_KML(String filename, Schedule sched){
-        File file = new File(filename);
+    public static List<Place> get_places_From_KML(String kmlPath){
+        File file = new File(kmlPath);
         Kml kml2 = Kml.unmarshal(file);
         Document documento = (Document) kml2.getFeature ();
         List <Feature> t = documento.getFeature (); 
+        int cantMandaderos=0;
+        List<Place> lp= new LinkedList<Place>();
         for(Object o : t){
-            if (o instanceof Folder){
-                sched.tasks_queues.add(new MandaderoTaskQueue());
-            }
             if (o instanceof Placemark){
                 Placemark placemark = (Placemark)o;
                 Point point = (Point) placemark.getGeometry();
                 Double latitud = point.getCoordinates().get(0).getLatitude();
                 Double longitud = point.getCoordinates().get(0).getLongitude();
                 //el id tome el nombre que se le pone a la etiqueta porque el que retorna google es null
-                try {
-                    sched.currentMapa.addPlace(new Place(placemark.getName(),latitud,longitud));
-                } catch (SAXException ex) {
-                    Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParserConfigurationException ex) {
-                    Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                lp.add(new Place(placemark.getName(),latitud,longitud));
             }
         }
+        return lp;
     }
     
     public KmlManager(String filename){
