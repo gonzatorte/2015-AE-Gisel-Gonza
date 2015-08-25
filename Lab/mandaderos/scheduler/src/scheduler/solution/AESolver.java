@@ -23,10 +23,10 @@ public class AESolver extends Solver {
     protected EvolutionEngine engine;
     public Random rng;
 
-    public AESolver(long seed, Coder coder) {
-        this.coder = coder;
+    public AESolver(long seed, ProblemInstance problem) {
+        this.coder = new Coder(problem);
         this.logger = new AELogger(this.coder);
-        this.fitness = new Fitness(this.coder);
+        this.fitness = new Fitness(problem, this.coder);
         rng = new Random(seed);
         Population pop = new Population(100, rng);
         this.engine = new EvolutionEngine(pop, this.fitness, rng);
@@ -40,11 +40,11 @@ public class AESolver extends Solver {
         } else if ("removeMandadero".equals(event.tipo)){
             engine.current_population.removeMandadero();
         } else if ("addPlace".equals(event.tipo)){
-            String place_id = event.data;
+            String place_id = (String) event.data[0];
             Integer place_id_int = this.coder.addPlace(place_id);
             engine.current_population.addPlace(place_id_int);
         } else if ("removePlace".equals(event.tipo)){
-            String place_id = event.data;
+            String place_id = (String) event.data[0];
             Integer place_id_int = this.coder.removePlace(place_id);
             engine.current_population.removePlace(place_id_int);
         } else {
@@ -53,14 +53,6 @@ public class AESolver extends Solver {
     }
     
     public Genotype evolve(ProblemInstance problem) {
-        List<Integer> elems = new ArrayList<Integer>();
-        for (Place p : problem.mapa.places){
-            Integer place_id_int = this.coder.addPlace(p.place_id);
-            elems.add(place_id_int);
-        }
-        fitness.setProblem(problem);
-        engine.setFitness(fitness);
-        
         Genotype res = engine.evolve(0, this.end_condition);
         return res;
     }

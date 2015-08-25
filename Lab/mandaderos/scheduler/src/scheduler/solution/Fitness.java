@@ -13,11 +13,8 @@ public class Fitness implements FitnessEvaluator<Genotype> {
     public Coder coder;
     public ProblemInstance problem;
     
-    public Fitness(Coder coder){
+    public Fitness(ProblemInstance problem, Coder coder){
         this.coder = coder;
-    }
-    
-    public void setProblem(ProblemInstance problem){
         this.problem = problem;
     }
     

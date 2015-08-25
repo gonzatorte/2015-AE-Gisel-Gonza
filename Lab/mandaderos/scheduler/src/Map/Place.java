@@ -9,6 +9,11 @@ public class Place implements Serializable, Comparable<Place> {
         this.coord = new Coordinate(latit, longit);
         this.place_id = place_id;
     }
+    
+    public Place(String place_id, Coordinate coord){
+        this.coord = coord;
+        this.place_id = place_id;
+    }
 
     public int compareTo(Place p2) {
         return this.place_id.compareTo(p2.place_id);

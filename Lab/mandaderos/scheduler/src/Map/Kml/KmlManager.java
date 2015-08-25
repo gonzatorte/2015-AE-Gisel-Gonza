@@ -48,15 +48,7 @@ public class KmlManager {
                         Double longitud = point.getCoordinates().get(0).getLongitude();
                         //el id tome el nombre que se le pone a la etiqueta porque el que retorna google es null
                         Place place = new Place(placemark.getName(),latitud,longitud);
-                        try {
-                            sched.problem.mapa.addPlace(place);
-                        } catch (SAXException ex) {
-                            Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IOException ex) {
-                            Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ParserConfigurationException ex) {
-                            Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        sched.problem.mapa.addPlace(place);
                         mandadero.add(place);
                     }              
                 }
@@ -82,15 +74,7 @@ public class KmlManager {
                 Double latitud = point.getCoordinates().get(0).getLatitude();
                 Double longitud = point.getCoordinates().get(0).getLongitude();
                 //el id tome el nombre que se le pone a la etiqueta porque el que retorna google es null
-                try {
-                    sched.problem.mapa.addPlace(new Place(placemark.getName(),latitud,longitud));
-                } catch (SAXException ex) {
-                    Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParserConfigurationException ex) {
-                    Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                sched.problem.mapa.addPlace(new Place(placemark.getName(),latitud,longitud));
             }
         }
     }

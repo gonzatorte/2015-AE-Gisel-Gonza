@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ public class main {
         Mapa map = new Mapa(new Coordinate(0,0),new Coordinate(3,3));
         Place p1 = new Place("0",1,1);
         Place p2 = new Place("1",2,2);
-        List<Place> places = new ArrayList<Place>();
+        LinkedList<Place> places = new LinkedList<Place>();
         places.add(p1);
         places.add(p2);
         map.places = places;

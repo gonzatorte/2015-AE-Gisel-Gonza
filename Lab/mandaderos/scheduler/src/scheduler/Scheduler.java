@@ -41,7 +41,7 @@ class ParamGetter{
 public final class Scheduler {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 //        do_it(args);
-//        test_case_1();
+        test_case_1();
         test_case_2();
     }
     
@@ -59,7 +59,7 @@ public final class Scheduler {
         
         Solver solver;
         if ("AE".equals(solution_method)){
-            solver = new AESolver(seed, new Coder(problem));
+            solver = new AESolver(seed, problem);
         } else if ("Greedy".equals(solution_method)){
             solver = new GreedySolver();
         } else {
@@ -87,7 +87,7 @@ public final class Scheduler {
     
     public static Schedule test_case_2(){
         ProblemInstance pp = ProblemInstance.test_case();
-        Solver solver = new AESolver(17, new Coder(pp));
+        Solver solver = new AESolver(17, pp);
         Schedule solution = solver.solve(pp);
         return solution;
     }

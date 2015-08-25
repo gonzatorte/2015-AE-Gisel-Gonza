@@ -3,6 +3,7 @@ package scheduler.solution;
 import Map.Mapa;
 import Map.Place;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.TreeSet;
 import scheduler.events.Event;
 import scheduler.problem.MandaderoTaskQueue;
@@ -19,11 +20,12 @@ public class GreedySolver extends Solver {
         Schedule solution = new Schedule(problem);
         LinkedList<MandaderoTaskQueue> tasks_by_mandadero = solution.tasks_queues;
         TreeSet<Place> visited = new TreeSet<Place>();
+        Set<Place> set_pedidos = new TreeSet<Place>(problem.pedidos);
         //ToDo: Agregar a la solucion aquellos lugares de origen que tambien
         //aparecen en la lista de pendientes
         for (Place origin_mandadero : problem.origin_mandaderos) {
             MandaderoTaskQueue task_by_mandadero = new MandaderoTaskQueue();
-            if (problem.mapa.places.contains(origin_mandadero)){
+            if (problem.pedidos.contains(origin_mandadero)){
                 //Ojo que mas de un mandadero puede estar resolviendo el origen
                 //si estos parten del mismo origen y es un punto requerido
                 task_by_mandadero.add(origin_mandadero);
@@ -33,23 +35,23 @@ public class GreedySolver extends Solver {
         }
         for (int i = 0 ; i < problem.origin_mandaderos.size() ; i++) {
             Place origin_mandadero = problem.origin_mandaderos.get(i);
-            Place nearest = problem.mapa.distances.getNearest(origin_mandadero, visited);
+            Place nearest = problem.mapa.distances.getNearest(origin_mandadero, set_pedidos, visited);
             visited.add(nearest);
             MandaderoTaskQueue task_by_mandadero = tasks_by_mandadero.get(i);
             task_by_mandadero.add(nearest);
         }
-        boolean all_visited = visited.size() >= problem.mapa.places.size();
+        boolean all_visited = visited.size() >= problem.pedidos.size();
         while (!all_visited){
             for (MandaderoTaskQueue task_by_mandadero : tasks_by_mandadero) {
                 Place place_before = task_by_mandadero.get(task_by_mandadero.size()-1);
-                Place nearest = problem.mapa.distances.getNearest(place_before, visited);
+                Place nearest = problem.mapa.distances.getNearest(place_before, set_pedidos, visited);
                 if (nearest == null){
                     break;
                 }
                 visited.add(nearest);
                 task_by_mandadero.add(nearest);
             }
-            all_visited = visited.size() >= problem.mapa.places.size();
+            all_visited = visited.size() >= problem.pedidos.size();
         }
         return solution;
     }

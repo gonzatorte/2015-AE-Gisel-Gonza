@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -42,12 +44,28 @@ public class Mapa implements Serializable{
         return nuevoMapa;
     }
     
-    public void addPlace(Place place) throws SAXException, IOException, ParserConfigurationException, SQLiteException{
-        DistanceWebCrawler dcrawler = new DistanceWebCrawler();
-        dcrawler.destinos = places;
-        dcrawler.origenes = new ArrayList<Place>();
-        dcrawler.origenes.add(place);
-        LightDistanceTable distances_for_place = dcrawler.crawl();
+    public void addPlace(Place place){
+        DistanceWebCrawler dcrawler;
+        LightDistanceTable distances_for_place;
+        try {
+            dcrawler = new DistanceWebCrawler();
+            dcrawler.destinos = places;
+            dcrawler.origenes = new ArrayList<Place>();
+            dcrawler.origenes.add(place);
+            distances_for_place = dcrawler.crawl();
+        } catch (IOException ex) {
+            Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Error("Error al agregar place");
+        } catch (SAXException ex) {
+            Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Error("Error al agregar place");
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Error("Error al agregar place");
+        } catch (SQLiteException ex) {
+            Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Error("Error al agregar place");
+        }
         distances.addPlace(place, distances_for_place.get(place));
         places.add(place);
     }
@@ -58,12 +76,14 @@ public class Mapa implements Serializable{
     }
     
     public Place findPlaceById(String place_id){
+        Place finded = null;
         for (Place p : this.places){
             if (p.place_id.equals(place_id)){
-                return p;
+                finded = p;
+                break;
             }
         }
-        return null;
+        return finded;
     }
     
     public List<Place> findPlaceByCoords(Coordinate diag1, Coordinate diag2){

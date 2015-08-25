@@ -25,5 +25,5 @@ public interface DistanceTable extends Serializable{
     /*
     Ojo que este metodo no esta dando como nearest al mismo punto p1
     */
-    public Place getNearest(Place p1, Set<Place> excluded_places);
+    public Place getNearest(Place p1, Set<Place> included_places, Set<Place> excluded_places);
 }
