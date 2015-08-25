@@ -42,8 +42,8 @@ class ParamGetter{
 public final class Scheduler {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 //        do_it(args);
-//        test_case_1();
-        test_case_2();
+        test_case_1();
+//        test_case_2();
     }
     
     public static void do_it(String[] args) throws IOException, ClassNotFoundException{
@@ -83,6 +83,11 @@ public final class Scheduler {
         ProblemInstance pp = OfflineProblemInstance.test_case();
         Solver solver = new GreedySolver();
         Schedule solution = solver.solve(pp);
+        KmlManager kml = new KmlManager();
+        Event e = new Event(null);
+        e.time = 0;
+        kml.apply_reschedule(pp, solution,e);
+        kml.write_kml("Solution.kml");
         return solution;
     }
     
@@ -92,4 +97,5 @@ public final class Scheduler {
         Schedule solution = solver.solve(pp);
         return solution;
     }
+    
 }
