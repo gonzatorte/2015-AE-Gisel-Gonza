@@ -22,10 +22,51 @@ public class EventSource {
         InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
         BufferedReader br = new BufferedReader(isr);
         String line;
-        Pattern p = Pattern.compile("time");
+        Pattern p_time = Pattern.compile("time");
+        Pattern p_addMandadero = Pattern.compile("addMandadero <.+>");
+        Pattern p_removeMandadero = Pattern.compile("removeMandadero <.+>");
+        Pattern p_addPlace = Pattern.compile("addPlace <.+>");
+        Pattern p_removePlace = Pattern.compile("removePlace <.+>");
         while ((line = br.readLine()) != null) {
-            Matcher m = p.matcher(line);
-            boolean b = m.matches();
+            {
+                Matcher m = p_time.matcher(line);
+                if(m.matches()){
+                    event_list.add(null);
+                    continue;
+                }
+            }
+            {
+                Matcher m = p_addMandadero.matcher(line);
+                if(m.matches()){
+                    String place_id = m.group(0);
+                    event_list.add(new Event("addMandadero", place_id));
+                    continue;
+                }
+            }
+            {
+                Matcher m = p_removeMandadero.matcher(line);
+                if(m.matches()){
+                    String place_id = m.group(0);
+                    event_list.add(new Event("removeMandadero", place_id));
+                    continue;
+                }
+            }
+            {
+                Matcher m = p_addPlace.matcher(line);
+                if(m.matches()){
+                    String place_id = m.group(0);
+                    event_list.add(new Event("addPlace", place_id));
+                    continue;
+                }
+            }
+            {
+                Matcher m = p_removePlace.matcher(line);
+                if(m.matches()){
+                    String place_id = m.group(0);
+                    event_list.add(new Event("removePlace", place_id));
+                    continue;
+                }
+            }
         }
     }
     

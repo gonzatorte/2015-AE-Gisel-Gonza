@@ -1,6 +1,7 @@
 package Map.Kml;
 
 import Map.Place;
+import com.almworks.sqlite4java.SQLiteException;
 import de.micromata.opengis.kml.v_2_2_0.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +30,7 @@ public class KmlManager {
     int offsetNow = 10; // en minutos
     
     
-    public void load_Solution_From_KML(String filename, Schedule sched){
+    public void load_Solution_From_KML(String filename, Schedule sched) throws SQLiteException{
         File file = new File(filename);
         Kml kml2 = Kml.unmarshal(file);
         Document documento = (Document) kml2.getFeature ();
@@ -66,7 +67,7 @@ public class KmlManager {
     /*
     La idea es crear un kml con puntos y folders donde cada folder es un mandadero
     */
-    public void load_Init_Problem_From_KML(String filename, Schedule sched){
+    public void load_Init_Problem_From_KML(String filename, Schedule sched) throws SQLiteException{
         File file = new File(filename);
         Kml kml2 = Kml.unmarshal(file);
         Document documento = (Document) kml2.getFeature ();

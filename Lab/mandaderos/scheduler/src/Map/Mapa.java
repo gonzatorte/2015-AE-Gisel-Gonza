@@ -1,6 +1,7 @@
 package Map;
 
 import Map.Api.DistanceWebCrawler;
+import com.almworks.sqlite4java.SQLiteException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,12 +42,12 @@ public class Mapa implements Serializable{
         return nuevoMapa;
     }
     
-    public void addPlace(Place place) throws SAXException, IOException, ParserConfigurationException{
+    public void addPlace(Place place) throws SAXException, IOException, ParserConfigurationException, SQLiteException{
         DistanceWebCrawler dcrawler = new DistanceWebCrawler();
         dcrawler.destinos = places;
         dcrawler.origenes = new ArrayList<Place>();
         dcrawler.origenes.add(place);
-        LightDistanceTable distances_for_place = dcrawler.process_response();
+        LightDistanceTable distances_for_place = dcrawler.crawl();
         distances.addPlace(place, distances_for_place.get(place));
         places.add(place);
     }

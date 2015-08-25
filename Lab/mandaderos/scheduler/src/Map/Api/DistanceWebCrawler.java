@@ -2,8 +2,14 @@ package Map.Api;
 
 import Map.LightDistanceTable;
 import Map.Place;
+import com.almworks.sqlite4java.SQLiteConnection;
+import com.almworks.sqlite4java.SQLiteException;
+import com.almworks.sqlite4java.SQLiteStatement;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,11 +28,46 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class DistanceWebCrawler extends WebCrawler {
+/*
+CREATE TABLE IF NOT EXISTS "Distances" (
+    "origin" TEXT NOT NULL,
+    "destination" TEXT NOT NULL,
+    "distance" REAL NOT NULL,
+    "duration" REAL NOT NULL,
+    PRIMARY KEY ("origin", "destination")
+);
+*/
+
+public class DistanceWebCrawler {
     public List<Place> destinos;
     public List<Place> origenes;
+    private SQLiteStatement consulta_posiciones_rango;
+    private SQLiteConnection db_con;
     
-    public DistanceWebCrawler(){}
+    public DistanceWebCrawler() throws SQLiteException{
+        SQLiteConnection sqLiteConnection = new SQLiteConnection(new File("Hola.db"));
+        sqLiteConnection.open(false);
+        this.db_con = sqLiteConnection;
+        this.consulta_posiciones_rango = sqLiteConnection.prepare(
+"SELECT \"primer_nombre\" FROM \"Persona\" WHERE \"primer_nombre\" = ?"
+);
+    }
+    
+    public LightDistanceTable crawl() throws UnsupportedEncodingException, IOException, SAXException, ParserConfigurationException, SQLiteException{
+        URL url_api = this.create_call();
+        BufferedInputStream call = this.call(url_api);
+        LightDistanceTable distances = this.process_response(call);
+        this.db_con.exec(
+"INSERT INTO \"Persona\" (\"primer_nombre\", \"primer_apellido\") VALUES ('hola','hola')"
+);
+        return distances;
+    }
+    
+    private BufferedInputStream call(URL url_api) throws MalformedURLException, UnsupportedEncodingException, IOException{
+        InputStream web_stream = url_api.openStream();
+        BufferedInputStream buff_web_stream = new BufferedInputStream(web_stream);
+        return buff_web_stream;
+    }
     
     /*
     elements = origins * destinations
@@ -37,7 +78,7 @@ public class DistanceWebCrawler extends WebCrawler {
 
     // ToDo: hacer llamadas de cada 9 places... sino de mas de 100 resultados
     // Luego ver como hacer una recorrida mas inteligente, eliminando las simetrias y reflexiones
-    public URL create_call() throws MalformedURLException {
+    private URL create_call() throws MalformedURLException {
         String base_url = "maps.googleapis.com/maps/api/distancematrix/xml";
         String coordinate_format = "%f,%f";
         
@@ -66,8 +107,7 @@ public class DistanceWebCrawler extends WebCrawler {
         return url_api;
     }
 
-    public LightDistanceTable process_response() throws SAXException, IOException, ParserConfigurationException {
-        BufferedInputStream web_stream = this.call();
+    private LightDistanceTable process_response(BufferedInputStream web_stream) throws SAXException, IOException, ParserConfigurationException {
         InputSource web_source = new InputSource(web_stream);
         DocumentBuilderFactory dom_factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dom_factory.newDocumentBuilder();
