@@ -5,7 +5,7 @@
         <ns2:Folder>
             <ns2:name>EventTime: 0</ns2:name>
             <ns2:TimeSpan>
-                <ns2:begin>2015-08-26T17:15:30Z</ns2:begin>
+                <ns2:begin>2015-08-26T18:58:05Z</ns2:begin>
             </ns2:TimeSpan>
             <ns2:Folder>
                 <ns2:name>Mandadero 0</ns2:name>
@@ -17,22 +17,43 @@
                         </ns2:LineStyle>
                     </ns2:Style>
                     <ns2:LineString>
-                        <ns2:coordinates>10.0,-30.0 10.1,-30.1 10.2,-30.2</ns2:coordinates>
+                        <ns2:coordinates>-56.16470925632854,-34.82314438495452 -56.16587159972957,-34.82330913822691 -56.16561121692074,-34.8248656564937 -56.16885898855873,-34.82372482938928 -56.16904156750135,-34.82083481426646 -56.16211343191724,-34.82278359152482</ns2:coordinates>
                     </ns2:LineString>
                 </ns2:Placemark>
                 <ns2:Placemark>
+                    <ns2:name>0</ns2:name>
                     <ns2:Point>
-                        <ns2:coordinates>10.0,-30.0</ns2:coordinates>
+                        <ns2:coordinates>-56.16470925632854,-34.82314438495452</ns2:coordinates>
                     </ns2:Point>
                 </ns2:Placemark>
                 <ns2:Placemark>
+                    <ns2:name>1</ns2:name>
                     <ns2:Point>
-                        <ns2:coordinates>10.1,-30.1</ns2:coordinates>
+                        <ns2:coordinates>-56.16587159972957,-34.82330913822691</ns2:coordinates>
                     </ns2:Point>
                 </ns2:Placemark>
                 <ns2:Placemark>
+                    <ns2:name>2</ns2:name>
                     <ns2:Point>
-                        <ns2:coordinates>10.2,-30.2</ns2:coordinates>
+                        <ns2:coordinates>-56.16561121692074,-34.8248656564937</ns2:coordinates>
+                    </ns2:Point>
+                </ns2:Placemark>
+                <ns2:Placemark>
+                    <ns2:name>3</ns2:name>
+                    <ns2:Point>
+                        <ns2:coordinates>-56.16885898855873,-34.82372482938928</ns2:coordinates>
+                    </ns2:Point>
+                </ns2:Placemark>
+                <ns2:Placemark>
+                    <ns2:name>4</ns2:name>
+                    <ns2:Point>
+                        <ns2:coordinates>-56.16904156750135,-34.82083481426646</ns2:coordinates>
+                    </ns2:Point>
+                </ns2:Placemark>
+                <ns2:Placemark>
+                    <ns2:name>5</ns2:name>
+                    <ns2:Point>
+                        <ns2:coordinates>-56.16211343191724,-34.82278359152482</ns2:coordinates>
                     </ns2:Point>
                 </ns2:Placemark>
             </ns2:Folder>
