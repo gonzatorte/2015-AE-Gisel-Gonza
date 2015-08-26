@@ -141,8 +141,4 @@ public class EventSource {
     public static void main(String[] args) throws IOException{
         test_case_1();
     }
-    
-    public static EventSource test_case_1() throws IOException{
-        return new EventSource(new File("./instances/events/test.evn"));
-    }
 }
