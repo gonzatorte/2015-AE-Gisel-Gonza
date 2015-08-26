@@ -45,9 +45,10 @@ class ParamGetter{
 public final class Scheduler {
     public static void main(String[] args) throws IOException, ClassNotFoundException, SAXException, ParserConfigurationException, UnsupportedEncodingException, SQLiteException {
 //        do_it(args);
- //      test_case_1();
-//        test_case_2();
-        test_kml();
+//        test_case_1();
+//        test_kml();
+        test_case_2();
+        test_case_3();
     }
     
     public static void do_it(String[] args) throws IOException, ClassNotFoundException{
@@ -102,6 +103,7 @@ public final class Scheduler {
         Solver solver = new AESolver(17, problem);
         Event event = e_source.getNextEvent();
         Schedule solution = null;
+        KmlManager kml = new KmlManager();
         while (event != null){
             while (!"time".equals(event.tipo)){
                 problem.applyEvent(event);
@@ -109,8 +111,32 @@ public final class Scheduler {
                 event = e_source.getNextEvent();
             }
             solution = solver.solve(problem);
+            kml.apply_reschedule(problem, solution, event);
             event = e_source.getNextEvent();
         }
+        kml.write_kml("Solution_AE.kml");
+        return solution;
+    }
+
+    public static Schedule test_case_3() throws IOException{
+        EventSource e_source = new EventSource(new File("./instances/events/test_1.evn"));
+        Mapa mapa = new Mapa(new Coordinate(-30.0, -55.0), new Coordinate(-28.0, -52.0));
+        ProblemInstance problem = new ProblemInstance(mapa);
+        Solver solver = new GreedySolver();
+        Event event = e_source.getNextEvent();
+        Schedule solution = null;
+        KmlManager kml = new KmlManager();
+        while (event != null){
+            while (!"time".equals(event.tipo)){
+                problem.applyEvent(event);
+                solver.applyEvent(event);
+                event = e_source.getNextEvent();
+            }
+            solution = solver.solve(problem);
+            kml.apply_reschedule(problem, solution, event);
+            event = e_source.getNextEvent();
+        }
+        kml.write_kml("Solution_greedy.kml");
         return solution;
     }
     

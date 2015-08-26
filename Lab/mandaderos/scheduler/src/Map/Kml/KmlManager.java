@@ -149,11 +149,11 @@ public class KmlManager {
                 place = mtq1;
                 linestring.addToCoordinates(place.coord.longit,place.coord.latit);
             }
-            i=0;
+            int j=0;
             for (Place mtq1 : mtq) {
                 place = mtq1;
                 Placemark p=folder.createAndAddPlacemark();
-                        p.setName(String.valueOf(i++));
+                        p.setName(String.valueOf(j++));
                         p.createAndSetPoint().addToCoordinates(place.coord.longit,place.coord.latit);
             }
         }
