@@ -95,9 +95,13 @@ public class EventSource {
     }
     
     public Event getNextEvent(){
-        Event ev = this.event_list.remove(step++);
-        ev.time = step++;
-        return ev;
+        if (step < this.event_list.size()){
+            Event ev = this.event_list.remove(step++);
+            ev.time = step++;
+            return ev;
+        } else {
+            return null;
+        }
     }
     
 //    public List<Event> getNextEvents() {

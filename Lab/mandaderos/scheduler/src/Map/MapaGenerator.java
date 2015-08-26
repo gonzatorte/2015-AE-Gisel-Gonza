@@ -38,7 +38,7 @@ public final class MapaGenerator {
 
     public static Mapa test_data(){
        Mapa mapa = new Mapa(new Coordinate(-29.0, 9.0), new Coordinate(-39.0, 19.0));
-       List<Place> places = new LinkedList<Place>();
+       LinkedList<Place> places = new LinkedList<Place>();
        LightDistanceTable dd = new LightDistanceTable();
        
        Place p1 = new Place("p_1", -30.0, 10.0);
@@ -68,12 +68,12 @@ public final class MapaGenerator {
 //        Mapa mapa = new Mapa(new Coordinate(-34.543393, -56.083478), new Coordinate(-34.583742, -56.090683));
         Mapa mapa = new Mapa(new Coordinate(51.503186, -0.126446), new Coordinate(51.523186, -0.146446));
         PlacesWebCrawler pcrawler = new PlacesWebCrawler();
-        List<Place> all_places = pcrawler.crawl(mapa.h_latit, mapa.l_latit, mapa.h_longit, mapa.l_longit);
+        List<Place> crawled_places = pcrawler.crawl(mapa.h_latit, mapa.l_latit, mapa.h_longit, mapa.l_longit);
         
         DistanceWebCrawler dcrawler = new DistanceWebCrawler();
         LightDistanceTable all_distances = new LightDistanceTable();
 
-        all_places = new LinkedList<Place>(all_places.subList(0, 40));
+        LinkedList<Place> all_places = new LinkedList<Place>(crawled_places.subList(0, 40));
 
         int places_size = all_places.size();
         //ToDo: El assert no anda a menos que los encendamos...

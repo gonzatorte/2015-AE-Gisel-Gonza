@@ -41,8 +41,7 @@ public class Population extends LinkedList<Genotype> {
         for (Genotype individuo : this){
             OptionalInt sorteo = ints.findFirst();
             int index_sorteo = sorteo.getAsInt();
-            //ToDo: Insert con esto
-//            individuo.add(0);
+            individuo.addAtIndex(0, index_sorteo);
         }
     }
 
@@ -51,7 +50,7 @@ public class Population extends LinkedList<Genotype> {
         for (Genotype individuo : this){
             OptionalInt sorteo = ints.findFirst();
             int index_sorteo = sorteo.getAsInt();
-            ArrayUtil.NthRemoveOf(individuo, 0, index_sorteo);
+            individuo.removeNthOf(0, index_sorteo);
         }
         mandaderos_count--;
     }
@@ -61,8 +60,7 @@ public class Population extends LinkedList<Genotype> {
         for (Genotype individuo : this){
             OptionalInt sorteo = ints.findFirst();
             int index_sorteo = sorteo.getAsInt();
-            //ToDo: Insert con esto
-//            individuo.add(p);
+            individuo.addAtIndex(p, index_sorteo);
         }
         places_count++;
     }
@@ -73,7 +71,7 @@ public class Population extends LinkedList<Genotype> {
             OptionalInt sorteo = ints.findFirst();
             int index_sorteo = sorteo.getAsInt();
             int index = individuo.indexOf(p);
-            ArrayUtil.NthRemoveOf(individuo, p, index_sorteo);
+            individuo.removeNthOf(p, index_sorteo);
         }
         places_count--;
     }

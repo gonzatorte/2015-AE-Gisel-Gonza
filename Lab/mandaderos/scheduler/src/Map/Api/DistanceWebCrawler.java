@@ -19,6 +19,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,7 +49,6 @@ public class DistanceWebCrawler {
 "    \"origin\" TEXT NOT NULL,\n" +
 "    \"destination\" TEXT NOT NULL,\n" +
 "    \"distance\" REAL NOT NULL,\n" +
-"    \"duration\" REAL NOT NULL,\n" +
 "    PRIMARY KEY (\"origin\", \"destination\")\n" +
 ");\n"
         );
@@ -64,6 +65,9 @@ public class DistanceWebCrawler {
     
     public HashMap<Place, Double> crawl() throws UnsupportedEncodingException, IOException, SAXException, ParserConfigurationException, SQLiteException{
         HashMap<Place, Double> new_distances = new HashMap<Place, Double>();
+        if (this.destinos.size() == 0){
+            return new_distances;
+        }
         //ToDo, mejorar esto para tener varios origines a la vez.
         this.consulta_origen.bind(1, this.origen.place_id);
         this.consulta_origen.step();
@@ -71,6 +75,8 @@ public class DistanceWebCrawler {
             while(this.consulta_origen.hasRow()){
                 String destination_id = this.consulta_origen.columnString(0);
                 double distance = this.consulta_origen.columnDouble(1);
+                this.consulta_origen.reset();
+                this.consulta_origen.step();
                 Place destination = null;
                 for (Place aux_d : this.destinos){
                     if (aux_d.place_id.equals(destination_id)){
@@ -84,12 +90,20 @@ public class DistanceWebCrawler {
             URL url_api = this.create_call();
             BufferedInputStream call = this.call(url_api);
             new_distances = this.process_response(call);
+//            this.db_con.exec("BEGIN");
             for (Map.Entry<Place,Double> dd : new_distances.entrySet()){
                 this.consulta_insert.bind(1, this.origen.place_id);
                 this.consulta_insert.bind(2, dd.getKey().place_id);
                 this.consulta_insert.bind(3, dd.getValue());
                 this.consulta_insert.step();
+                this.consulta_insert.reset();
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(DistanceWebCrawler.class.getName()).log(Level.SEVERE, null, ex);
+//                }
             }
+//            this.db_con.exec("COMMIT");
         }
         return new_distances;
     }

@@ -14,8 +14,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class Mapa implements Serializable{
-    public LightDistanceTable distances;
-    public List<Place> places;
+    public LightDistanceTable distances = new LightDistanceTable();
+    public LinkedList<Place> places = new LinkedList<Place>();
     double h_latit;
     double l_latit;
     double h_longit;

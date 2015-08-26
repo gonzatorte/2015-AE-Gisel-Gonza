@@ -65,6 +65,12 @@ public class ArrayUtil {
             }
         }
     }
+//    public static void addAtIndex(LinkedList<Integer> lista, Integer objecto, int index){
+//        lista.add(index, objecto);
+//    }
+//    public static void addAtIndex(ArrayList<Integer> lista, Integer objecto, int index){
+//        lista.add(index, objecto);
+//    }
 //    public static Integer NthAddOf(ArrayList<Integer> lista, Integer objecto, int nth){
 //        for (int i=0 ; i < lista.size() ; i++){
 //            if (lista.get(i) == objecto){
