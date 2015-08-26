@@ -2,6 +2,7 @@ package scheduler.problem;
 
 import Map.Place;
 import java.util.LinkedList;
+import my_utils.ArrayUtil;
 
 public class MandaderoTaskQueue extends LinkedList<Place> implements Comparable<MandaderoTaskQueue>{
     public int compareTo(MandaderoTaskQueue q2){
@@ -20,5 +21,10 @@ public class MandaderoTaskQueue extends LinkedList<Place> implements Comparable<
         } else {
             return comp1;
         }
+    }
+    @Override
+    public String toString(){
+        LinkedList<Place> a = (LinkedList<Place>) this;
+        return ArrayUtil.ListToString(a);
     }
 }

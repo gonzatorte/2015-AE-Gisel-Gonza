@@ -3,6 +3,7 @@
 *.exe
 *.log
 # *.in
+*.stats
 *.ttt
 *.aux
 *.lof

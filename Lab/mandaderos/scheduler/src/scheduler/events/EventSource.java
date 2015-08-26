@@ -35,7 +35,7 @@ public class EventSource {
             {
                 Matcher m = p_time.matcher(line);
                 if(m.matches()){
-                    event_list.add(null);
+                    event_list.add(new Event("time", null));
                     continue;
                 }
             }

@@ -87,23 +87,20 @@ public final class Scheduler {
     }
     
     public static Schedule test_case_2() throws IOException{
-        EventSource e_source = new EventSource(new File("./instances/events/test_2.evn"));
+        EventSource e_source = new EventSource(new File("./instances/events/test_1.evn"));
         Mapa mapa = new Mapa(new Coordinate(-30.0, -55.0), new Coordinate(-28.0, -52.0));
         ProblemInstance problem = new ProblemInstance(mapa);
         Solver solver = new AESolver(17, problem);
         Event event = e_source.getNextEvent();
-        while (event != null){
-            problem.applyEvent(event);
-            solver.applyEvent(event);
-            event = e_source.getNextEvent();
-        }
-        event = e_source.getNextEvent();
         Schedule solution = null;
-        while (event != null){
-            problem.applyEvent(event);
-            solver.applyEvent(event);
-            event = e_source.getNextEvent();
+        while (event.tipo != null){
+            while (!"time".equals(event.tipo)){
+                problem.applyEvent(event);
+                solver.applyEvent(event);
+                event = e_source.getNextEvent();
+            }
             solution = solver.solve(problem);
+            event = e_source.getNextEvent();
         }
         return solution;
     }

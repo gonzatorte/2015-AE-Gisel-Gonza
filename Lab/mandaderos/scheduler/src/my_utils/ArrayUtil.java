@@ -1,8 +1,11 @@
 package my_utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import javax.rmi.CORBA.Util;
+import org.jcp.xml.dsig.internal.dom.Utils;
 
 public class ArrayUtil {
     public static boolean compareArrays(Object[] arr1, Object[] arr2){
@@ -15,11 +18,10 @@ public class ArrayUtil {
         return true;
     }
     public static String ArrayToString(Object[] arr){
-        String s = "";
-        for(int i=0;i<arr.length;i++){
-            s += arr[i] + ",";
-        }
-        return s;
+        return Arrays.deepToString(arr);
+    }
+    public static String ListToString(List lista){
+        return Arrays.deepToString(lista.toArray());
     }
     public static int MaxInd(List<Integer> lista){
         int val = lista.get(0);

@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import my_utils.Pair;
 import org.uncommons.watchmaker.framework.EvolutionObserver;
 import org.uncommons.watchmaker.framework.PopulationData;
 import scheduler.Coder;
@@ -19,11 +18,11 @@ public class AELogger implements EvolutionObserver<Genotype> {
     Coder coder;
     
     public AELogger(Coder coder){
-        this.coder = coder;
+        this(coder, "./instances/exec");
     }
     
     public AELogger(Coder coder, String filename){
-        this(coder);
+        this.coder = coder;
         try {
             FileWriter fichero = new FileWriter(filename + ".stats");
             writer = new PrintWriter(fichero);
@@ -38,11 +37,9 @@ public class AELogger implements EvolutionObserver<Genotype> {
         if (data.getGenerationNumber() % 100 == 0){
             Genotype g = data.getBestCandidate();
             f = this.coder.decode(g);
-            System.out.println(f);
-        }
-        if (writer != null){
-            if (data.getGenerationNumber() % 100 == 0){
-//                writer.print(data.getGenerationNumber() + "," + p + ";");
+            System.out.println(f.tasks_queues);
+            if (writer != null){
+                writer.print(data.getGenerationNumber() + "," + f.tasks_queues + ";");
                 writer.flush();
             }
         }
