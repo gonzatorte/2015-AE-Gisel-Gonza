@@ -31,7 +31,7 @@ public class Database {
 //"SELECT * FROM \"Distances\" WHERE \"primer_nombre\" = ?"
 //);
         this.consulta_origen = distances_connection.prepare(
-"SELECT \"destination\",\"distance\" FROM \"Distances\" WHERE \"origin\" = ?"
+"SELECT \"origin\",\"destination\",\"distance\" FROM \"Distances\" WHERE \"origin\" = :lugar OR \"destination\" = :lugar"
 );
         this.consulta_insert = distances_connection.prepare(
 "INSERT INTO \"Distances\" (\"origin\",\"destination\",\"distance\") VALUES (?,?,?)"

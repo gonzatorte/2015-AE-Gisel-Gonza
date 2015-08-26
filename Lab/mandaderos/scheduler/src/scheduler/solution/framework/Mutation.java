@@ -30,7 +30,7 @@ public class Mutation implements EvolutionaryOperator<Genotype>{
 
     public List<Genotype> apply(List<Genotype> selectedCandidates, Random rng){
         List<Genotype> result = new ArrayList<Genotype>(selectedCandidates.size());
-        for (List<Integer> candidate : selectedCandidates)
+        for (Genotype candidate : selectedCandidates)
         {
             Genotype newCandidate = new Genotype(candidate);
             int mutationCount = Math.abs(mutationCountVariable.nextValue());

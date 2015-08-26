@@ -50,9 +50,7 @@ public class Mapa implements Serializable{
         HashMap<Place, Double> new_distances;
         try {
             dcrawler = new DistanceWebCrawler();
-            dcrawler.destinos = places;
-            dcrawler.origen = place;
-            new_distances = dcrawler.crawl();
+            new_distances = dcrawler.crawl(place, places);
         } catch (IOException ex) {
             Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
             throw new Error("Error al agregar place");

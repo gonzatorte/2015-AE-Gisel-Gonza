@@ -80,10 +80,8 @@ public final class MapaGenerator {
         assert(places_size < 100);
         for (int i = 0 ; i < places_size ; i++){
             List<Place> subset = all_places.subList(i+1, all_places.size());
-            dcrawler.destinos = subset;
             Place origen = all_places.get(i);
-            dcrawler.origen = origen;
-            HashMap<Place, Double> new_distances = dcrawler.crawl();
+            HashMap<Place, Double> new_distances = dcrawler.crawl(origen, subset);
             all_distances.addPlace(origen, new_distances);
         }
         mapa.distances = all_distances;

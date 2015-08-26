@@ -7,7 +7,7 @@ import my_utils.ArrayUtil;
 public class Genotype extends ArrayList<Integer> {
 
     Genotype(Genotype parent1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super(parent1);
     }
 
     Genotype() {
@@ -15,7 +15,7 @@ public class Genotype extends ArrayList<Integer> {
     }
     
     Genotype(List<Integer> candidate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super(candidate);
     }
     
     public void normalize(){

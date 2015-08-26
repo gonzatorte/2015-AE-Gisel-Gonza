@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,11 +34,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class DistanceWebCrawler {
-    public List<Place> destinos;
-    public Place origen;
-    private SQLiteStatement consulta_posiciones_rango;
-    private SQLiteStatement consulta_origen;
-    private SQLiteStatement consulta_insert;
+    private String consulta_origen;
+    private String consulta_insert;
     private SQLiteConnection db_con;
     
     public DistanceWebCrawler() throws SQLiteException{
@@ -55,56 +53,64 @@ public class DistanceWebCrawler {
 //        this.consulta_posiciones_rango = sqLiteConnection.prepare(
 //"SELECT * FROM \"Distances\" WHERE \"primer_nombre\" = ?"
 //);
-        this.consulta_origen = sqLiteConnection.prepare(
-"SELECT \"destination\",\"distance\" FROM \"Distances\" WHERE \"origin\" = :lugar OR \"destination\" = :lugar"
-);
-        this.consulta_insert = sqLiteConnection.prepare(
-"INSERT INTO \"Distances\" (\"origin\",\"destination\",\"distance\") VALUES (?,?,?)"
-);
+        this.consulta_origen = 
+"SELECT \"origin\",\"destination\",\"distance\" FROM \"Distances\" WHERE (\"origin\" = \"%s\" OR \"destination\" = \"%s\") " +
+"AND ((\"destination\" IN (%s)) OR (\"origin\" IN (%s)))"
+;
+        this.consulta_insert = 
+"INSERT INTO \"Distances\" (\"origin\",\"destination\",\"distance\") %s"
+;
     }
     
-    public HashMap<Place, Double> crawl() throws UnsupportedEncodingException, IOException, SAXException, ParserConfigurationException, SQLiteException{
+    public HashMap<Place, Double> crawl(Place origen, List<Place> destinos) throws UnsupportedEncodingException, IOException, SAXException, ParserConfigurationException, SQLiteException{
         HashMap<Place, Double> new_distances = new HashMap<Place, Double>();
-        if (this.destinos.size() == 0){
+        if (destinos.isEmpty()){
             return new_distances;
         }
-        //ToDo, mejorar esto para tener varios origines a la vez.
-        this.consulta_origen.bind(":lugar", this.origen.place_id);
-        this.consulta_origen.step();
-        if (this.consulta_origen.hasRow()){
-            while(this.consulta_origen.hasRow()){
-                String destination_id = this.consulta_origen.columnString(0);
-                double distance = this.consulta_origen.columnDouble(1);
-                this.consulta_origen.reset();
-                this.consulta_origen.step();
-                Place destination = null;
-                for (Place aux_d : this.destinos){
-                    if (aux_d.place_id.equals(destination_id)){
-                        destination = aux_d;
-                        break;
-                    }
-                }
-                new_distances.put(destination, distance);
-            }
-        } else {
-            URL url_api = this.create_call();
-            BufferedInputStream call = this.call(url_api);
-            new_distances = this.process_response(call);
-//            this.db_con.exec("BEGIN");
-            for (Map.Entry<Place,Double> dd : new_distances.entrySet()){
-                this.consulta_insert.bind(1, this.origen.place_id);
-                this.consulta_insert.bind(2, dd.getKey().place_id);
-                this.consulta_insert.bind(3, dd.getValue());
-                this.consulta_insert.step();
-                this.consulta_insert.reset();
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(DistanceWebCrawler.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-            }
-//            this.db_con.exec("COMMIT");
+        LinkedList<Place> target_destinos = new LinkedList<Place>(destinos);
+        LinkedList<String> destinos_str_list = new LinkedList<String>();
+        for (Place destino : target_destinos){
+            destinos_str_list.add("\"" + destino.place_id + "\"");
         }
+        String destinos_str = String.join(",", destinos_str_list);
+        String sql_query = String.format(this.consulta_origen, origen.place_id, origen.place_id, destinos_str, destinos_str);
+        SQLiteStatement compiled_query = this.db_con.prepare(sql_query);
+        compiled_query.step();
+        while(compiled_query.hasRow()){
+            String destination_id = compiled_query.columnString(0);
+            String origin_id = compiled_query.columnString(1);
+            if (!origin_id.equals(origen.place_id)){
+                destination_id = origin_id;
+            }
+            double distance = compiled_query.columnDouble(2);
+            compiled_query.step();
+            Place destination = null;
+            for (Place aux_d : target_destinos){
+                if (aux_d.place_id.equals(destination_id)){
+                    destination = aux_d;
+                    target_destinos.remove(aux_d);
+                    break;
+                }
+            }
+            new_distances.put(destination, distance);
+        }
+        compiled_query.dispose();
+        if (target_destinos.isEmpty()){
+            return new_distances;
+        }
+        URL url_api = this.create_call(origen, target_destinos);
+        BufferedInputStream call = this.call(url_api);
+        new_distances = this.process_response(call, target_destinos);
+        
+        LinkedList<String> resultados_str_list = new LinkedList<String>();
+        for (Map.Entry<Place,Double> dd : new_distances.entrySet()){
+            resultados_str_list.add("SELECT \"" + origen.place_id + "\",\"" + dd.getKey().place_id + "\"," + dd.getValue());
+        }
+        String resultados_str = String.join(" UNION ALL ", resultados_str_list);
+        String sql_insert = String.format(this.consulta_insert, resultados_str);
+        SQLiteStatement compiled_insert = this.db_con.prepare(sql_insert);
+        compiled_insert.step();
+        compiled_insert.dispose();
         return new_distances;
     }
     
@@ -123,19 +129,19 @@ public class DistanceWebCrawler {
 
     // ToDo: hacer llamadas de cada 9 places... sino de mas de 100 resultados
     // Luego ver como hacer una recorrida mas inteligente, eliminando las simetrias y reflexiones
-    private URL create_call() throws MalformedURLException {
+    private URL create_call(Place origen, List<Place> destinos) throws MalformedURLException {
         String base_url = "maps.googleapis.com/maps/api/distancematrix/xml";
         String coordinate_format = "%f,%f";
         
         ArrayList all_destinos_str = new ArrayList();
-        for (Place p : this.destinos) {
+        for (Place p : destinos) {
             String location = String.format(Locale.ENGLISH, coordinate_format, p.coord.latit, p.coord.longit);
             all_destinos_str.add(location);
         }
         String destinations = String.join("|", all_destinos_str);
         destinations = "destinations=" + destinations;
 
-        String origen_str = String.format(Locale.ENGLISH, coordinate_format, this.origen.coord.latit, this.origen.coord.longit);
+        String origen_str = String.format(Locale.ENGLISH, coordinate_format, origen.coord.latit, origen.coord.longit);
         String origins = "origins=" + origen_str;
         
         String options = "mode=walking&language=es&units=metric";
@@ -147,7 +153,7 @@ public class DistanceWebCrawler {
         return url_api;
     }
 
-    private HashMap<Place, Double> process_response(BufferedInputStream web_stream) throws SAXException, IOException, ParserConfigurationException {
+    private HashMap<Place, Double> process_response(BufferedInputStream web_stream, List<Place> destinos) throws SAXException, IOException, ParserConfigurationException {
         InputSource web_source = new InputSource(web_stream);
         DocumentBuilderFactory dom_factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dom_factory.newDocumentBuilder();
@@ -185,7 +191,7 @@ public class DistanceWebCrawler {
 
             double distance = Double.parseDouble(distance_str);
 
-            interMap.put(this.destinos.get(j), distance);
+            interMap.put(destinos.get(j), distance);
         }
         return interMap;
     }
