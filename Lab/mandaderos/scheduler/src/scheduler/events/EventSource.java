@@ -137,8 +137,4 @@ public class EventSource {
         event_list.add(new Event("addMandadero", "id2"));
         event_list.add(new Event("addMandadero", "id1"));
     }
-    
-    public static void main(String[] args) throws IOException{
-        test_case_1();
-    }
 }

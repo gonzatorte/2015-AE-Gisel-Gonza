@@ -87,7 +87,7 @@ public final class Scheduler {
     }
     
     public static Schedule test_case_2() throws IOException{
-        EventSource e_source = new EventSource(new File("./instances/events/test_1.evn
+        EventSource e_source = new EventSource(new File("./instances/events/test_2.evn"));
         Mapa mapa = new Mapa(new Coordinate(-30.0, -55.0), new Coordinate(-28.0, -52.0));
         ProblemInstance problem = new ProblemInstance(mapa);
         Solver solver = new AESolver(17, problem);

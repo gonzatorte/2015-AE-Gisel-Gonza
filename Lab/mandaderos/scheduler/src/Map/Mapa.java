@@ -65,6 +65,7 @@ public class Mapa implements Serializable{
             throw new Error("Error al agregar place");
         }
         distances.addPlace(place, new_distances);
+        //ToDo: Add si no existe ya
         places.add(place);
     }
     

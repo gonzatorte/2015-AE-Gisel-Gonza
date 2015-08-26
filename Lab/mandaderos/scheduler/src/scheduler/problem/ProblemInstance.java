@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import scheduler.events.Event;
 
 public class ProblemInstance {
-    public int step = 0;
     public Mapa mapa;
     public LinkedList<Place> origin_mandaderos;
     public LinkedList<Place> pedidos;
