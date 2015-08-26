@@ -18,4 +18,9 @@ public class Place implements Serializable, Comparable<Place> {
     public int compareTo(Place p2) {
         return this.place_id.compareTo(p2.place_id);
     }
+    
+    @Override
+    public String toString() {
+        return "Place<" + this.place_id + ":" + this.coord + ">";
+    }
 }

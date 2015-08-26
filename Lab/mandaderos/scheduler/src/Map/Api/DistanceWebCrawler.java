@@ -84,15 +84,13 @@ public class DistanceWebCrawler {
             }
             double distance = compiled_query.columnDouble(2);
             compiled_query.step();
-            Place destination = null;
             for (Place aux_d : target_destinos){
                 if (aux_d.place_id.equals(destination_id)){
-                    destination = aux_d;
+                    new_distances.put(aux_d, distance);
                     target_destinos.remove(aux_d);
                     break;
                 }
             }
-            new_distances.put(destination, distance);
         }
         compiled_query.dispose();
         if (target_destinos.isEmpty()){
