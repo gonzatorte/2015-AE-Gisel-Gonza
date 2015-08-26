@@ -43,15 +43,11 @@ public class LightDistanceTable extends HashMap<Place,HashMap<Place,Double>> imp
         this.put(p1, new_row);
     }
     
-    /*
-    Si no lo encuentra aqui, puede ser que vaya a buscarlo a la web
-    O a la BD de crawling (un SQLlite)
-    */
     public Double getDistance(Place p1, Place p2){
         int cmp = p1.compareTo(p2);
-        if (cmp >= 0){
+        if (cmp < 0){
             return this.get(p1).get(p2);
-        } else if (cmp < 0) {
+        } else if (cmp >= 0) {
             return this.get(p2).get(p1);
         } else {
             return 0.0;

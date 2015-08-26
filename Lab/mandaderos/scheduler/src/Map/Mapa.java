@@ -14,8 +14,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class Mapa implements Serializable{
-    public LightDistanceTable distances;
-    public List<Place> places;
+    public LightDistanceTable distances = new LightDistanceTable();
+    public LinkedList<Place> places = new LinkedList<Place>();
     double h_latit;
     double l_latit;
     double h_longit;
@@ -50,9 +50,7 @@ public class Mapa implements Serializable{
         HashMap<Place, Double> new_distances;
         try {
             dcrawler = new DistanceWebCrawler();
-            dcrawler.destinos = places;
-            dcrawler.origen = place;
-            new_distances = dcrawler.crawl();
+            new_distances = dcrawler.crawl(place, places);
         } catch (IOException ex) {
             Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
             throw new Error("Error al agregar place");
@@ -67,6 +65,7 @@ public class Mapa implements Serializable{
             throw new Error("Error al agregar place");
         }
         distances.addPlace(place, new_distances);
+        //ToDo: Add si no existe ya
         places.add(place);
     }
     

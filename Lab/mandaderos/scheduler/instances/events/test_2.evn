@@ -1,0 +1,16 @@
+addPlace<p1><-30.5,-55.0>
+addPlace<p2><-30.6,-55.1>
+addPlace<p3><-30.7,-55.0>
+addPlace<p4><-30.7,-55.1>
+addPlace<o1><-,->
+addPlace<o2><-30.4,-55.1>
+addPlace<o3><-30.6,-55.2>
+addMandadero<o1>
+addPedido<p1>
+time
+addMandadero<o2>
+addPedido<p2>
+addPedido<p3>
+time
+addPedido<p4>
+time

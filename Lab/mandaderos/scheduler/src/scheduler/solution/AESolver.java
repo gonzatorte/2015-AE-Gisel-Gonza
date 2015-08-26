@@ -39,14 +39,15 @@ public class AESolver extends Solver {
             engine.current_population.addMandadero();
         } else if ("removeMandadero".equals(event.tipo)){
             engine.current_population.removeMandadero();
-        } else if ("addPlace".equals(event.tipo)){
+        } else if ("addPedido".equals(event.tipo)){
             String place_id = (String) event.data[0];
             Integer place_id_int = this.coder.addPlace(place_id);
-            engine.current_population.addPlace(place_id_int);
-        } else if ("removePlace".equals(event.tipo)){
+            engine.current_population.addPedido(place_id_int);
+        } else if ("addPlace".equals(event.tipo)){
+        } else if ("resolvePedido".equals(event.tipo)){
             String place_id = (String) event.data[0];
             Integer place_id_int = this.coder.removePlace(place_id);
-            engine.current_population.removePlace(place_id_int);
+            engine.current_population.removePedido(place_id_int);
         } else {
             throw new Error("No hay este tipo de evento");
         }

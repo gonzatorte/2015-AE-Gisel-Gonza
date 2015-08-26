@@ -16,12 +16,14 @@ import java.util.regex.Pattern;
 
 public class EventSource {
     int step = 0;
+    int curr_time = 0;
     ArrayList<Event> event_list = new ArrayList<Event>();
 
     private static final Pattern p_addMandadero = Pattern.compile("addMandadero<(.+?)>(?:<(.+?,.+?)>)?");
     private static final Pattern p_removeMandadero = Pattern.compile("removeMandadero<(.+?)>");
     private static final Pattern p_addPlace = Pattern.compile("addPlace<(.+?)>(?:<(.+?,.+?)>)?");
-    private static final Pattern p_resolvePlace = Pattern.compile("resolvePlace<(.+?)><(.+?)>");
+    private static final Pattern p_resolvePedido = Pattern.compile("resolvePedido<(.+?)><(.+?)>");
+    private static final Pattern p_addPedido = Pattern.compile("addPedido<(.+?)>(?:<(.+?,.+?)>)?");
     
     public EventSource(File filepath) throws FileNotFoundException, IOException{
         FileInputStream fis = new FileInputStream(filepath);
@@ -78,12 +80,28 @@ public class EventSource {
                 }
             }
             {
-                Matcher m = p_resolvePlace.matcher(line);
+                Matcher m = p_resolvePedido.matcher(line);
                 if(m.matches()){
                     String place_id = m.group(1);
                     String origin_id = m.group(2);
                     Object[] data = new Object[]{place_id, origin_id};
-                    event_list.add(new Event("resolvePlace", data));
+                    event_list.add(new Event("resolvePedido", data));
+                    continue;
+                }
+            }
+            {
+                Matcher m = p_addPedido.matcher(line);
+                if(m.matches()){
+                    String place_id = m.group(1);
+                    String place_coords = m.group(2);
+                    if (place_coords != null){
+                        Coordinate origin = Coordinate.fromString(place_coords);
+                        Object[] data = new Object[]{place_id, origin};
+                        event_list.add(new Event("addPedido", data));
+                    } else {
+                        Object[] data = new Object[]{place_id};
+                        event_list.add(new Event("addPedido", data));
+                    }
                     continue;
                 }
             }
@@ -95,9 +113,17 @@ public class EventSource {
     }
     
     public Event getNextEvent(){
-        Event ev = this.event_list.remove(step++);
-        ev.time = step++;
-        return ev;
+        if (step < this.event_list.size()){
+            Event ev = this.event_list.get(step++);
+            if (ev != null){
+                ev.time = curr_time;
+            } else {
+                curr_time++;
+            }
+            return ev;
+        } else {
+            return null;
+        }
     }
     
 //    public List<Event> getNextEvents() {
@@ -110,13 +136,5 @@ public class EventSource {
         event_list.add(new Event("addMandadero", "id1"));
         event_list.add(new Event("addMandadero", "id2"));
         event_list.add(new Event("addMandadero", "id1"));
-    }
-    
-    public static void main(String[] args) throws IOException{
-        test_case_1();
-    }
-    
-    public static EventSource test_case_1() throws IOException{
-        return new EventSource(new File("./instances/events/test.evn"));
     }
 }
