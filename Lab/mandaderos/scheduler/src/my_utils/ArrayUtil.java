@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import javax.rmi.CORBA.Util;
-import org.jcp.xml.dsig.internal.dom.Utils;
 
 public class ArrayUtil {
     public static boolean compareArrays(Object[] arr1, Object[] arr2){
