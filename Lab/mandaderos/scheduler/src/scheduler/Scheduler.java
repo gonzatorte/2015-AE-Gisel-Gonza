@@ -93,7 +93,7 @@ public final class Scheduler {
         Solver solver = new AESolver(17, problem);
         Event event = e_source.getNextEvent();
         Schedule solution = null;
-        while (event.tipo != null){
+        while (event != null){
             while (!"time".equals(event.tipo)){
                 problem.applyEvent(event);
                 solver.applyEvent(event);
