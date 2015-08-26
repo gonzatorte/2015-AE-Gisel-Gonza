@@ -5,6 +5,7 @@ import com.almworks.sqlite4java.SQLiteException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -46,13 +47,12 @@ public class Mapa implements Serializable{
     
     public void addPlace(Place place){
         DistanceWebCrawler dcrawler;
-        LightDistanceTable distances_for_place;
+        HashMap<Place, Double> new_distances;
         try {
             dcrawler = new DistanceWebCrawler();
             dcrawler.destinos = places;
-            dcrawler.origenes = new ArrayList<Place>();
-            dcrawler.origenes.add(place);
-            distances_for_place = dcrawler.crawl();
+            dcrawler.origen = place;
+            new_distances = dcrawler.crawl();
         } catch (IOException ex) {
             Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
             throw new Error("Error al agregar place");
@@ -66,13 +66,8 @@ public class Mapa implements Serializable{
             Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
             throw new Error("Error al agregar place");
         }
-        distances.addPlace(place, distances_for_place.get(place));
+        distances.addPlace(place, new_distances);
         places.add(place);
-    }
-    
-    public void removePlace(Place place){
-        places.remove(place);
-        distances.removePlace(place);
     }
     
     public Place findPlaceById(String place_id){

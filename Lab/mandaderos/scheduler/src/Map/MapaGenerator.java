@@ -82,10 +82,9 @@ public final class MapaGenerator {
             List<Place> subset = all_places.subList(i+1, all_places.size());
             dcrawler.destinos = subset;
             Place origen = all_places.get(i);
-            dcrawler.origenes = new ArrayList<Place>();
-            dcrawler.origenes.add(origen);
-            LightDistanceTable distances = dcrawler.crawl();
-            all_distances.addPlace(origen, distances.get(origen));
+            dcrawler.origen = origen;
+            HashMap<Place, Double> new_distances = dcrawler.crawl();
+            all_distances.addPlace(origen, new_distances);
         }
         mapa.distances = all_distances;
         mapa.places = all_places;

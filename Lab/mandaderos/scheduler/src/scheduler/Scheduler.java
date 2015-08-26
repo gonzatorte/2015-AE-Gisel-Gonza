@@ -85,10 +85,19 @@ public final class Scheduler {
         return solution;
     }
     
-    public static Schedule test_case_2(){
-        ProblemInstance pp = ProblemInstance.test_case();
-        Solver solver = new AESolver(17, pp);
-        Schedule solution = solver.solve(pp);
+    public static Schedule test_case_2() throws IOException{
+        EventSource e_source = EventSource.test_case_1();
+        Mapa mapa = MapaGenerator.test_data();
+        ProblemInstance problem = new ProblemInstance(mapa);
+        Solver solver = new AESolver(17, problem);
+        Event event = e_source.getNextEvent();
+        Schedule solution = null;
+        while (event != null){
+            problem.applyEvent(event);
+            solver.applyEvent(event);
+            solution = solver.solve(problem);
+            event = e_source.getNextEvent();
+        }
         return solution;
     }
 }

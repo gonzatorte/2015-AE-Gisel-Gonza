@@ -27,15 +27,6 @@ import java.util.Locale;
 import java.util.TreeMap;
 import my_utils.MapUtils;
 
-/*
-CREATE TABLE IF NOT EXISTS "Places" (
-    "place_id" TEXT NOT NULL,
-    "latitud" REAL NOT NULL,
-    "longitud" REAL NOT NULL,
-    PRIMARY KEY ("place_id")
-);
-*/
-
 public class PlacesWebCrawler {
     
     private SQLiteStatement consulta_get_lugar;
@@ -44,9 +35,17 @@ public class PlacesWebCrawler {
     private SQLiteConnection db_con;
     
     public PlacesWebCrawler() throws SQLiteException{
-        SQLiteConnection sqLiteConnection = new SQLiteConnection(new File("Hola.db"));
+        SQLiteConnection sqLiteConnection = new SQLiteConnection(new File("./instances/places.db"));
         sqLiteConnection.open(false);
         this.db_con = sqLiteConnection;
+        this.db_con.exec(
+"CREATE TABLE IF NOT EXISTS \"Places\" (\n" +
+"    \"place_id\" TEXT NOT NULL,\n" +
+"    \"latitud\" REAL NOT NULL,\n" +
+"    \"longitud\" REAL NOT NULL,\n" +
+"    PRIMARY KEY (\"place_id\")\n" +
+");"
+        );
         this.consulta_get_borders = sqLiteConnection.prepare(
 "SELECT min(\"latitud\"), max(\"latitud\"), min(\"longitud\"), max(\"longitud\") "+
 "FROM \"Places\" WHERE ? > \"longitud\" AND \"longitud\" > ? AND "+
