@@ -21,6 +21,10 @@ public class Mapa implements Serializable{
     double h_longit;
     double l_longit;
     
+    public Mapa(){
+        
+    }
+    
     public Mapa(Coordinate diag1, Coordinate diag2){
         l_latit = Math.min(diag1.latit, diag2.latit);
         l_longit = Math.min(diag1.longit, diag2.longit);

@@ -4,9 +4,14 @@ import Map.Coordinate;
 import Map.Mapa;
 import Map.MapaGenerator;
 import Map.Place;
+import com.almworks.sqlite4java.SQLiteException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 import scheduler.events.Event;
 
 public class ProblemInstance {
@@ -72,6 +77,14 @@ public class ProblemInstance {
     
     public static ProblemInstance test_case(){
         Mapa mapa = MapaGenerator.test_data();
+        LinkedList<Place> origins = new LinkedList<Place>();
+        origins.add(mapa.places.get(0));
+        return new ProblemInstance(mapa, origins, new LinkedList<Place>(mapa.places));
+    }
+    
+    public static ProblemInstance test_kml(String kmlpath) throws SAXException, IOException, ParserConfigurationException, UnsupportedEncodingException, SQLiteException{
+        Mapa mapa = MapaGenerator.generate_map_from_KML(kmlpath);
+        System.out.println(mapa.places.size());
         LinkedList<Place> origins = new LinkedList<Place>();
         origins.add(mapa.places.get(0));
         return new ProblemInstance(mapa, origins, new LinkedList<Place>(mapa.places));

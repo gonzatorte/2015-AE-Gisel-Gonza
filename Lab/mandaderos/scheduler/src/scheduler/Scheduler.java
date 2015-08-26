@@ -4,7 +4,10 @@ import Map.Coordinate;
 import Map.Kml.KmlManager;
 import Map.Mapa;
 import Map.MapaGenerator;
+import com.almworks.sqlite4java.SQLiteException;
 import java.io.*;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 import scheduler.events.Event;
 import scheduler.events.EventSource;
 import scheduler.problem.Schedule;
@@ -40,10 +43,11 @@ class ParamGetter{
 }
 
 public final class Scheduler {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, SAXException, ParserConfigurationException, UnsupportedEncodingException, SQLiteException {
 //        do_it(args);
-//        test_case_1();
-        test_case_2();
+ //      test_case_1();
+//        test_case_2();
+        test_kml();
     }
     
     public static void do_it(String[] args) throws IOException, ClassNotFoundException{
@@ -107,6 +111,18 @@ public final class Scheduler {
             solution = solver.solve(problem);
             event = e_source.getNextEvent();
         }
+        return solution;
+    }
+    
+    public static Schedule test_kml() throws SAXException, IOException, ParserConfigurationException, UnsupportedEncodingException, SQLiteException{
+        ProblemInstance pp = ProblemInstance.test_kml("C:\\Users\\Gisel\\Desktop\\Ejemplo.kml");
+        Solver solver = new GreedySolver();
+        Schedule solution = solver.solve(pp);
+        KmlManager kml = new KmlManager();
+        Event e = new Event(null);
+        e.time = 0;
+        kml.apply_reschedule(pp, solution,e);
+        kml.write_kml("Solution.kml");
         return solution;
     }
 }

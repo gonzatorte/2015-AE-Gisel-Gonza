@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -98,9 +99,9 @@ public final class MapaGenerator {
         oos.close();
     }
     
-    public static Mapa generate_map_from_KML(String kmlPath) throws SAXException, IOException, ParserConfigurationException{
-        Mapa mapa= new Mapa(null,null);
-        List<Place> all_places = KmlManager.get_places_From_KML(kmlPath);
+    public static Mapa generate_map_from_KML(String kmlPath) throws SAXException, IOException, ParserConfigurationException, UnsupportedEncodingException, SQLiteException{
+        
+        LinkedList<Place> all_places = KmlManager.get_places_From_KML(kmlPath);
         int places_size = all_places.size();
         DistanceWebCrawler dcrawler = new DistanceWebCrawler();
         LightDistanceTable all_distances = new LightDistanceTable();
@@ -109,16 +110,13 @@ public final class MapaGenerator {
         assert(places_size < 100);
         for (int i = 0 ; i < places_size ; i++){
             List<Place> subset = all_places.subList(i+1, all_places.size());
-            HashMap<Place,Double> distances = dcrawler.crawl(all_places.get(i),subset);
-            all_distances.addPlace(origen, distances);
+            Place origen = all_places.get(i);
+            HashMap<Place, Double> new_distances = dcrawler.crawl(origen, subset);
+            all_distances.addPlace(origen, new_distances);
         }
+        Mapa mapa = new Mapa();
         mapa.distances = all_distances;
         mapa.places = all_places;
-        String filename = "mapas/ejemploKML.jbin";
-        File f= new File(filename);
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
-        oos.writeObject(mapa);
-        oos.close();
         return mapa;
     }
     

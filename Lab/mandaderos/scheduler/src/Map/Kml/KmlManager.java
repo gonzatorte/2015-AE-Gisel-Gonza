@@ -62,21 +62,29 @@ public class KmlManager {
     /*
     La idea es crear un kml con puntos para indicar cada uno de los places
     */
-    public static List<Place> get_places_From_KML(String kmlPath){
+    public static LinkedList<Place> get_places_From_KML(String kmlPath){
         File file = new File(kmlPath);
+        System.out.println(kmlPath);
         Kml kml2 = Kml.unmarshal(file);
         Document documento = (Document) kml2.getFeature ();
         List <Feature> t = documento.getFeature (); 
         int cantMandaderos=0;
-        List<Place> lp= new LinkedList<Place>();
+        LinkedList<Place> lp= new LinkedList<Place>();
         for(Object o : t){
-            if (o instanceof Placemark){
-                Placemark placemark = (Placemark)o;
-                Point point = (Point) placemark.getGeometry();
-                Double latitud = point.getCoordinates().get(0).getLatitude();
-                Double longitud = point.getCoordinates().get(0).getLongitude();
-                //el id tome el nombre que se le pone a la etiqueta porque el que retorna google es null
-                lp.add(new Place(placemark.getName(),latitud,longitud));
+            if (o instanceof Folder){
+                Folder folder = (Folder)o;
+                List<Feature> lf = folder.getFeature();
+                for(Object ob : lf){
+                    if (ob instanceof Placemark){
+                        Placemark placemark = (Placemark)ob;
+                        Point point = (Point) placemark.getGeometry();
+                        Double latitud = point.getCoordinates().get(0).getLatitude();
+                        Double longitud = point.getCoordinates().get(0).getLongitude();
+                        //el id tome el nombre que se le pone a la etiqueta porque el que retorna google es null
+                        lp.add(new Place(placemark.getName(),latitud,longitud));
+                        System.out.println(placemark.getName());
+                    }
+                }
             }
         }
         return lp;
@@ -141,9 +149,12 @@ public class KmlManager {
                 place = mtq1;
                 linestring.addToCoordinates(place.coord.longit,place.coord.latit);
             }
+            i=0;
             for (Place mtq1 : mtq) {
                 place = mtq1;
-                folder.createAndAddPlacemark().createAndSetPoint().addToCoordinates(place.coord.longit,place.coord.latit);
+                Placemark p=folder.createAndAddPlacemark();
+                        p.setName(String.valueOf(i++));
+                        p.createAndSetPoint().addToCoordinates(place.coord.longit,place.coord.latit);
             }
         }
     }
