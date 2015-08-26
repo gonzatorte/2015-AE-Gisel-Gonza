@@ -1,5 +1,7 @@
 package my_utils;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ArrayUtil {
@@ -31,4 +33,45 @@ public class ArrayUtil {
         lista.set(ind, 0);
         return ind;
     }
+    public static int NthIndexOf(List<Integer> lista, Integer objecto, int nth){
+        for (int i=0 ; i < lista.size() ; i++){
+            if (lista.get(i) == objecto){
+                nth--;
+                if (nth == 0){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+    public static Integer NthRemoveOf(List<Integer> lista, Integer objecto, int nth){
+        for (int i=0 ; i < lista.size() ; i++){
+            if (lista.get(i) == objecto){
+                nth--;
+                if (nth == 0){
+                    return lista.remove(i);
+                }
+            }
+        }
+        return null;
+    }
+    public static void NthAddOf(LinkedList<Integer> lista, Integer objecto, int nth){
+        for (int i=0 ; i < lista.size() ; i++){
+            if (lista.get(i) == objecto){
+                nth--;
+                if (nth == 0){
+                    lista.add(i, objecto);
+                }
+            }
+        }
+    }
+//    public static Integer NthAddOf(ArrayList<Integer> lista, Integer objecto, int nth){
+//        for (int i=0 ; i < lista.size() ; i++){
+//            if (lista.get(i) == objecto){
+//                nth--;
+//                if (nth == 0){
+//                }
+//            }
+//        }
+//    }
 }

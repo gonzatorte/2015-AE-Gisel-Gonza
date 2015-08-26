@@ -4,6 +4,7 @@ import Map.Api.DistanceWebCrawler;
 import Map.Api.PlacesWebCrawler;
 import Map.Kml.KmlManager;
 import SerializableTest.main;
+import com.almworks.sqlite4java.SQLiteException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,7 +27,7 @@ public final class MapaGenerator {
     static String output_filename = null;
     public static final long earth_radious = 6371009; // En KM
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLiteException {
         try {
             generate_map();
         } catch (IOException ex) {
@@ -66,38 +67,11 @@ public final class MapaGenerator {
        return mapa;
     }
     
-    public static void generate_map() throws IOException, SAXException, ParserConfigurationException {
+    public static void generate_map() throws IOException, SAXException, ParserConfigurationException, SQLiteException {
 //        Mapa mapa = new Mapa(new Coordinate(-34.543393, -56.083478), new Coordinate(-34.583742, -56.090683));
         Mapa mapa = new Mapa(new Coordinate(51.503186, -0.126446), new Coordinate(51.523186, -0.146446));
         PlacesWebCrawler pcrawler = new PlacesWebCrawler();
-        
-        TreeMap<String, Place> all_places_tree = new TreeMap<String, Place>();
-        
-        Coordinate aux_coord = new Coordinate(mapa.l_latit, mapa.l_longit);
-        Coordinate max_coord = new Coordinate(mapa.h_latit, mapa.h_longit);
-        double delta_longitud = 0.018;// 1 grado es 111,11 km. 0.018 son 2 KM
-        double delta_latitud = 0.018;
-        double overlaping = 0.5;
-        //Radious en metros
-        int some_radious = 2000;
-        boolean stop_iter = false;
-        while ((aux_coord.longit < max_coord.longit) && (!stop_iter)){
-            while ((aux_coord.latit < max_coord.latit) && (!stop_iter)){
-                pcrawler.latit = aux_coord.latit;
-                pcrawler.longit = aux_coord.longit;
-                pcrawler.radius = some_radious;
-                List<Place> places = pcrawler.process_response();
-                TreeMap<String, Place> places_tree = MapUtils.toMap(places);
-                MapUtils.merge(all_places_tree, places_tree);
-                aux_coord.latit = aux_coord.latit + delta_latitud;
-                if (all_places_tree.size() > 10){
-                    stop_iter = true;
-                }
-            }
-            aux_coord.longit = aux_coord.longit + delta_longitud;
-        }
-        
-        List<Place> all_places = MapUtils.toList(all_places_tree);
+        List<Place> all_places = pcrawler.crawl(mapa.h_latit, mapa.l_latit, mapa.h_longit, mapa.l_longit);
         
         DistanceWebCrawler dcrawler = new DistanceWebCrawler();
         LightDistanceTable all_distances = new LightDistanceTable();
@@ -111,10 +85,9 @@ public final class MapaGenerator {
             List<Place> subset = all_places.subList(i+1, all_places.size());
             dcrawler.destinos = subset;
             Place origen = all_places.get(i);
-            dcrawler.origenes = new ArrayList<Place>();
-            dcrawler.origenes.add(origen);
-            LightDistanceTable distances = dcrawler.process_response();
-            all_distances.addPlace(origen, distances.get(origen));
+            dcrawler.origen = origen;
+            HashMap<Place, Double> new_distances = dcrawler.crawl();
+            all_distances.addPlace(origen, new_distances);
         }
         mapa.distances = all_distances;
         mapa.places = all_places;
@@ -138,12 +111,8 @@ public final class MapaGenerator {
         assert(places_size < 100);
         for (int i = 0 ; i < places_size ; i++){
             List<Place> subset = all_places.subList(i+1, all_places.size());
-            dcrawler.destinos = subset;
-            Place origen = all_places.get(i);
-            dcrawler.origenes = new ArrayList<Place>();
-            dcrawler.origenes.add(origen);
-            LightDistanceTable distances = dcrawler.process_response();
-            all_distances.addPlace(origen, distances.get(origen));
+            HashMap<Place,Double> distances = dcrawler.crawl(all_places.get(i),subset);
+            all_distances.addPlace(origen, distances);
         }
         mapa.distances = all_distances;
         mapa.places = all_places;

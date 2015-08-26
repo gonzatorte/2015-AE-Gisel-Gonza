@@ -7,7 +7,6 @@ import java.io.*;
 import scheduler.events.Event;
 import scheduler.events.EventSource;
 import scheduler.problem.Schedule;
-import scheduler.problem.OfflineProblemInstance;
 import scheduler.problem.ProblemInstance;
 import scheduler.solution.AESolver;
 import scheduler.solution.GreedySolver;
@@ -43,7 +42,7 @@ public final class Scheduler {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 //        do_it(args);
         test_case_1();
-//        test_case_2();
+        test_case_2();
     }
     
     public static void do_it(String[] args) throws IOException, ClassNotFoundException{
@@ -55,12 +54,12 @@ public final class Scheduler {
         File f = new File("mapas/" + nombre_mapa + ".jbin");
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
         Mapa mapa = (Mapa)ois.readObject();
-        ProblemInstance problem = new OfflineProblemInstance(mapa);
+        ProblemInstance problem = new ProblemInstance(mapa);
         EventSource e_source = new EventSource();
         
         Solver solver;
         if ("AE".equals(solution_method)){
-            solver = new AESolver(seed, new Coder(problem));
+            solver = new AESolver(seed, problem);
         } else if ("Greedy".equals(solution_method)){
             solver = new GreedySolver();
         } else {
@@ -80,7 +79,7 @@ public final class Scheduler {
     }
     
     public static Schedule test_case_1(){
-        ProblemInstance pp = OfflineProblemInstance.test_case();
+        ProblemInstance pp = ProblemInstance.test_case();
         Solver solver = new GreedySolver();
         Schedule solution = solver.solve(pp);
         KmlManager kml = new KmlManager();
@@ -91,10 +90,19 @@ public final class Scheduler {
         return solution;
     }
     
-    public static Schedule test_case_2(){
-        ProblemInstance pp = OfflineProblemInstance.test_case();
-        Solver solver = new AESolver(17, new Coder(pp));
-        Schedule solution = solver.solve(pp);
+    public static Schedule test_case_2() throws IOException{
+        EventSource e_source = EventSource.test_case_1();
+        Mapa mapa = MapaGenerator.test_data();
+        ProblemInstance problem = new ProblemInstance(mapa);
+        Solver solver = new AESolver(17, problem);
+        Event event = e_source.getNextEvent();
+        Schedule solution = null;
+        while (event != null){
+            problem.applyEvent(event);
+            solver.applyEvent(event);
+            solution = solver.solve(problem);
+            event = e_source.getNextEvent();
+        }
         return solution;
     }
 }

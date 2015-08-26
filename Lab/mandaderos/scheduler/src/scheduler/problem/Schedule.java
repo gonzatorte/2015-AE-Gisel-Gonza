@@ -10,11 +10,11 @@ import my_utils.ArrayUtil;
 public class Schedule
 //extends LinkedList<MandaderoTaskQueue>
 {
-    public Mapa currentMapa;
+    public ProblemInstance problem;
     public LinkedList<MandaderoTaskQueue> tasks_queues;
     
-    public Schedule(Mapa mapa){
-        this.currentMapa = mapa;
+    public Schedule(ProblemInstance problem){
+        this.problem = problem;
         tasks_queues = new LinkedList<MandaderoTaskQueue>();
     }
     
@@ -39,7 +39,7 @@ public class Schedule
             double mandadero_sum = 0;
             for (int i=1; i<q.size(); i++){
                 Place next_place = q.get(i);
-                mandadero_sum += this.currentMapa.distances.getDistance(previous_place, next_place);
+                mandadero_sum += this.problem.mapa.distances.getDistance(previous_place, next_place);
                 previous_place = next_place;
             }
             total_sum += mandadero_sum;

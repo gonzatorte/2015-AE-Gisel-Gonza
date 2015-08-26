@@ -3,6 +3,7 @@ package Map.Kml;
 import Map.Mapa;
 import Map.MapaGenerator;
 import Map.Place;
+import com.almworks.sqlite4java.SQLiteException;
 import de.micromata.opengis.kml.v_2_2_0.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,8 +17,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import scheduler.events.Event;
 import scheduler.problem.MandaderoTaskQueue;
-import scheduler.problem.OfflineProblemInstance;
-import scheduler.problem.OnlineProblemInstance;
 import scheduler.problem.ProblemInstance;
 import scheduler.problem.Schedule;
 
@@ -34,7 +33,7 @@ public class KmlManager {
     int offsetNow = 10; // en minutos
     
     
-    public void load_Solution_From_KML(String filename, Schedule sched){
+    public void load_Solution_From_KML(String filename, Schedule sched) throws SQLiteException{
         File file = new File(filename);
         Kml kml2 = Kml.unmarshal(file);
         Document documento = (Document) kml2.getFeature ();
@@ -52,15 +51,7 @@ public class KmlManager {
                         Double longitud = point.getCoordinates().get(0).getLongitude();
                         //el id tome el nombre que se le pone a la etiqueta porque el que retorna google es null
                         Place place = new Place(placemark.getName(),latitud,longitud);
-                        try {
-                            sched.currentMapa.addPlace(place);
-                        } catch (SAXException ex) {
-                            Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IOException ex) {
-                            Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ParserConfigurationException ex) {
-                            Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        sched.problem.mapa.addPlace(place);
                         mandadero.add(place);
                     }              
                 }
