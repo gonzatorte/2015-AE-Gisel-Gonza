@@ -35,6 +35,7 @@ public class PlacesWebCrawler {
     private SQLiteConnection db_con;
     
     public PlacesWebCrawler() throws SQLiteException{
+        java.util.logging.Logger.getLogger("com.almworks.sqlite4java").setLevel(java.util.logging.Level.OFF);
         SQLiteConnection sqLiteConnection = new SQLiteConnection(new File("./instances/places.db"));
         sqLiteConnection.open(false);
         this.db_con = sqLiteConnection;

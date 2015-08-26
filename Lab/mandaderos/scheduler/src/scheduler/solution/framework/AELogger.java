@@ -33,10 +33,9 @@ public class AELogger implements EvolutionObserver<Genotype> {
     }
 
     public void populationUpdate(PopulationData<? extends Genotype> data) {
-        Schedule f = null;
         if (data.getGenerationNumber() % 100 == 0){
             Genotype g = data.getBestCandidate();
-            f = this.coder.decode(g);
+            Schedule f = this.coder.decode(g);
             System.out.println(f.tasks_queues);
             if (writer != null){
                 writer.print(data.getGenerationNumber() + "," + f.tasks_queues + ";");

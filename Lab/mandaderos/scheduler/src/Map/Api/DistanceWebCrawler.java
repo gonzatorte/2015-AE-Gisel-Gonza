@@ -39,6 +39,7 @@ public class DistanceWebCrawler {
     private SQLiteConnection db_con;
     
     public DistanceWebCrawler() throws SQLiteException{
+        java.util.logging.Logger.getLogger("com.almworks.sqlite4java").setLevel(java.util.logging.Level.OFF);
         SQLiteConnection sqLiteConnection = new SQLiteConnection(new File("./instances/distancias.db"));
         sqLiteConnection.open(true);
         this.db_con = sqLiteConnection;
