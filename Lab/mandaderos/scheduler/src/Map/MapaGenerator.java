@@ -2,11 +2,14 @@ package Map;
 
 import Map.Api.DistanceWebCrawler;
 import Map.Api.PlacesWebCrawler;
+import Map.Kml.KmlManager;
 import SerializableTest.main;
 import com.almworks.sqlite4java.SQLiteException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,6 +96,37 @@ public final class MapaGenerator {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
         oos.writeObject(mapa);
         oos.close();
+    }
+    
+    public static Mapa generate_map_from_KML(String kmlPath) throws SAXException, IOException, ParserConfigurationException{
+        Mapa mapa= new Mapa(null,null);
+        List<Place> all_places = KmlManager.get_places_From_KML(kmlPath);
+        int places_size = all_places.size();
+        DistanceWebCrawler dcrawler = new DistanceWebCrawler();
+        LightDistanceTable all_distances = new LightDistanceTable();
+        //ToDo: El assert no anda a menos que los encendamos...
+        
+        assert(places_size < 100);
+        for (int i = 0 ; i < places_size ; i++){
+            List<Place> subset = all_places.subList(i+1, all_places.size());
+            HashMap<Place,Double> distances = dcrawler.crawl(all_places.get(i),subset);
+            all_distances.addPlace(origen, distances);
+        }
+        mapa.distances = all_distances;
+        mapa.places = all_places;
+        String filename = "mapas/ejemploKML.jbin";
+        File f= new File(filename);
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
+        oos.writeObject(mapa);
+        oos.close();
+        return mapa;
+    }
+    
+    public static Mapa load_map_from_File(String filepath) throws IOException, ClassNotFoundException{
+        File f = new File(filepath);
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+        Mapa m = (Mapa)ois.readObject();
+        return m;
     }
     /*
     wget "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Vancouver+BC|Seattle&destinations=San+Francisco|Vancouver+BC&mode=bicycling&language=fr-FR&key=AIzaSyC0cd3JlrPkMuoDH2GMW_DSDAXV0vTmROs" -O gapimatrix.json

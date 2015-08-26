@@ -83,6 +83,11 @@ public final class Scheduler {
         ProblemInstance pp = ProblemInstance.test_case();
         Solver solver = new GreedySolver();
         Schedule solution = solver.solve(pp);
+        KmlManager kml = new KmlManager();
+        Event e = new Event(null);
+        e.time = 0;
+        kml.apply_reschedule(pp, solution,e);
+        kml.write_kml("Solution.kml");
         return solution;
     }
     
