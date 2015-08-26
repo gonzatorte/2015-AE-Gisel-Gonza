@@ -56,7 +56,7 @@ public class DistanceWebCrawler {
 //"SELECT * FROM \"Distances\" WHERE \"primer_nombre\" = ?"
 //);
         this.consulta_origen = sqLiteConnection.prepare(
-"SELECT \"destination\",\"distance\" FROM \"Distances\" WHERE \"origin\" = ?"
+"SELECT \"destination\",\"distance\" FROM \"Distances\" WHERE \"origin\" = :lugar OR \"destination\" = :lugar"
 );
         this.consulta_insert = sqLiteConnection.prepare(
 "INSERT INTO \"Distances\" (\"origin\",\"destination\",\"distance\") VALUES (?,?,?)"
@@ -69,7 +69,7 @@ public class DistanceWebCrawler {
             return new_distances;
         }
         //ToDo, mejorar esto para tener varios origines a la vez.
-        this.consulta_origen.bind(1, this.origen.place_id);
+        this.consulta_origen.bind(":lugar", this.origen.place_id);
         this.consulta_origen.step();
         if (this.consulta_origen.hasRow()){
             while(this.consulta_origen.hasRow()){

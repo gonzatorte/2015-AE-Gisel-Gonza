@@ -59,7 +59,7 @@ public class ProblemInstance {
                 Place place = this.mapa.findPlaceById(place_id);
                 this.pedidos.add(place);
             }
-        } else if ("resolvePlace".equals(event.tipo)){
+        } else if ("resolvePedido".equals(event.tipo)){
             String place_id = (String) event.data[0];
             String origin_id = (String) event.data[1];
             Place place = this.mapa.findPlaceById(place_id);

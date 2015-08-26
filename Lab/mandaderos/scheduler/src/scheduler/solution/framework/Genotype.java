@@ -32,6 +32,6 @@ public class Genotype extends ArrayList<Integer> {
     }
 
     void addAtIndex(Integer p, int index_sorteo) {
-        this.add(p, index_sorteo);
+        this.add(index_sorteo, p);
     }
 }

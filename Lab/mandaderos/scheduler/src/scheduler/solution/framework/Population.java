@@ -32,46 +32,42 @@ public class Population extends LinkedList<Genotype> {
     }
 
     public void addMandadero(){
-        IntStream ints = this.rng.ints(this.size(), 0, this.size());
         if (mandaderos_count == 0){
             mandaderos_count++;
             return;
         }
         mandaderos_count++;
+        IntStream ints = this.rng.ints(this.size(), 0, this.get(0).size()+1);
+        int[] sorteos = ints.toArray();
+        int index_sorteo = 0;
         for (Genotype individuo : this){
-            OptionalInt sorteo = ints.findFirst();
-            int index_sorteo = sorteo.getAsInt();
-            individuo.addAtIndex(0, index_sorteo);
+            individuo.addAtIndex(0, sorteos[index_sorteo++]);
         }
     }
 
     public void removeMandadero(){
-        IntStream ints = this.rng.ints(this.size(), 0, this.size());
+        IntStream ints = this.rng.ints(this.size(), 1, mandaderos_count);
+        int[] sorteos = ints.toArray();
+        int index_sorteo = 0;
         for (Genotype individuo : this){
-            OptionalInt sorteo = ints.findFirst();
-            int index_sorteo = sorteo.getAsInt();
-            individuo.removeNthOf(0, index_sorteo);
+            individuo.removeNthOf(0, sorteos[index_sorteo++]);
         }
         mandaderos_count--;
     }
 
-    public void addPlace(Integer p){
-        IntStream ints = this.rng.ints(this.size(), 0, this.size());
+    public void addPedido(Integer p){
+        IntStream ints = this.rng.ints(this.size(), 0, this.get(0).size()+1);
+        int[] sorteos = ints.toArray();
+        int index_sorteo = 0;
         for (Genotype individuo : this){
-            OptionalInt sorteo = ints.findFirst();
-            int index_sorteo = sorteo.getAsInt();
-            individuo.addAtIndex(p, index_sorteo);
+            individuo.addAtIndex(p, sorteos[index_sorteo++]);
         }
         places_count++;
     }
 
-    public void removePlace(Integer p){
-        IntStream ints = this.rng.ints(this.size(), 0, this.size());
+    public void removePedido(Integer p){
         for (Genotype individuo : this){
-            OptionalInt sorteo = ints.findFirst();
-            int index_sorteo = sorteo.getAsInt();
-            int index = individuo.indexOf(p);
-            individuo.removeNthOf(p, index_sorteo);
+            individuo.remove(p);
         }
         places_count--;
     }
