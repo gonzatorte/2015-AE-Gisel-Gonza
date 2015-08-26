@@ -33,6 +33,9 @@ public class LightDistanceTable extends HashMap<Place,HashMap<Place,Double>> imp
             Place p2 = d_p.getKey();
             int cmp = p1.compareTo(p2);
             if (cmp > 0){
+                if (this.get(p2) == null){
+                    this.put(p2, new HashMap<Place, Double>());
+                }
                 this.get(p2).put(p1, d_p.getValue());
             } else if (cmp < 0) {
                 new_row.put(p2, d_p.getValue());
