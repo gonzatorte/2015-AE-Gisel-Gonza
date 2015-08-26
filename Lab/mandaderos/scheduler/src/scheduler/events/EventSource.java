@@ -115,9 +115,8 @@ public class EventSource {
     public Event getNextEvent(){
         if (step < this.event_list.size()){
             Event ev = this.event_list.get(step++);
-            if (ev != null){
-                ev.time = curr_time;
-            } else {
+            ev.time = curr_time;
+            if ("time".equals(ev.tipo)){
                 curr_time++;
             }
             return ev;
