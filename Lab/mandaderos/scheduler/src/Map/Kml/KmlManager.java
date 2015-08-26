@@ -90,13 +90,9 @@ public class KmlManager {
         return lp;
     }
     
-    public KmlManager(String filename){
-        kml = new Kml();
-        document = kml.createAndSetDocument().withName(filename);
-    }
     public KmlManager(){
         kml = new Kml();
-        document = kml.createAndSetDocument().withName("Solution");
+        document = kml.createAndSetDocument();
     }
     /*
     Agrega un timeSpan para todos los mandaderos involucrados
@@ -142,18 +138,25 @@ public class KmlManager {
             Folder folder = folder1.createAndAddFolder().withName("Mandadero "+ i);
             MandaderoTaskQueue mtq= sched.tasks_queues.get(i);
             Placemark placemark =  folder.createAndAddPlacemark();
-            placemark.createAndAddStyle().createAndSetLineStyle().setColor(Integer.toHexString(get_Color()));
+            LineStyle ls = placemark.createAndAddStyle().createAndSetLineStyle();
+            ls.setColor(Integer.toHexString(get_Color())+Integer.toHexString(get_Color())+Integer.toHexString(get_Color())+"80");
+            ls.setWidth(1);
+            
             LineString linestring = placemark.createAndSetLineString();
+            Map.Coordinate origin = sched.problem.origin_mandaderos.get(i).coord;
+            
+            linestring.addToCoordinates(origin.longit,origin.latit);
             Place place;
             for (Place mtq1 : mtq) {
                 place = mtq1;
                 linestring.addToCoordinates(place.coord.longit,place.coord.latit);
             }
-            int j=0;
+            int j = 0;
+            folder.createAndAddPlacemark().createAndSetPoint().addToCoordinates(origin.longit,origin.latit);
             for (Place mtq1 : mtq) {
                 place = mtq1;
                 Placemark p=folder.createAndAddPlacemark();
-                        p.setName(String.valueOf(j++));
+                        p.setName(String.valueOf(j++)+"-"+place.place_id);
                         p.createAndSetPoint().addToCoordinates(place.coord.longit,place.coord.latit);
             }
         }
@@ -164,6 +167,7 @@ public class KmlManager {
             if (lastFolderTimeSpan != null){
                 lastFolderTimeSpan.setTimePrimitive(lastTimeSpan);
             }
+            document.withName(sched_id);
             kml.marshal(new File(sched_id));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(KmlManager.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:kml xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:ns2="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xal="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0">
     <ns2:Document>
-        <ns2:name>Solution</ns2:name>
+        <ns2:name>Solution_greedy.kml</ns2:name>
         <ns2:Folder>
             <ns2:name>EventTime: 0</ns2:name>
             <ns2:TimeSpan>
-                <ns2:begin>2015-08-26T19:33:39Z</ns2:begin>
-                <ns2:end>2015-08-26T19:33:39Z</ns2:end>
+                <ns2:begin>2015-08-26T20:30:59Z</ns2:begin>
+                <ns2:end>2015-08-26T20:40:59Z</ns2:end>
             </ns2:TimeSpan>
             <ns2:Folder>
                 <ns2:name>Mandadero 0</ns2:name>
                 <ns2:Placemark>
                     <ns2:Style>
                         <ns2:LineStyle>
-                            <ns2:color>80</ns2:color>
-                            <ns2:width>0.0</ns2:width>
+                            <ns2:color>8010018080</ns2:color>
+                            <ns2:width>1.0</ns2:width>
                         </ns2:LineStyle>
                     </ns2:Style>
                     <ns2:LineString>
-                        <ns2:coordinates>-55.1,-30.6</ns2:coordinates>
+                        <ns2:coordinates>-55.1,-30.4 -55.1,-30.6</ns2:coordinates>
                     </ns2:LineString>
                 </ns2:Placemark>
                 <ns2:Placemark>
-                    <ns2:name>0</ns2:name>
+                    <ns2:Point>
+                        <ns2:coordinates>-55.1,-30.4</ns2:coordinates>
+                    </ns2:Point>
+                </ns2:Placemark>
+                <ns2:Placemark>
+                    <ns2:name>0-p2</ns2:name>
                     <ns2:Point>
                         <ns2:coordinates>-55.1,-30.6</ns2:coordinates>
                     </ns2:Point>
@@ -30,26 +35,31 @@
             </ns2:Folder>
         </ns2:Folder>
         <ns2:Folder>
-            <ns2:name>EventTime: 0</ns2:name>
+            <ns2:name>EventTime: 1</ns2:name>
             <ns2:TimeSpan>
-                <ns2:begin>2015-08-26T19:33:39Z</ns2:begin>
-                <ns2:end>2015-08-26T19:33:39Z</ns2:end>
+                <ns2:begin>2015-08-26T20:40:59Z</ns2:begin>
+                <ns2:end>2015-08-26T20:50:59Z</ns2:end>
             </ns2:TimeSpan>
             <ns2:Folder>
                 <ns2:name>Mandadero 0</ns2:name>
                 <ns2:Placemark>
                     <ns2:Style>
                         <ns2:LineStyle>
-                            <ns2:color>80</ns2:color>
-                            <ns2:width>0.0</ns2:width>
+                            <ns2:color>8010018080</ns2:color>
+                            <ns2:width>1.0</ns2:width>
                         </ns2:LineStyle>
                     </ns2:Style>
                     <ns2:LineString>
-                        <ns2:coordinates>-55.1,-30.6</ns2:coordinates>
+                        <ns2:coordinates>-55.1,-30.4 -55.1,-30.6</ns2:coordinates>
                     </ns2:LineString>
                 </ns2:Placemark>
                 <ns2:Placemark>
-                    <ns2:name>0</ns2:name>
+                    <ns2:Point>
+                        <ns2:coordinates>-55.1,-30.4</ns2:coordinates>
+                    </ns2:Point>
+                </ns2:Placemark>
+                <ns2:Placemark>
+                    <ns2:name>0-p2</ns2:name>
                     <ns2:Point>
                         <ns2:coordinates>-55.1,-30.6</ns2:coordinates>
                     </ns2:Point>
@@ -60,16 +70,21 @@
                 <ns2:Placemark>
                     <ns2:Style>
                         <ns2:LineStyle>
-                            <ns2:color>100</ns2:color>
-                            <ns2:width>0.0</ns2:width>
+                            <ns2:color>20028030080</ns2:color>
+                            <ns2:width>1.0</ns2:width>
                         </ns2:LineStyle>
                     </ns2:Style>
                     <ns2:LineString>
-                        <ns2:coordinates>-55.2,-30.8</ns2:coordinates>
+                        <ns2:coordinates>-55.2,-30.6 -55.2,-30.8</ns2:coordinates>
                     </ns2:LineString>
                 </ns2:Placemark>
                 <ns2:Placemark>
-                    <ns2:name>0</ns2:name>
+                    <ns2:Point>
+                        <ns2:coordinates>-55.2,-30.6</ns2:coordinates>
+                    </ns2:Point>
+                </ns2:Placemark>
+                <ns2:Placemark>
+                    <ns2:name>0-p5</ns2:name>
                     <ns2:Point>
                         <ns2:coordinates>-55.2,-30.8</ns2:coordinates>
                     </ns2:Point>
@@ -77,31 +92,36 @@
             </ns2:Folder>
         </ns2:Folder>
         <ns2:Folder>
-            <ns2:name>EventTime: 0</ns2:name>
+            <ns2:name>EventTime: 2</ns2:name>
             <ns2:TimeSpan>
-                <ns2:begin>2015-08-26T19:33:39Z</ns2:begin>
+                <ns2:begin>2015-08-26T20:50:59Z</ns2:begin>
             </ns2:TimeSpan>
             <ns2:Folder>
                 <ns2:name>Mandadero 0</ns2:name>
                 <ns2:Placemark>
                     <ns2:Style>
                         <ns2:LineStyle>
-                            <ns2:color>80</ns2:color>
-                            <ns2:width>0.0</ns2:width>
+                            <ns2:color>8010018080</ns2:color>
+                            <ns2:width>1.0</ns2:width>
                         </ns2:LineStyle>
                     </ns2:Style>
                     <ns2:LineString>
-                        <ns2:coordinates>-55.1,-30.6 -55.2,-30.8</ns2:coordinates>
+                        <ns2:coordinates>-55.1,-30.4 -55.1,-30.6 -55.2,-30.8</ns2:coordinates>
                     </ns2:LineString>
                 </ns2:Placemark>
                 <ns2:Placemark>
-                    <ns2:name>0</ns2:name>
+                    <ns2:Point>
+                        <ns2:coordinates>-55.1,-30.4</ns2:coordinates>
+                    </ns2:Point>
+                </ns2:Placemark>
+                <ns2:Placemark>
+                    <ns2:name>0-p2</ns2:name>
                     <ns2:Point>
                         <ns2:coordinates>-55.1,-30.6</ns2:coordinates>
                     </ns2:Point>
                 </ns2:Placemark>
                 <ns2:Placemark>
-                    <ns2:name>1</ns2:name>
+                    <ns2:name>1-p5</ns2:name>
                     <ns2:Point>
                         <ns2:coordinates>-55.2,-30.8</ns2:coordinates>
                     </ns2:Point>
@@ -112,22 +132,27 @@
                 <ns2:Placemark>
                     <ns2:Style>
                         <ns2:LineStyle>
-                            <ns2:color>100</ns2:color>
-                            <ns2:width>0.0</ns2:width>
+                            <ns2:color>20028030080</ns2:color>
+                            <ns2:width>1.0</ns2:width>
                         </ns2:LineStyle>
                     </ns2:Style>
                     <ns2:LineString>
-                        <ns2:coordinates>-55.1,-30.7 -55.0,-30.7</ns2:coordinates>
+                        <ns2:coordinates>-55.2,-30.6 -55.1,-30.7 -55.0,-30.7</ns2:coordinates>
                     </ns2:LineString>
                 </ns2:Placemark>
                 <ns2:Placemark>
-                    <ns2:name>0</ns2:name>
+                    <ns2:Point>
+                        <ns2:coordinates>-55.2,-30.6</ns2:coordinates>
+                    </ns2:Point>
+                </ns2:Placemark>
+                <ns2:Placemark>
+                    <ns2:name>0-p4</ns2:name>
                     <ns2:Point>
                         <ns2:coordinates>-55.1,-30.7</ns2:coordinates>
                     </ns2:Point>
                 </ns2:Placemark>
                 <ns2:Placemark>
-                    <ns2:name>1</ns2:name>
+                    <ns2:name>1-p3</ns2:name>
                     <ns2:Point>
                         <ns2:coordinates>-55.0,-30.7</ns2:coordinates>
                     </ns2:Point>
